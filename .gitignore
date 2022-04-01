@@ -1,0 +1,14 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+Config.json
+DbConfig.json
+**/Scaffold/fosscordContext.cs
+.vs/
+.idea/
+.vscode/
+RunData/
+Resources/RunData/
+Fosscord.API/cache/
