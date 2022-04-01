@@ -1,0 +1,51 @@
+name: FosscordSharp CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Discord webhook
+        run: |
+          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:fox_wave_duckmaster:900151686616715306> New commit by $GITHUB_ACTOR: [commit]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA), [run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>)\"}" ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Sentry Release
+        uses: getsentry/action-release@v1.1.6
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: fosscord
+          SENTRY_PROJECT: fosscord-csharp
+        with:
+          environment: production
+          ignore_missing: true
+          ignore_empty: true
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test
+      #- name: Publish
+      #  run: |
+      #    rm -rf *.nupkg
+      #    dotnet pack --nologo --version-suffix preview$GITHUB_RUN_ID.$(git rev-parse --short HEAD) -o . FosscordSharp
+      #    dotnet nuget push $(ls *.nupkg) -k ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      #  if: ${{ success() }}
+      - name: Publish success
+        run: |
+          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:foxSip:899416354728329217> Build and test successful! ([See run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>))\"}" ${{ secrets.DISCORD_WEBHOOK }}
+        if: ${{ success() }}
+      - name: Publish failure
+        run: |
+          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:fox_cry_storfus:900093667405070396> Build, test or publish failed! ([See run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>))\"}" ${{ secrets.DISCORD_WEBHOOK }}
+        if: ${{ failure() }}
+        
