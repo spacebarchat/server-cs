@@ -4,6 +4,7 @@ using System.Text;
 using ArcaneLibs;
 using Fosscord.API;
 using Fosscord.API.Rewrites;
+using Fosscord.API.Tasks;
 using Fosscord.API.Utilities;
 using Fosscord.DbModel;
 using Fosscord.Dependencies;
@@ -34,6 +35,8 @@ if (envname == Environment.MachineName)
     Console.WriteLine("Environment name not set! Using hostname, to change this, set in Config.json!");
     envname = Environment.MachineName;
 }
+
+Tasks.RunStartup();
 
 var builder = WebApplication.CreateBuilder(args);
 
