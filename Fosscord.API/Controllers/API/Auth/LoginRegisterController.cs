@@ -74,7 +74,7 @@ public class AuthController : Controller
         var data = JsonConvert.DeserializeObject<LoginData>(await new StreamReader(Request.Body).ReadToEndAsync());
         Console.WriteLine(JsonConvert.SerializeObject(data));
         
-        var token = _auth.Authenticate(data.Password, data.Password);
+        var token = _auth.Authenticate(data.Login, data.Password);
         if (token == null) return new StatusCodeResult(403);
         return new {token = token};
     }

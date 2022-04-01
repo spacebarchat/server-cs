@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using ArcaneLibs;
 using Fosscord.API;
+using Fosscord.API.Classes;
 using Fosscord.API.Rewrites;
 using Fosscord.API.Tasks;
 using Fosscord.API.Utilities;
@@ -89,6 +90,7 @@ builder.Services.AddDbContextPool<Db>(optionsBuilder =>
             $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port}")
         .LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging();
 });
+builder.Services.AddSingleton<JWTAuthenticationManager>(new JWTAuthenticationManager());
 
 var tokenKey = FosscordConfig.GetString("security_jwtSecret",
     Convert.ToBase64String(Encoding.UTF8.GetBytes(RandomStringGenerator.Generate(255))));
@@ -130,6 +132,7 @@ app.UseAuthentication();
 // app.UseAuthorization();
 
 app.UseRewriter(new RewriteOptions().Add(new ApiVersionRewriteRule()));
+app.UseWebSockets();
 
 app.UseEndpoints(endpoints =>
 {

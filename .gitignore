@@ -12,3 +12,5 @@ DbConfig.json
 RunData/
 Resources/RunData/
 Fosscord.API/cache/
+Fosscord.API/Resources/Pages/index-updated.html
+Fosscord.API/Resources/Assets/user.css

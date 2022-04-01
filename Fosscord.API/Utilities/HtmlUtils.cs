@@ -8,8 +8,8 @@ public class HtmlUtils
         while (input.Contains("  ")) input = input.Replace("  ", " ");
         while (input.Contains("\n\n")) input = input.Replace("\n\n", "\n");
         while (input.Contains("\n \n")) input = input.Replace("\n \n", "\n");
-        input = input.Replace(">\n</script>", "/>");
-        input = input.Replace(">\n</link>", "/>");
+        input = input.Replace("\n</script>", "</script>");
+        input = input.Replace("\n</link>", "</link>");
         var lines = input.Split('\n');
         int indent = 0;
         for (int i = 0; i < lines.Length; i++)
