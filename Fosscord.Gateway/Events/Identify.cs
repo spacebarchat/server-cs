@@ -142,6 +142,7 @@ public class Identify: IGatewayMessage
             {
                 d = readyEventData,
                 op = Constants.OpCodes.Dispatch,
+                t = "READY",
                 s = client.sequence++
             });
             client.is_ready = true;

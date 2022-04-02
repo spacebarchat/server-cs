@@ -10,9 +10,10 @@ public class HeartBeat: IGatewayMessage
     public async Task Invoke(Payload payload, Websocket client)
     {
         client.Lastheartbeat = DateTime.UtcNow;
+        Console.WriteLine("Heartbeat");
         await GatewayController.Send(client, new Payload()
         {
-            op = Constants.OpCodes.Heartbeat_ACK
+            op = Constants.OpCodes.Heartbeat_ACK,
         });
     }
 }

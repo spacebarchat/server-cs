@@ -51,7 +51,7 @@ public class JWTAuthenticationManager
             {
                 new Claim(ClaimTypes.Name, user.Id)
             }),
-            Expires = DateTime.UtcNow.AddHours(1),
+            Expires = DateTime.UtcNow.AddDays(30),
             IssuedAt = DateTime.UtcNow,
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),

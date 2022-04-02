@@ -50,7 +50,7 @@ public class Constants
 public class Payload
 {
     public Constants.OpCodes op { get; set; }
-    public object? d { get; set; }
     public int? s { get; set; }
     public string? t { get; set; }
+    public object? d { get; set; }
 }

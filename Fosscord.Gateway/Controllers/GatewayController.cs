@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System.IO.Compression;
+using System.Net.WebSockets;
 using System.Text;
 using Fosscord.DbModel;
 using Fosscord.Gateway.Events;
@@ -61,7 +62,6 @@ public class GatewayController : Controller
                     cancellationTokenSource.Cancel();
                     return;
                 }
-                //todo compression
             }
 
             clientSocket.events = new Dictionary<string, Action>();
@@ -97,7 +97,7 @@ public class GatewayController : Controller
                     } while (!result.EndOfMessage);
 
                     var msgString = Encoding.UTF8.GetString(ms.ToArray());
-                    _Logger.LogDebug(msgString);
+                    _Logger.LogDebug($"{result.MessageType}\n{msgString}");
                     var message = JsonConvert.DeserializeObject<Payload>(msgString);
                     if (message != null && !string.IsNullOrEmpty(msgString))
                     {
@@ -137,12 +137,23 @@ public class GatewayController : Controller
         switch (client.encoding)
         {
             case "json":
-                var bytes = Encoding.Default.GetBytes(JsonConvert.SerializeObject(payload));
-                var arraySegment = new ArraySegment<byte>(bytes);
+
+                string data = JsonConvert.SerializeObject(payload);
+                Console.WriteLine(data);
+                var bytes = Encoding.Default.GetBytes(data);
+                byte[] wsPayload = new byte[0];
                 if (client.compress == "zlib-stream")
-                    arraySegment = ZlibStream.CompressBuffer(bytes);
-                await Clients[client].SendAsync(arraySegment, WebSocketMessageType.Binary, true, client.CancellationToken);
+                {
+                    using(var outStream = new MemoryStream()) {
+                        using(var deflate = new ZLibStream(outStream, System.IO.Compression.CompressionMode.Compress)) {
+                            deflate.Write(bytes, 0, bytes.Length);
+                        }
+                        wsPayload = outStream.ToArray();
+                    }
+                    await Clients[client].SendAsync(wsPayload, WebSocketMessageType.Binary, true, client.CancellationToken);
+                }
                 break;
+
             case "etf": //todo: implement
                 break;
         }
