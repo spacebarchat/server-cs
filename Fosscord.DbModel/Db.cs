@@ -92,7 +92,7 @@ public class Db : DbContext
         GetDbModelLogger().Log("Instantiating new DB context: MariDB");
         var cfg = DbConfig.Read();
         cfg.Save();
-        string ds = $"Data Source=srv2.cedmod.nl;port=8012;Database=trollcordc;User Id=frikanhub;password=HUHDGEguFGYEDFGEYT;charset=utf8;";
+        string ds = $"Data Source={cfg.Host}port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
         var db = new Db(new DbContextOptionsBuilder<Db>().UseMySql(ds, ServerVersion.AutoDetect(ds)).LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
         contexts.Add(db);
         db.Database.Migrate();

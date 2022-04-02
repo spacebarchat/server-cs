@@ -69,7 +69,9 @@ public class AspUtils
 
         builder.Services.AddDbContextPool<Db>(optionsBuilder =>
         {
-            string db = $"Data Source=srv2.cedmod.nl;port=8012;Database=trollcordc;User Id=frikanhub;password=HUHDGEguFGYEDFGEYT;charset=utf8;";
+            var cfg = DbConfig.Read();
+            cfg.Save();
+            string db = $"Data Source={cfg.Host}port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
             optionsBuilder.UseMySql(db, ServerVersion.AutoDetect(db)).LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging();
         });
         builder.Services.AddSingleton(new JWTAuthenticationManager());
