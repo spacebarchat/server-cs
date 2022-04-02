@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 using ArcaneLibs.Logging;
 using ArcaneLibs.Logging.LogEndpoints;
 using Fosscord.DbModel.Scaffold;
@@ -89,7 +90,6 @@ public class Db : DbContext
         return dbLogger;
     }
 
-    
 
     public static Db GetDb()
     {
@@ -99,6 +99,7 @@ public class Db : DbContext
         contexts.Add(db);
         return db;
     }
+
     public static Db GetNewDb()
     {
         var cfg = DbConfig.Read();
@@ -121,7 +122,13 @@ public class Db : DbContext
         cfg.Save();
         string ds =
             $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
-        var db = new Db(new DbContextOptionsBuilder<Db>().UseMySql(ds, ServerVersion.AutoDetect(ds))
+        var db = new Db(new DbContextOptionsBuilder<Db>().UseMySql(ds, ServerVersion.AutoDetect(ds)
+                // ,
+                // x =>
+                // {
+                //     if (MigrationsExist(cfg.Driver)) x.MigrationsAssembly(GetMigAsm(cfg.Driver));
+                // }
+            )
             .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
         contexts.Add(db);
         db.Database.Migrate();
@@ -136,11 +143,21 @@ public class Db : DbContext
         cfg.Save();
         var db = new Db(new DbContextOptionsBuilder<Db>()
             .UseNpgsql(
-                $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+                $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true"
+                // ,
+                // x =>
+                // {
+                //     if (MigrationsExist(cfg.Driver)) x.MigrationsAssembly(GetMigAsm(cfg.Driver));
+                // }
+            )
             .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
         contexts.Add(db);
+        // if (MigrationsExist(cfg.Driver))
+        // {
         db.Database.Migrate();
         db.SaveChanges();
+        // }
+
         return db;
     }
 
@@ -150,7 +167,11 @@ public class Db : DbContext
         var cfg = DbConfig.Read();
         cfg.Save();
         return new Db(new DbContextOptionsBuilder<Db>()
-            .UseSqlite($"Data Source={cfg.Database}.db;Version=3;")
+            .UseSqlite($"Data Source={cfg.Database}.db;Version=3;",
+                x =>
+                {
+                    if (MigrationsExist(cfg.Driver)) x.MigrationsAssembly(GetMigAsm(cfg.Driver));
+                })
             .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging().Options);
     }
 
@@ -174,4 +195,24 @@ public class Db : DbContext
     {
         GetDbModelLogger().Log(text);
     }
+
+    private static bool MigrationsExist(string provider)
+    {
+        var provid = GetMigAsm(provider);
+        log($"Checking if {provid} exists...");
+        var res = AppDomain.CurrentDomain.GetAssemblies().Select(x => x.GetTypes())
+            .Any(x => x.Any(y => y.Namespace == provid));
+        Console.WriteLine($"{provid} {(res ? "exists" : "doesn't exist")}!");
+        return res;
+    }
+
+    private static string GetMigAsm(string provider) => "Fosscord.DbModel.Migrations." + provider switch
+    {
+        "postgres" => "Postgres",
+        "mysql" => "Mysql",
+        "mariadb" => "Mysql",
+        "sqlite" => "Sqlite",
+        "inmemory" => "InMemoryDb",
+        _ => "null"
+    };
 }
