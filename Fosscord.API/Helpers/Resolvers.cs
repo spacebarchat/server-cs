@@ -37,6 +37,7 @@ public static class Resolvers {
             case "css":
             case "txt":
             case "csv":
+            case "svg":
                 return new ContentResult
                 {
                     ContentType = contentType,
@@ -52,6 +53,8 @@ public static class Resolvers {
             case "tar":
             case "rar":
             case "zip":
+            case "webm":
+            case "woff":
             case "jar":
                 return new PhysicalFileResult(Path.GetFullPath(path), contentType);
             default:
