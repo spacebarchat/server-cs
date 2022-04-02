@@ -71,7 +71,7 @@ public class AspUtils
         {
             var cfg = DbConfig.Read();
             cfg.Save();
-            string db = $"Data Source={cfg.Host}port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
+            string db= $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
             optionsBuilder.UseMySql(db, ServerVersion.AutoDetect(db)).LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging();
         });
         builder.Services.AddSingleton(new JWTAuthenticationManager());
