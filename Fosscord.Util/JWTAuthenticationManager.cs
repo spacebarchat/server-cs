@@ -10,7 +10,7 @@ namespace Fosscord.API.Classes;
 
 public class JWTAuthenticationManager
 {
-    private readonly Db db = Db.GetNewMysql();
+    private readonly Db db = Db.GetNewDb();
  
     private readonly string tokenKey;
  

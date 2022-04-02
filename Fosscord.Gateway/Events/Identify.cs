@@ -47,7 +47,7 @@ public class Identify: IGatewayMessage
                 return;
             }
 
-            Db db = Db.GetNewMysql();
+            Db db = Db.GetNewDb();
             client.session_id = RandomStringGenerator.Generate(32);
 
             var privateUser = new ReadyEvent.PrivateUser()
