@@ -86,6 +86,17 @@ public class Db : DbContext
 
         return dbLogger;
     }
+    
+    public static Db GetMysql()
+    {
+        GetDbModelLogger().Log("Instantiating new DB context: MariDB");
+        var cfg = DbConfig.Read();
+        cfg.Save();
+        if (contexts.Any(x => !x.ChangeTracker.HasChanges())) return contexts.First(x => !x.ChangeTracker.HasChanges());
+        var db = GetNewMysql();
+        contexts.Add(db);
+        return db;
+    }
 
     public static Db GetNewMysql()
     {
@@ -97,6 +108,30 @@ public class Db : DbContext
         contexts.Add(db);
         db.Database.Migrate();
         db.SaveChanges();
+        return db;
+    }
+    
+    public static Db GetNewPostgres()
+    {
+        GetDbModelLogger().Log("Instantiating new DB context: Postgres");
+        var cfg = DbConfig.Read();
+        cfg.Save();
+        var db = new Db(new DbContextOptionsBuilder<Db>().UseNpgsql($"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+            .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
+        contexts.Add(db);
+        db.Database.Migrate();
+        db.SaveChanges();
+        return db;
+    }
+    
+    public static Db GetPostgres()
+    {
+        GetDbModelLogger().Log("Instantiating new DB context: Postgres");
+        var cfg = DbConfig.Read();
+        cfg.Save();
+        if (contexts.Any(x => !x.ChangeTracker.HasChanges())) return contexts.First(x => !x.ChangeTracker.HasChanges());
+        var db = GetNewPostgres();
+        contexts.Add(db);
         return db;
     }
     

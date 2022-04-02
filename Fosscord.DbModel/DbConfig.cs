@@ -2,7 +2,9 @@ using ArcaneLibs;
 
 namespace Fosscord.DbModel; 
 
-public class DbConfig : SaveableObject<DbConfig> {
+public class DbConfig : SaveableObject<DbConfig> 
+{
+    public string Driver { get; set; } = Environment.GetEnvironmentVariable("PG_DRIVER") ?? "postgres";
     public string Host { get; set; } = Environment.GetEnvironmentVariable("PG_HOST") ?? "localhost";
     public string Username { get; set; } = Environment.GetEnvironmentVariable("PG_USER") ?? "postgres";
     public string Password { get; set; } = Environment.GetEnvironmentVariable("PG_PASS") ?? "postgres";
