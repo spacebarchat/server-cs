@@ -16,9 +16,10 @@ public class FrontendController : Controller
     }
 
     [HttpGet]
-    //[HttpGet("/app")]
+    [HttpGet("/app")]
     [HttpGet("/login")]
     [HttpGet("/register")]
+    [HttpGet("/channels/@me")]
     public async Task<object> Home()
     {
         if (FosscordConfig.GetBool("client_testClient_latest", false))

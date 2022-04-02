@@ -56,6 +56,8 @@ public static class Resolvers {
             case "webm":
             case "woff":
             case "jar":
+            case "mp3":
+            case "mp4":
                 return new PhysicalFileResult(Path.GetFullPath(path), contentType);
             default:
                 Console.WriteLine($"Unsupported filetype: {ext} ({path})");
