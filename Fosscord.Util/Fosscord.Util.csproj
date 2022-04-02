@@ -7,9 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
-        <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj"/>
-        <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj" />
+        <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models" />
     </ItemGroup>
 
 </Project>

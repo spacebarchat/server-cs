@@ -16,7 +16,7 @@ public class FrontendController : Controller
     }
 
     [HttpGet]
-    [HttpGet("/app")]
+    //[HttpGet("/app")]
     [HttpGet("/login")]
     [HttpGet("/register")]
     public async Task<object> Home()
@@ -25,17 +25,10 @@ public class FrontendController : Controller
             return Resolvers.ReturnFileWithVars("Resources/Pages/index-updated.html", _db);
         return Resolvers.ReturnFileWithVars("Resources/Pages/index.html", _db);
     }
-    [HttpGet("/ws")]
-    public async Task GetWS()
+    
+    [HttpGet("/developers")]
+    public async Task<object> Developers()
     {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            //await Echo(webSocket);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
+        return Resolvers.ReturnFileWithVars("Resources/Pages/developers.html", _db);
     }
 }

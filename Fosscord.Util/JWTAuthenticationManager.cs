@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Fosscord.DbModel;
+using Fosscord.DbModel.Scaffold;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
@@ -16,6 +17,22 @@ public class JWTAuthenticationManager
     public JWTAuthenticationManager()
     {
         tokenKey = FosscordConfig.GetString("security_jwtSecret");
+    }
+
+    public User GetUserFromToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(tokenKey);
+        var validationParameters = new TokenValidationParameters()
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = false,
+            ValidateIssuer = false,
+        };
+        var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken tokenValidated);
+        return db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
     }
  
     public string Authenticate(string username, string password)
@@ -35,6 +52,7 @@ public class JWTAuthenticationManager
                 new Claim(ClaimTypes.Name, user.Id)
             }),
             Expires = DateTime.UtcNow.AddHours(1),
+            IssuedAt = DateTime.UtcNow,
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
