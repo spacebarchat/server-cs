@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 
 namespace Fosscord.API.Rewrites;

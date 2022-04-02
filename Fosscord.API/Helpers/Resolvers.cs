@@ -1,4 +1,3 @@
-using System.Net;
 using Fosscord.DbModel;
 using Microsoft.AspNetCore.Mvc;
 

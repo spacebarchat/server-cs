@@ -1,4 +1,3 @@
-using System.Linq;
 using Fosscord.DbModel.Scaffold;
 
 namespace Fosscord.DbModel;

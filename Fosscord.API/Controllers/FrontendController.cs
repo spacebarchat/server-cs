@@ -20,11 +20,6 @@ public class FrontendController : Controller
     [HttpGet("/register")]
     public async Task<object> Home()
     {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await Echo(webSocket);
-        }
         if (FosscordConfig.GetBool("client_testClient_latest", false))
             return Resolvers.ReturnFileWithVars("Resources/Pages/index-updated.html", _db);
         return Resolvers.ReturnFileWithVars("Resources/Pages/index.html", _db);
