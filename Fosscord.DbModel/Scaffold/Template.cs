@@ -16,23 +16,23 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("code", TypeName = "character varying")]
+        [Column("code")]
         public string Code { get; set; } = null!;
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string Name { get; set; } = null!;
-        [Column("description", TypeName = "character varying")]
+        [Column("description")]
         public string? Description { get; set; }
         [Column("usage_count")]
         public int? UsageCount { get; set; }
-        [Column("creator_id", TypeName = "character varying")]
+        [Column("creator_id")]
         public string? CreatorId { get; set; }
-        [Column("created_at", TypeName = "timestamp without time zone")]
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
-        [Column("updated_at", TypeName = "timestamp without time zone")]
+        [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
-        [Column("source_guild_id", TypeName = "character varying")]
+        [Column("source_guild_id")]
         public string? SourceGuildId { get; set; }
         [Column("serialized_source_guild")]
         public string SerializedSourceGuild { get; set; } = null!;

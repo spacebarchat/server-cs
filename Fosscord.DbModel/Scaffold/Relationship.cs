@@ -11,13 +11,13 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Relationship
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("from_id", TypeName = "character varying")]
+        [Column("from_id")]
         public string FromId { get; set; } = null!;
-        [Column("to_id", TypeName = "character varying")]
+        [Column("to_id")]
         public string ToId { get; set; } = null!;
-        [Column("nickname", TypeName = "character varying")]
+        [Column("nickname")]
         public string? Nickname { get; set; }
         [Column("type")]
         public int Type { get; set; }

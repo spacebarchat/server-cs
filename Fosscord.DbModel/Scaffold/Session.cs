@@ -10,15 +10,15 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Session
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("user_id", TypeName = "character varying")]
+        [Column("user_id")]
         public string? UserId { get; set; }
-        [Column("session_id", TypeName = "character varying")]
+        [Column("session_id")]
         public string SessionId { get; set; } = null!;
         [Column("client_info")]
         public string ClientInfo { get; set; } = null!;
-        [Column("status", TypeName = "character varying")]
+        [Column("status")]
         public string Status { get; set; } = null!;
         [Column("activities")]
         public string? Activities { get; set; }

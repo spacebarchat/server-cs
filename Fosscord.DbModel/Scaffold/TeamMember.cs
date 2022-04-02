@@ -10,13 +10,13 @@ namespace Fosscord.DbModel.Scaffold
     public partial class TeamMember
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
         [Column("permissions")]
         public string Permissions { get; set; } = null!;
-        [Column("team_id", TypeName = "character varying")]
+        [Column("team_id")]
         public string? TeamId { get; set; }
-        [Column("user_id", TypeName = "character varying")]
+        [Column("user_id")]
         public string? UserId { get; set; }
         [Column("membership_state")]
         public int MembershipState { get; set; }

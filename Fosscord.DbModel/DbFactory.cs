@@ -11,9 +11,8 @@ public class DbFactory : IDesignTimeDbContextFactory<Db>
         var optionsBuilder = new DbContextOptionsBuilder<Db>();
         var cfg = DbConfig.Read();
         cfg.Save();
-        optionsBuilder.UseNpgsql(
-                $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
-            .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
+        string ds = $"Data Source=srv2.cedmod.nl;port=8012;Database=trollcordc;User Id=frikanhub;password=HUHDGEguFGYEDFGEYT;charset=utf8;";
+        optionsBuilder.UseMySql(ds, ServerVersion.AutoDetect(ds)).LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
         return new Db(optionsBuilder.Options);
     }
 }

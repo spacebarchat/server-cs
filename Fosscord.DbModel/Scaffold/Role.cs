@@ -16,9 +16,9 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("guild_id", TypeName = "character varying")]
+        [Column("guild_id")]
         public string? GuildId { get; set; }
         [Column("color")]
         public int Color { get; set; }
@@ -28,9 +28,9 @@ namespace Fosscord.DbModel.Scaffold
         public bool Managed { get; set; }
         [Column("mentionable")]
         public bool Mentionable { get; set; }
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string Name { get; set; } = null!;
-        [Column("permissions", TypeName = "character varying")]
+        [Column("permissions")]
         public string Permissions { get; set; } = null!;
         [Column("position")]
         public int Position { get; set; }

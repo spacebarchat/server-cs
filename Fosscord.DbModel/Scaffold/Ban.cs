@@ -10,17 +10,17 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Ban
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("user_id", TypeName = "character varying")]
+        [Column("user_id")]
         public string? UserId { get; set; }
-        [Column("guild_id", TypeName = "character varying")]
+        [Column("guild_id")]
         public string? GuildId { get; set; }
-        [Column("executor_id", TypeName = "character varying")]
+        [Column("executor_id")]
         public string? ExecutorId { get; set; }
-        [Column("ip", TypeName = "character varying")]
+        [Column("ip")]
         public string Ip { get; set; } = null!;
-        [Column("reason", TypeName = "character varying")]
+        [Column("reason")]
         public string? Reason { get; set; }
 
         [ForeignKey("ExecutorId")]

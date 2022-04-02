@@ -10,19 +10,19 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Emoji
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
         [Column("animated")]
         public bool Animated { get; set; }
         [Column("available")]
         public bool Available { get; set; }
-        [Column("guild_id", TypeName = "character varying")]
+        [Column("guild_id")]
         public string GuildId { get; set; } = null!;
-        [Column("user_id", TypeName = "character varying")]
+        [Column("user_id")]
         public string? UserId { get; set; }
         [Column("managed")]
         public bool Managed { get; set; }
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string Name { get; set; } = null!;
         [Column("require_colons")]
         public bool RequireColons { get; set; }

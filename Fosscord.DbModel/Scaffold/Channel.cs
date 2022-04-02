@@ -27,21 +27,21 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("created_at", TypeName = "timestamp without time zone")]
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string? Name { get; set; }
         [Column("icon")]
         public string? Icon { get; set; }
-        [Column("last_message_id", TypeName = "character varying")]
+        [Column("last_message_id")]
         public string? LastMessageId { get; set; }
-        [Column("guild_id", TypeName = "character varying")]
+        [Column("guild_id")]
         public string? GuildId { get; set; }
-        [Column("parent_id", TypeName = "character varying")]
+        [Column("parent_id")]
         public string? ParentId { get; set; }
-        [Column("owner_id", TypeName = "character varying")]
+        [Column("owner_id")]
         public string? OwnerId { get; set; }
         [Column("last_pin_timestamp")]
         public int? LastPinTimestamp { get; set; }
@@ -61,7 +61,7 @@ namespace Fosscord.DbModel.Scaffold
         public bool? Nsfw { get; set; }
         [Column("rate_limit_per_user")]
         public int? RateLimitPerUser { get; set; }
-        [Column("topic", TypeName = "character varying")]
+        [Column("topic")]
         public string? Topic { get; set; }
         [Column("type")]
         public int Type { get; set; }

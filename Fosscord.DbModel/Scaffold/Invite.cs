@@ -10,7 +10,7 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Invite
     {
         [Key]
-        [Column("code", TypeName = "character varying")]
+        [Column("code")]
         public string Code { get; set; } = null!;
         [Column("temporary")]
         public bool Temporary { get; set; }
@@ -20,17 +20,17 @@ namespace Fosscord.DbModel.Scaffold
         public int MaxUses { get; set; }
         [Column("max_age")]
         public int MaxAge { get; set; }
-        [Column("created_at", TypeName = "timestamp without time zone")]
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
-        [Column("expires_at", TypeName = "timestamp without time zone")]
+        [Column("expires_at")]
         public DateTime ExpiresAt { get; set; }
-        [Column("guild_id", TypeName = "character varying")]
+        [Column("guild_id")]
         public string? GuildId { get; set; }
-        [Column("channel_id", TypeName = "character varying")]
+        [Column("channel_id")]
         public string? ChannelId { get; set; }
-        [Column("inviter_id", TypeName = "character varying")]
+        [Column("inviter_id")]
         public string? InviterId { get; set; }
-        [Column("target_user_id", TypeName = "character varying")]
+        [Column("target_user_id")]
         public string? TargetUserId { get; set; }
         [Column("target_user_type")]
         public int? TargetUserType { get; set; }

@@ -4,7 +4,6 @@ using Fosscord.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -18,17 +17,15 @@ namespace Fosscord.DbModel.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ChannelMessage", b =>
                 {
                     b.Property<string>("ChannelsId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("MessagesId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("ChannelsId", "MessagesId");
 
@@ -40,79 +37,79 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Application", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<bool>("BotPublic")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("bot_public");
 
                     b.Property<bool>("BotRequireCodeGrant")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("bot_require_code_grant");
 
                     b.Property<string>("CoverImage")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("cover_image");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Flags")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("flags");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("icon");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("owner_id");
 
                     b.Property<string>("PrimarySkuId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("primary_sku_id");
 
                     b.Property<string>("PrivacyPolicyUrl")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("privacy_policy_url");
 
                     b.Property<string>("RpcOrigins")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("rpc_origins");
 
                     b.Property<string>("Slug")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("slug");
 
                     b.Property<string>("Summary")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("summary");
 
                     b.Property<string>("TeamId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("team_id");
 
                     b.Property<string>("TermsOfServiceUrl")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("terms_of_service_url");
 
                     b.Property<string>("VerifyKey")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("verify_key");
 
                     b.HasKey("Id");
@@ -129,42 +126,42 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Attachment", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("ContentType")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("content_type");
 
                     b.Property<string>("Filename")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("filename");
 
                     b.Property<int?>("Height")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("height");
 
                     b.Property<string>("MessageId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("message_id");
 
                     b.Property<string>("ProxyUrl")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("proxy_url");
 
                     b.Property<int>("Size")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("size");
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("url");
 
                     b.Property<int?>("Width")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("width");
 
                     b.HasKey("Id");
@@ -177,32 +174,32 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.AuditLog", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<int>("ActionType")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("action_type");
 
                     b.Property<string>("Changes")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("changes");
 
                     b.Property<string>("Options")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("options");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("reason");
 
                     b.Property<string>("TargetId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("target_id");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -217,28 +214,28 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Ban", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("ExecutorId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("executor_id");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Ip")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("ip");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("reason");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -255,79 +252,79 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Channel", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<int?>("Bitrate")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("bitrate");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<int?>("DefaultAutoArchiveDuration")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("default_auto_archive_duration");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("icon");
 
                     b.Property<string>("LastMessageId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("last_message_id");
 
                     b.Property<int?>("LastPinTimestamp")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("last_pin_timestamp");
 
                     b.Property<string>("Name")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<bool?>("Nsfw")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("nsfw");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("owner_id");
 
                     b.Property<string>("ParentId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("parent_id");
 
                     b.Property<string>("PermissionOverwrites")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("permission_overwrites");
 
                     b.Property<int?>("Position")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("position");
 
                     b.Property<int?>("RateLimitPerUser")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("rate_limit_per_user");
 
                     b.Property<string>("Topic")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("topic");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.Property<int?>("UserLimit")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("user_limit");
 
                     b.Property<int?>("VideoQualityMode")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("video_quality_mode");
 
                     b.HasKey("Id");
@@ -344,41 +341,41 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.ClientRelase", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("DebUrl")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("deb_url");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("notes");
 
                     b.Property<string>("OsxUrl")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("osx_url");
 
                     b.Property<string>("PubDate")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("pub_date");
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("url");
 
                     b.Property<string>("WinUrl")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("win_url");
 
                     b.HasKey("Id");
@@ -389,11 +386,11 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Config", b =>
                 {
                     b.Property<string>("Key")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("key");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("value");
 
                     b.HasKey("Key");
@@ -404,46 +401,46 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.ConnectedAccount", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("access_token");
 
                     b.Property<bool>("FriendSync")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("friend_sync");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<bool>("Revoked")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("revoked");
 
                     b.Property<bool>("ShowActivity")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("show_activity");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("type");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.Property<bool>("Verifie")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("verifie");
 
                     b.Property<int>("Visibility")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("visibility");
 
                     b.HasKey("Id");
@@ -456,42 +453,42 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Emoji", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<bool>("Animated")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("animated");
 
                     b.Property<bool>("Available")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("available");
 
                     b.Property<string>("GuildId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<bool>("Managed")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("managed");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<bool>("RequireColons")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("require_colons");
 
                     b.Property<string>("Roles")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("roles");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -506,150 +503,150 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Guild", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("AfkChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("afk_channel_id");
 
                     b.Property<int?>("AfkTimeout")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("afk_timeout");
 
                     b.Property<string>("Banner")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("banner");
 
                     b.Property<int?>("DefaultMessageNotifications")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("default_message_notifications");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("DiscoverySplash")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("discovery_splash");
 
                     b.Property<int?>("ExplicitContentFilter")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("explicit_content_filter");
 
                     b.Property<string>("Features")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("features");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("icon");
 
                     b.Property<bool?>("Large")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("large");
 
                     b.Property<int?>("MaxMembers")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("max_members");
 
                     b.Property<int?>("MaxPresences")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("max_presences");
 
                     b.Property<int?>("MaxVideoChannelUsers")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("max_video_channel_users");
 
                     b.Property<int?>("MemberCount")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("member_count");
 
                     b.Property<int?>("MfaLevel")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("mfa_level");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<bool?>("Nsfw")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("nsfw");
 
                     b.Property<int?>("NsfwLevel")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("nsfw_level");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("owner_id");
 
                     b.Property<string>("PreferredLocale")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("preferred_locale");
 
                     b.Property<int?>("PremiumSubscriptionCount")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("premium_subscription_count");
 
                     b.Property<int?>("PremiumTier")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("premium_tier");
 
                     b.Property<int?>("PresenceCount")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("presence_count");
 
                     b.Property<string>("PublicUpdatesChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("public_updates_channel_id");
 
                     b.Property<string>("Region")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("region");
 
                     b.Property<string>("RulesChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("rules_channel_id");
 
                     b.Property<string>("Splash")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("splash");
 
                     b.Property<int?>("SystemChannelFlags")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("system_channel_flags");
 
                     b.Property<string>("SystemChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("system_channel_id");
 
                     b.Property<string>("TemplateId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("template_id");
 
                     b.Property<bool?>("Unavailable")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("unavailable");
 
                     b.Property<int?>("VerificationLevel")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("verification_level");
 
                     b.Property<string>("WelcomeScreen")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("welcome_screen");
 
                     b.Property<string>("WidgetChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("widget_channel_id");
 
                     b.Property<bool?>("WidgetEnabled")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("widget_enabled");
 
                     b.HasKey("Id");
@@ -674,55 +671,55 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Invite", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("code");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("channel_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("expires_at");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("InviterId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("inviter_id");
 
                     b.Property<int>("MaxAge")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("max_age");
 
                     b.Property<int>("MaxUses")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("max_uses");
 
                     b.Property<string>("TargetUserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("target_user_id");
 
                     b.Property<int?>("TargetUserType")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("target_user_type");
 
                     b.Property<bool>("Temporary")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("temporary");
 
                     b.Property<int>("Uses")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("uses");
 
                     b.Property<bool?>("VanityUrl")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("vanity_url");
 
                     b.HasKey("Code");
@@ -742,52 +739,50 @@ namespace Fosscord.DbModel.Migrations
                 {
                     b.Property<int>("Index")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("index");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
                     b.Property<bool>("Deaf")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("deaf");
 
                     b.Property<string>("GuildId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Id")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("JoinedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("joined_at");
 
                     b.Property<string>("LastMessageId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("last_message_id");
 
                     b.Property<bool>("Mute")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("mute");
 
                     b.Property<string>("Nick")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("nick");
 
                     b.Property<bool>("Pending")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("pending");
 
                     b.Property<int?>("PremiumSince")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("premium_since");
 
                     b.Property<string>("Settings")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("settings");
 
                     b.HasKey("Index");
@@ -803,97 +798,97 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Message", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("Activity")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("activity");
 
                     b.Property<string>("ApplicationId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("application_id");
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("author_id");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("channel_id");
 
                     b.Property<string>("Components")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("components");
 
                     b.Property<string>("Content")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("content");
 
                     b.Property<DateTime?>("EditedTimestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("edited_timestamp");
 
                     b.Property<string>("Embeds")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("embeds");
 
                     b.Property<string>("Flags")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("flags");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Interaction")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("interaction");
 
                     b.Property<int?>("MemberId")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("member_id");
 
                     b.Property<bool?>("MentionEveryone")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("mention_everyone");
 
                     b.Property<string>("MessageReference")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("message_reference");
 
                     b.Property<string>("MessageReferenceId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("message_reference_id");
 
                     b.Property<string>("Nonce")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("nonce");
 
                     b.Property<bool?>("Pinned")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("pinned");
 
                     b.Property<string>("Reactions")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("reactions");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("timestamp");
 
                     b.Property<bool?>("Tts")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("tts");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.Property<string>("WebhookId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("webhook_id");
 
                     b.HasKey("Id");
@@ -922,14 +917,12 @@ namespace Fosscord.DbModel.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<long>("Timestamp")
@@ -945,27 +938,25 @@ namespace Fosscord.DbModel.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
                     b.Property<int>("Duration")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("duration");
 
                     b.Property<string>("Identifier")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("identifier");
 
                     b.Property<string>("Query")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("query");
 
                     b.Property<string>("Result")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("result");
 
                     b.Property<long>("Time")
@@ -980,24 +971,24 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.RateLimit", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<bool>("Blocked")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("blocked");
 
                     b.Property<string>("ExecutorId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("executor_id");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("expires_at");
 
                     b.Property<int>("Hits")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("hits");
 
                     b.HasKey("Id");
@@ -1008,33 +999,33 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.ReadState", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("ChannelId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("channel_id");
 
                     b.Property<string>("LastMessageId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("last_message_id");
 
                     b.Property<DateTime?>("LastPinTimestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("last_pin_timestamp");
 
                     b.Property<bool?>("Manual")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("manual");
 
                     b.Property<int?>("MentionCount")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("mention_count");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1050,21 +1041,21 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Recipient", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("ChannelId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("channel_id");
 
                     b.Property<bool>("Closed")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("closed");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1079,25 +1070,25 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Relationship", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("FromId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("from_id");
 
                     b.Property<string>("Nickname")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("nickname");
 
                     b.Property<string>("ToId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("to_id");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.HasKey("Id");
@@ -1113,45 +1104,45 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Role", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<int>("Color")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("color");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<bool>("Hoist")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("hoist");
 
                     b.Property<bool>("Managed")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("managed");
 
                     b.Property<bool>("Mentionable")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("mentionable");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("Permissions")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("permissions");
 
                     b.Property<int>("Position")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("position");
 
                     b.Property<string>("Tags")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("tags");
 
                     b.HasKey("Id");
@@ -1164,30 +1155,30 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Session", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("Activities")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("activities");
 
                     b.Property<string>("ClientInfo")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("client_info");
 
                     b.Property<string>("SessionId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("session_id");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("status");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1200,44 +1191,44 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Sticker", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<bool?>("Available")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("available");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<int>("FormatType")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("format_type");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("PackId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("pack_id");
 
                     b.Property<string>("Tags")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("tags");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1254,28 +1245,28 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.StickerPack", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("BannerAssetId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("banner_asset_id");
 
                     b.Property<string>("CoverStickerId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("cover_sticker_id");
 
                     b.Property<string>("CoverStickerId1")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("coverStickerId");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
@@ -1288,20 +1279,20 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Team", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("icon");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("OwnerUserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("owner_user_id");
 
                     b.HasKey("Id");
@@ -1314,24 +1305,24 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.TeamMember", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<int>("MembershipState")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("membership_state");
 
                     b.Property<string>("Permissions")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("permissions");
 
                     b.Property<string>("TeamId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("team_id");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1346,46 +1337,46 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Template", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatorId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("creator_id");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("SerializedSourceGuild")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("serialized_source_guild");
 
                     b.Property<string>("SourceGuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("source_guild_id");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("updated_at");
 
                     b.Property<int?>("UsageCount")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("usage_count");
 
                     b.HasKey("Id");
@@ -1403,28 +1394,28 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.TypeormMetadatum", b =>
                 {
                     b.Property<string>("Database")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("database");
 
                     b.Property<string>("Name")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("Schema")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("schema");
 
                     b.Property<string>("Table")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("table");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("type");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("value");
 
                     b.ToTable("typeorm_metadata");
@@ -1433,119 +1424,119 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<int?>("AccentColor")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("accent_color");
 
                     b.Property<string>("Avatar")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("avatar");
 
                     b.Property<string>("Banner")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("banner");
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("bio");
 
                     b.Property<bool>("Bot")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("bot");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("data");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("deleted");
 
                     b.Property<bool>("Desktop")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("desktop");
 
                     b.Property<bool>("Disabled")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("disabled");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("discriminator");
 
                     b.Property<string>("Email")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("email");
 
                     b.Property<string>("Fingerprints")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("fingerprints");
 
                     b.Property<string>("Flags")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("flags");
 
                     b.Property<bool>("MfaEnabled")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("mfa_enabled");
 
                     b.Property<bool>("Mobile")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("mobile");
 
                     b.Property<bool>("NsfwAllowed")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("nsfw_allowed");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("phone");
 
                     b.Property<bool>("Premium")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("premium");
 
                     b.Property<int>("PremiumType")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("premium_type");
 
                     b.Property<int>("PublicFlags")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("public_flags");
 
                     b.Property<string>("Rights")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("rights");
 
                     b.Property<string>("Settings")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("settings");
 
                     b.Property<bool>("System")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("system");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("username");
 
                     b.Property<bool>("Verified")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("verified");
 
                     b.HasKey("Id");
@@ -1556,60 +1547,60 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.VoiceState", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("channel_id");
 
                     b.Property<bool>("Deaf")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("deaf");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<bool>("Mute")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("mute");
 
                     b.Property<DateTime?>("RequestToSpeakTimestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("request_to_speak_timestamp");
 
                     b.Property<bool>("SelfDeaf")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("self_deaf");
 
                     b.Property<bool>("SelfMute")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("self_mute");
 
                     b.Property<bool?>("SelfStream")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("self_stream");
 
                     b.Property<bool>("SelfVideo")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("self_video");
 
                     b.Property<string>("SessionId")
                         .IsRequired()
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("session_id");
 
                     b.Property<bool>("Suppress")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("suppress");
 
                     b.Property<string>("Token")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("token");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1626,43 +1617,43 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Webhook", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("id");
 
                     b.Property<string>("ApplicationId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("application_id");
 
                     b.Property<string>("Avatar")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("avatar");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("channel_id");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("SourceGuildId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("source_guild_id");
 
                     b.Property<string>("Token")
-                        .HasColumnType("character varying")
+                        .HasColumnType("longtext")
                         .HasColumnName("token");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1683,10 +1674,10 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("MemberRole", b =>
                 {
                     b.Property<int>("Index")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Index", "RoleId");
 
@@ -1698,10 +1689,10 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("MessageRole", b =>
                 {
                     b.Property<string>("MessagesId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RolesId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("MessagesId", "RolesId");
 
@@ -1713,10 +1704,10 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("MessageSticker", b =>
                 {
                     b.Property<string>("MessagesId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("StickersId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("MessagesId", "StickersId");
 
@@ -1728,10 +1719,10 @@ namespace Fosscord.DbModel.Migrations
             modelBuilder.Entity("MessageUser", b =>
                 {
                     b.Property<string>("MessagesId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("UsersId")
-                        .HasColumnType("character varying");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("MessagesId", "UsersId");
 

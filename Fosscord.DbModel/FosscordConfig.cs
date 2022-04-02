@@ -4,7 +4,7 @@ namespace Fosscord.DbModel;
 
 public class FosscordConfig
 {
-    public static Db db = Db.GetNewPostgres();
+    public static Db db = Db.GetNewMysql();
 
     public static int GetInt(string key, int defaultValue = 0)
     {

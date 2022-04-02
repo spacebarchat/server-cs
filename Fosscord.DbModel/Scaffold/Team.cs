@@ -16,13 +16,13 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("icon", TypeName = "character varying")]
+        [Column("icon")]
         public string? Icon { get; set; }
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string Name { get; set; } = null!;
-        [Column("owner_user_id", TypeName = "character varying")]
+        [Column("owner_user_id")]
         public string? OwnerUserId { get; set; }
 
         [ForeignKey("OwnerUserId")]

@@ -11,15 +11,15 @@ namespace Fosscord.DbModel.Scaffold
     public partial class ReadState
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("channel_id", TypeName = "character varying")]
+        [Column("channel_id")]
         public string ChannelId { get; set; } = null!;
-        [Column("user_id", TypeName = "character varying")]
+        [Column("user_id")]
         public string UserId { get; set; } = null!;
-        [Column("last_message_id", TypeName = "character varying")]
+        [Column("last_message_id")]
         public string? LastMessageId { get; set; }
-        [Column("last_pin_timestamp", TypeName = "timestamp without time zone")]
+        [Column("last_pin_timestamp")]
         public DateTime? LastPinTimestamp { get; set; }
         [Column("mention_count")]
         public int? MentionCount { get; set; }

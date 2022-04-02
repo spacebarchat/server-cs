@@ -10,21 +10,21 @@ namespace Fosscord.DbModel.Scaffold
     public partial class ClientRelase
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string Name { get; set; } = null!;
-        [Column("pub_date", TypeName = "character varying")]
+        [Column("pub_date")]
         public string PubDate { get; set; } = null!;
-        [Column("url", TypeName = "character varying")]
+        [Column("url")]
         public string Url { get; set; } = null!;
-        [Column("deb_url", TypeName = "character varying")]
+        [Column("deb_url")]
         public string DebUrl { get; set; } = null!;
-        [Column("osx_url", TypeName = "character varying")]
+        [Column("osx_url")]
         public string OsxUrl { get; set; } = null!;
-        [Column("win_url", TypeName = "character varying")]
+        [Column("win_url")]
         public string WinUrl { get; set; } = null!;
-        [Column("notes", TypeName = "character varying")]
+        [Column("notes")]
         public string? Notes { get; set; }
     }
 }

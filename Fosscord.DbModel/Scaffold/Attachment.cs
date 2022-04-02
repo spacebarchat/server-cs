@@ -10,23 +10,23 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Attachment
     {
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("filename", TypeName = "character varying")]
+        [Column("filename")]
         public string Filename { get; set; } = null!;
         [Column("size")]
         public int Size { get; set; }
-        [Column("url", TypeName = "character varying")]
+        [Column("url")]
         public string Url { get; set; } = null!;
-        [Column("proxy_url", TypeName = "character varying")]
+        [Column("proxy_url")]
         public string ProxyUrl { get; set; } = null!;
         [Column("height")]
         public int? Height { get; set; }
         [Column("width")]
         public int? Width { get; set; }
-        [Column("content_type", TypeName = "character varying")]
+        [Column("content_type")]
         public string? ContentType { get; set; }
-        [Column("message_id", TypeName = "character varying")]
+        [Column("message_id")]
         public string? MessageId { get; set; }
 
         [ForeignKey("MessageId")]

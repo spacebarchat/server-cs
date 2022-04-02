@@ -27,25 +27,25 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("afk_channel_id", TypeName = "character varying")]
+        [Column("afk_channel_id")]
         public string? AfkChannelId { get; set; }
         [Column("afk_timeout")]
         public int? AfkTimeout { get; set; }
-        [Column("banner", TypeName = "character varying")]
+        [Column("banner")]
         public string? Banner { get; set; }
         [Column("default_message_notifications")]
         public int? DefaultMessageNotifications { get; set; }
-        [Column("description", TypeName = "character varying")]
+        [Column("description")]
         public string? Description { get; set; }
-        [Column("discovery_splash", TypeName = "character varying")]
+        [Column("discovery_splash")]
         public string? DiscoverySplash { get; set; }
         [Column("explicit_content_filter")]
         public int? ExplicitContentFilter { get; set; }
         [Column("features")]
         public string Features { get; set; } = null!;
-        [Column("icon", TypeName = "character varying")]
+        [Column("icon")]
         public string? Icon { get; set; }
         [Column("large")]
         public bool? Large { get; set; }
@@ -59,29 +59,29 @@ namespace Fosscord.DbModel.Scaffold
         public int? MemberCount { get; set; }
         [Column("presence_count")]
         public int? PresenceCount { get; set; }
-        [Column("template_id", TypeName = "character varying")]
+        [Column("template_id")]
         public string? TemplateId { get; set; }
         [Column("mfa_level")]
         public int? MfaLevel { get; set; }
-        [Column("name", TypeName = "character varying")]
+        [Column("name")]
         public string Name { get; set; } = null!;
-        [Column("owner_id", TypeName = "character varying")]
+        [Column("owner_id")]
         public string? OwnerId { get; set; }
-        [Column("preferred_locale", TypeName = "character varying")]
+        [Column("preferred_locale")]
         public string? PreferredLocale { get; set; }
         [Column("premium_subscription_count")]
         public int? PremiumSubscriptionCount { get; set; }
         [Column("premium_tier")]
         public int? PremiumTier { get; set; }
-        [Column("public_updates_channel_id", TypeName = "character varying")]
+        [Column("public_updates_channel_id")]
         public string? PublicUpdatesChannelId { get; set; }
-        [Column("rules_channel_id", TypeName = "character varying")]
+        [Column("rules_channel_id")]
         public string? RulesChannelId { get; set; }
-        [Column("region", TypeName = "character varying")]
+        [Column("region")]
         public string? Region { get; set; }
-        [Column("splash", TypeName = "character varying")]
+        [Column("splash")]
         public string? Splash { get; set; }
-        [Column("system_channel_id", TypeName = "character varying")]
+        [Column("system_channel_id")]
         public string? SystemChannelId { get; set; }
         [Column("system_channel_flags")]
         public int? SystemChannelFlags { get; set; }
@@ -91,7 +91,7 @@ namespace Fosscord.DbModel.Scaffold
         public int? VerificationLevel { get; set; }
         [Column("welcome_screen")]
         public string WelcomeScreen { get; set; } = null!;
-        [Column("widget_channel_id", TypeName = "character varying")]
+        [Column("widget_channel_id")]
         public string? WidgetChannelId { get; set; }
         [Column("widget_enabled")]
         public bool? WidgetEnabled { get; set; }

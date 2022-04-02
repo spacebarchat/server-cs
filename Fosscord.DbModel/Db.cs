@@ -87,28 +87,19 @@ public class Db : DbContext
         return dbLogger;
     }
 
-    public static Db GetNewPostgres()
+    public static Db GetNewMysql()
     {
-        GetDbModelLogger().Log("Instantiating new DB context: Postgres");
+        GetDbModelLogger().Log("Instantiating new DB context: MariDB");
         var cfg = DbConfig.Read();
         cfg.Save();
-        var db = new Db(new DbContextOptionsBuilder<Db>().UseNpgsql($"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
-            .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
+        string ds = $"Data Source=srv2.cedmod.nl;port=8012;Database=trollcordc;User Id=frikanhub;password=HUHDGEguFGYEDFGEYT;charset=utf8;";
+        var db = new Db(new DbContextOptionsBuilder<Db>().UseMySql(ds, ServerVersion.AutoDetect(ds)).LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
         contexts.Add(db);
         db.Database.Migrate();
         db.SaveChanges();
         return db;
     }
-    public static Db GetPostgres()
-    {
-        GetDbModelLogger().Log("Instantiating new DB context: Postgres");
-        var cfg = DbConfig.Read();
-        cfg.Save();
-        if (contexts.Any(x => !x.ChangeTracker.HasChanges())) return contexts.First(x => !x.ChangeTracker.HasChanges());
-        var db = GetNewPostgres();
-        contexts.Add(db);
-        return db;
-    }
+    
     // public static Db GetSqlite()
     // {
         // GetDbModelLogger().Log("Instantiating new DB context: Sqlite");

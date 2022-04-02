@@ -16,6 +16,7 @@ public class FrontendController : Controller
     }
 
     [HttpGet]
+    [HttpGet("/app")]
     [HttpGet("/login")]
     [HttpGet("/register")]
     public async Task<object> Home()

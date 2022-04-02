@@ -39,19 +39,19 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id", TypeName = "character varying")]
+        [Column("id")]
         public string Id { get; set; } = null!;
-        [Column("username", TypeName = "character varying")]
+        [Column("username")]
         public string Username { get; set; } = null!;
-        [Column("discriminator", TypeName = "character varying")]
+        [Column("discriminator")]
         public string Discriminator { get; set; } = null!;
-        [Column("avatar", TypeName = "character varying")]
+        [Column("avatar")]
         public string? Avatar { get; set; }
         [Column("accent_color")]
         public int? AccentColor { get; set; }
-        [Column("banner", TypeName = "character varying")]
+        [Column("banner")]
         public string? Banner { get; set; }
-        [Column("phone", TypeName = "character varying")]
+        [Column("phone")]
         public string? Phone { get; set; }
         [Column("desktop")]
         public bool Desktop { get; set; }
@@ -63,7 +63,7 @@ namespace Fosscord.DbModel.Scaffold
         public int PremiumType { get; set; }
         [Column("bot")]
         public bool Bot { get; set; }
-        [Column("bio", TypeName = "character varying")]
+        [Column("bio")]
         public string Bio { get; set; } = null!;
         [Column("system")]
         public bool System { get; set; }
@@ -71,7 +71,7 @@ namespace Fosscord.DbModel.Scaffold
         public bool NsfwAllowed { get; set; }
         [Column("mfa_enabled")]
         public bool MfaEnabled { get; set; }
-        [Column("created_at", TypeName = "timestamp without time zone")]
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
         [Column("verified")]
         public bool Verified { get; set; }
@@ -79,13 +79,13 @@ namespace Fosscord.DbModel.Scaffold
         public bool Disabled { get; set; }
         [Column("deleted")]
         public bool Deleted { get; set; }
-        [Column("email", TypeName = "character varying")]
+        [Column("email")]
         public string? Email { get; set; }
-        [Column("flags", TypeName = "character varying")]
+        [Column("flags")]
         public string Flags { get; set; } = null!;
         [Column("public_flags")]
         public int PublicFlags { get; set; }
-        [Column("rights", TypeName = "character varying")]
+        [Column("rights")]
         public string Rights { get; set; } = null!;
         [Column("data")]
         public string Data { get; set; } = null!;
