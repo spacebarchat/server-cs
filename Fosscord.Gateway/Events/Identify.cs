@@ -100,7 +100,7 @@ public class Identify: IGatewayMessage
             var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(user.Settings);
             var readyEventData = new ReadyEvent.ReadyEventData()
             {
-                v = 8,
+                v = 9,
                 application = db.Applications.FirstOrDefault(s => s.Id == user.Id),
                 user = privateUser,
                 user_settings = user.Settings,

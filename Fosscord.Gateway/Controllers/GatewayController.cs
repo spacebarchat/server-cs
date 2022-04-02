@@ -4,6 +4,7 @@ using System.Text;
 using Fosscord.DbModel;
 using Fosscord.Gateway.Events;
 using Fosscord.Gateway.Models;
+using Fosscord.Util;
 using Ionic.Zlib;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -141,16 +142,9 @@ public class GatewayController : Controller
                 string data = JsonConvert.SerializeObject(payload);
                 Console.WriteLine(data);
                 var bytes = Encoding.Default.GetBytes(data);
-                byte[] wsPayload = new byte[0];
                 if (client.compress == "zlib-stream")
                 {
-                    using(var outStream = new MemoryStream()) {
-                        using(var deflate = new ZLibStream(outStream, System.IO.Compression.CompressionMode.Compress)) {
-                            deflate.Write(bytes, 0, bytes.Length);
-                        }
-                        wsPayload = outStream.ToArray();
-                    }
-                    await Clients[client].SendAsync(wsPayload, WebSocketMessageType.Binary, true, client.CancellationToken);
+                    await Clients[client].SendAsync(ZLib.Compress(bytes), WebSocketMessageType.Binary, true, client.CancellationToken);
                 }
                 break;
 
