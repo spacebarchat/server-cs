@@ -72,6 +72,9 @@ public class GatewayController : Controller
             //todo: heartbeat timeout
 
             Clients.Add(clientSocket, webSocket);
+
+            //TODO: what this this do?
+            await SendByteArray(clientSocket, new byte[] { 0x78, 0x9c });
             await Send(clientSocket, new Payload()
             {
                 op = Constants.OpCodes.Hello,
@@ -139,9 +142,12 @@ public class GatewayController : Controller
         {
             case "json":
 
-                string data = JsonConvert.SerializeObject(payload);
+                string data = JsonConvert.SerializeObject(payload, Formatting.None, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
                 Console.WriteLine(data);
-                var bytes = Encoding.Default.GetBytes(data);
+                var bytes = Encoding.UTF8.GetBytes(data);
                 if (client.compress == "zlib-stream")
                 {
                     await Clients[client].SendAsync(ZLib.Compress(bytes), WebSocketMessageType.Binary, true, client.CancellationToken);
@@ -151,6 +157,11 @@ public class GatewayController : Controller
             case "etf": //todo: implement
                 break;
         }
+    }
+
+    public static async Task SendByteArray(Websocket client, byte[] b)
+    {
+        await Clients[client].SendAsync(b, WebSocketMessageType.Binary, true, client.CancellationToken);
     }
 
     private async void ReadyTimout(Websocket clientSocket)
