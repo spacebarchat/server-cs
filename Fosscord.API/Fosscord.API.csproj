@@ -15,4 +15,16 @@
       <Folder Include="Resources\Assets" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Resources\Pages\developers.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Pages\index.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\Pages\index-template.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
