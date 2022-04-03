@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Fosscord.API.Utilities;
 using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
 using Microsoft.IdentityModel.Tokens;
@@ -10,13 +11,13 @@ namespace Fosscord.API.Classes;
 
 public class JWTAuthenticationManager
 {
-    private readonly Db db = Db.GetNewMysql();
+    private readonly Db db = Db.GetNewDb();
  
     private readonly string tokenKey;
  
     public JWTAuthenticationManager()
     {
-        tokenKey = FosscordConfig.GetString("security_jwtSecret");
+        tokenKey = FosscordConfig.GetString("security_jwtSecret", RandomStringGenerator.Generate(255));
     }
 
     public User GetUserFromToken(string token)

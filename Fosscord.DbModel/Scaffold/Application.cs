@@ -16,13 +16,13 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("name")]
+        [Column("name", TypeName = "character varying")]
         public string Name { get; set; } = null!;
-        [Column("icon")]
+        [Column("icon", TypeName = "character varying")]
         public string? Icon { get; set; }
-        [Column("description")]
+        [Column("description", TypeName = "character varying")]
         public string Description { get; set; } = null!;
         [Column("rpc_origins")]
         public string? RpcOrigins { get; set; }
@@ -30,27 +30,27 @@ namespace Fosscord.DbModel.Scaffold
         public bool BotPublic { get; set; }
         [Column("bot_require_code_grant")]
         public bool BotRequireCodeGrant { get; set; }
-        [Column("terms_of_service_url")]
+        [Column("terms_of_service_url", TypeName = "character varying")]
         public string? TermsOfServiceUrl { get; set; }
-        [Column("privacy_policy_url")]
+        [Column("privacy_policy_url", TypeName = "character varying")]
         public string? PrivacyPolicyUrl { get; set; }
-        [Column("summary")]
+        [Column("summary", TypeName = "character varying")]
         public string? Summary { get; set; }
-        [Column("verify_key")]
+        [Column("verify_key", TypeName = "character varying")]
         public string VerifyKey { get; set; } = null!;
-        [Column("primary_sku_id")]
+        [Column("primary_sku_id", TypeName = "character varying")]
         public string? PrimarySkuId { get; set; }
-        [Column("slug")]
+        [Column("slug", TypeName = "character varying")]
         public string? Slug { get; set; }
-        [Column("cover_image")]
+        [Column("cover_image", TypeName = "character varying")]
         public string? CoverImage { get; set; }
-        [Column("flags")]
+        [Column("flags", TypeName = "character varying")]
         public string Flags { get; set; } = null!;
-        [Column("owner_id")]
+        [Column("owner_id", TypeName = "character varying")]
         public string? OwnerId { get; set; }
-        [Column("team_id")]
+        [Column("team_id", TypeName = "character varying")]
         public string? TeamId { get; set; }
-        [Column("guild_id")]
+        [Column("guild_id", TypeName = "character varying")]
         public string? GuildId { get; set; }
 
         [ForeignKey("GuildId")]

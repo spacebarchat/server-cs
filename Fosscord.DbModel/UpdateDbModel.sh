@@ -47,11 +47,27 @@ then
       fi
 fi
 echo '-- Importing db model from postgres... --'
-dotnet ef dbcontext scaffold "server=$PG_HOST;username=$PG_USER;password=$PG_PASS;database=$PG_DB_FOSSCORD;port=$PG_PORT" "Npgsql.EntityFrameworkCore.PostgreSQL" -o Scaffold -f --data-annotations --namespace Fosscord.Db.Scaffold
+dotnet ef dbcontext scaffold "server=$PG_HOST;username=$PG_USER;password=$PG_PASS;database=$PG_DB_FOSSCORD;port=$PG_PORT" "Npgsql.EntityFrameworkCore.PostgreSQL" -o Scaffold -f --data-annotations --namespace Fosscord.DbModel.Scaffold
+#echo '-- Cleaning up explicit types'
+#sed 's/, TypeName = "character varying"//g' Scaffold/*.cs -i
+#sed 's/, TypeName = "timestamp without time zone"//g' Scaffold/*.cs -i
 echo '-- Listing untracked files --'
 git ls-files Scaffold --exclude-standard --others
 echo '-- Please add these tables to Db --'
 echo '-- You should be able to copy paste from fosscordContext.cs --'
 read -p 'Press enter when finished...'
 read -p 'Enter a migration name: ' MIG_NAME
-dotnet ef migrations add "$MIG_NAME" --context Db
+mkdir Migrations > /dev/null
+echo 'Creating migrations...'
+echo ' - Postgresql'
+dotnet ef migrations add "$MIG_NAME"_POSTGRES --context Db -n Fosscord.DbModel.Migrations.Postgres -o Migrations/Postgres -- --provider 'Npgsql.EntityFrameworkCore.PostgreSQL' > /dev/null
+#echo ' - Mysql'
+#dotnet ef migrations add "$MIG_NAME"_MYSQL --context Db -n Fosscord.DbModel.Migrations.Mysql -o Migrations/Mysql -- --provider 'Pomelo.EntityFrameworkCore.MySql' > /dev/null
+#echo ' - Mariadb'
+#dotnet ef migrations add "$MIG_NAME"_MARIADB --context Db -n Fosscord.DbModel.Migrations.Mariadb -o Migrations/Mariadb -- --provider 'Pomelo.EntityFrameworkCore.MySql' > /dev/null
+#echo ' - Sqlite'
+#dotnet ef migrations add "$MIG_NAME"_SQLITE --context Db -n Fosscord.DbModel.Migrations.Sqlite -o Migrations/Sqlite -- --provider 'Microsoft.EntityFrameworkCore.Sqlite' > /dev/null
+
+echo 'Cleaning up workspace...'
+rsync Fosscord/DbModel/Migrations/* Migrations/ -a
+rm Fosscord -rf

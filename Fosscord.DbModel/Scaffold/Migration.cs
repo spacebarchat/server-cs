@@ -14,7 +14,7 @@ namespace Fosscord.DbModel.Scaffold
         public int Id { get; set; }
         [Column("timestamp")]
         public long Timestamp { get; set; }
-        [Column("name")]
+        [Column("name", TypeName = "character varying")]
         public string Name { get; set; } = null!;
     }
 }

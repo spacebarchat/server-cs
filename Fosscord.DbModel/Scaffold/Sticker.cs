@@ -16,17 +16,17 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("name")]
+        [Column("name", TypeName = "character varying")]
         public string Name { get; set; } = null!;
-        [Column("description")]
+        [Column("description", TypeName = "character varying")]
         public string? Description { get; set; }
-        [Column("tags")]
+        [Column("tags", TypeName = "character varying")]
         public string? Tags { get; set; }
-        [Column("pack_id")]
+        [Column("pack_id", TypeName = "character varying")]
         public string? PackId { get; set; }
-        [Column("guild_id")]
+        [Column("guild_id", TypeName = "character varying")]
         public string? GuildId { get; set; }
         [Column("type")]
         public int Type { get; set; }
@@ -34,7 +34,7 @@ namespace Fosscord.DbModel.Scaffold
         public int FormatType { get; set; }
         [Column("available")]
         public bool? Available { get; set; }
-        [Column("user_id")]
+        [Column("user_id", TypeName = "character varying")]
         public string? UserId { get; set; }
 
         [ForeignKey("GuildId")]

@@ -15,17 +15,17 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("name")]
+        [Column("name", TypeName = "character varying")]
         public string Name { get; set; } = null!;
-        [Column("description")]
+        [Column("description", TypeName = "character varying")]
         public string? Description { get; set; }
-        [Column("banner_asset_id")]
+        [Column("banner_asset_id", TypeName = "character varying")]
         public string? BannerAssetId { get; set; }
-        [Column("cover_sticker_id")]
+        [Column("cover_sticker_id", TypeName = "character varying")]
         public string? CoverStickerId { get; set; }
-        [Column("coverStickerId")]
+        [Column("coverStickerId", TypeName = "character varying")]
         public string? CoverStickerId1 { get; set; }
 
         [ForeignKey("CoverStickerId1")]

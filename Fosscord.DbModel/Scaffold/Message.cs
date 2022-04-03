@@ -23,25 +23,25 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("channel_id")]
+        [Column("channel_id", TypeName = "character varying")]
         public string? ChannelId { get; set; }
-        [Column("guild_id")]
+        [Column("guild_id", TypeName = "character varying")]
         public string? GuildId { get; set; }
-        [Column("author_id")]
+        [Column("author_id", TypeName = "character varying")]
         public string? AuthorId { get; set; }
         [Column("member_id")]
         public int? MemberId { get; set; }
-        [Column("webhook_id")]
+        [Column("webhook_id", TypeName = "character varying")]
         public string? WebhookId { get; set; }
-        [Column("application_id")]
+        [Column("application_id", TypeName = "character varying")]
         public string? ApplicationId { get; set; }
-        [Column("content")]
+        [Column("content", TypeName = "character varying")]
         public string? Content { get; set; }
-        [Column("timestamp")]
+        [Column("timestamp", TypeName = "timestamp without time zone")]
         public DateTime Timestamp { get; set; }
-        [Column("edited_timestamp")]
+        [Column("edited_timestamp", TypeName = "timestamp without time zone")]
         public DateTime? EditedTimestamp { get; set; }
         [Column("tts")]
         public bool? Tts { get; set; }
@@ -57,7 +57,7 @@ namespace Fosscord.DbModel.Scaffold
         public bool? Pinned { get; set; }
         [Column("activity")]
         public string? Activity { get; set; }
-        [Column("flags")]
+        [Column("flags", TypeName = "character varying")]
         public string? Flags { get; set; }
         [Column("message_reference")]
         public string? MessageReference { get; set; }
@@ -65,7 +65,7 @@ namespace Fosscord.DbModel.Scaffold
         public string? Interaction { get; set; }
         [Column("components")]
         public string? Components { get; set; }
-        [Column("message_reference_id")]
+        [Column("message_reference_id", TypeName = "character varying")]
         public string? MessageReferenceId { get; set; }
         [Column("type")]
         public int Type { get; set; }
