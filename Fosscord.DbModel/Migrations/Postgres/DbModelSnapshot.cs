@@ -25,10 +25,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("ChannelMessage", b =>
                 {
                     b.Property<string>("ChannelsId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.Property<string>("MessagesId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.HasKey("ChannelsId", "MessagesId");
 
@@ -40,7 +40,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Application", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<bool>("BotPublic")
@@ -52,42 +52,42 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("bot_require_code_grant");
 
                     b.Property<string>("CoverImage")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("cover_image");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("description");
 
                     b.Property<string>("Flags")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("flags");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("icon");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("owner_id");
 
                     b.Property<string>("PrimarySkuId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("primary_sku_id");
 
                     b.Property<string>("PrivacyPolicyUrl")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("privacy_policy_url");
 
                     b.Property<string>("RpcOrigins")
@@ -95,24 +95,24 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("rpc_origins");
 
                     b.Property<string>("Slug")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("slug");
 
                     b.Property<string>("Summary")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("summary");
 
                     b.Property<string>("TeamId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("team_id");
 
                     b.Property<string>("TermsOfServiceUrl")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("terms_of_service_url");
 
                     b.Property<string>("VerifyKey")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("verify_key");
 
                     b.HasKey("Id");
@@ -129,16 +129,16 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Attachment", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("ContentType")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("content_type");
 
                     b.Property<string>("Filename")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("filename");
 
                     b.Property<int?>("Height")
@@ -146,12 +146,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("height");
 
                     b.Property<string>("MessageId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("message_id");
 
                     b.Property<string>("ProxyUrl")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("proxy_url");
 
                     b.Property<int>("Size")
@@ -160,7 +160,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("url");
 
                     b.Property<int?>("Width")
@@ -177,7 +177,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.AuditLog", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<int>("ActionType")
@@ -194,15 +194,15 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("options");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("reason");
 
                     b.Property<string>("TargetId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("target_id");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -217,28 +217,28 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Ban", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("ExecutorId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("executor_id");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Ip")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("ip");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("reason");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -255,7 +255,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Channel", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<int?>("Bitrate")
@@ -263,7 +263,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("bitrate");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<int?>("DefaultAutoArchiveDuration")
@@ -271,7 +271,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("default_auto_archive_duration");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Icon")
@@ -279,7 +279,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("icon");
 
                     b.Property<string>("LastMessageId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("last_message_id");
 
                     b.Property<int?>("LastPinTimestamp")
@@ -287,7 +287,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("last_pin_timestamp");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<bool?>("Nsfw")
@@ -295,11 +295,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("nsfw");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("owner_id");
 
                     b.Property<string>("ParentId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("parent_id");
 
                     b.Property<string>("PermissionOverwrites")
@@ -315,7 +315,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("rate_limit_per_user");
 
                     b.Property<string>("Topic")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("topic");
 
                     b.Property<int>("Type")
@@ -344,41 +344,41 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.ClientRelase", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("DebUrl")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("deb_url");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("notes");
 
                     b.Property<string>("OsxUrl")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("osx_url");
 
                     b.Property<string>("PubDate")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("pub_date");
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("url");
 
                     b.Property<string>("WinUrl")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("win_url");
 
                     b.HasKey("Id");
@@ -389,7 +389,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Config", b =>
                 {
                     b.Property<string>("Key")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("key");
 
                     b.Property<string>("Value")
@@ -404,12 +404,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.ConnectedAccount", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("access_token");
 
                     b.Property<bool>("FriendSync")
@@ -418,7 +418,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<bool>("Revoked")
@@ -431,11 +431,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("type");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.Property<bool>("Verifie")
@@ -456,7 +456,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Emoji", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<bool>("Animated")
@@ -469,7 +469,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("GuildId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<bool>("Managed")
@@ -478,7 +478,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<bool>("RequireColons")
@@ -491,7 +491,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("roles");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -506,11 +506,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Guild", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("AfkChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("afk_channel_id");
 
                     b.Property<int?>("AfkTimeout")
@@ -518,7 +518,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("afk_timeout");
 
                     b.Property<string>("Banner")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("banner");
 
                     b.Property<int?>("DefaultMessageNotifications")
@@ -526,11 +526,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("default_message_notifications");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("description");
 
                     b.Property<string>("DiscoverySplash")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("discovery_splash");
 
                     b.Property<int?>("ExplicitContentFilter")
@@ -543,7 +543,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("features");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("icon");
 
                     b.Property<bool?>("Large")
@@ -572,7 +572,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<bool?>("Nsfw")
@@ -584,11 +584,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("nsfw_level");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("owner_id");
 
                     b.Property<string>("PreferredLocale")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("preferred_locale");
 
                     b.Property<int?>("PremiumSubscriptionCount")
@@ -604,19 +604,19 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("presence_count");
 
                     b.Property<string>("PublicUpdatesChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("public_updates_channel_id");
 
                     b.Property<string>("Region")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("region");
 
                     b.Property<string>("RulesChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("rules_channel_id");
 
                     b.Property<string>("Splash")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("splash");
 
                     b.Property<int?>("SystemChannelFlags")
@@ -624,11 +624,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("system_channel_flags");
 
                     b.Property<string>("SystemChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("system_channel_id");
 
                     b.Property<string>("TemplateId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("template_id");
 
                     b.Property<bool?>("Unavailable")
@@ -645,7 +645,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("welcome_screen");
 
                     b.Property<string>("WidgetChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("widget_channel_id");
 
                     b.Property<bool?>("WidgetEnabled")
@@ -674,27 +674,27 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Invite", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("code");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("channel_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("expires_at");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("InviterId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("inviter_id");
 
                     b.Property<int>("MaxAge")
@@ -706,7 +706,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("max_uses");
 
                     b.Property<string>("TargetUserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("target_user_id");
 
                     b.Property<int?>("TargetUserType")
@@ -753,20 +753,20 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("GuildId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Id")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("JoinedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("joined_at");
 
                     b.Property<string>("LastMessageId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("last_message_id");
 
                     b.Property<bool>("Mute")
@@ -774,7 +774,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("mute");
 
                     b.Property<string>("Nick")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("nick");
 
                     b.Property<bool>("Pending")
@@ -803,7 +803,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Message", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("Activity")
@@ -811,15 +811,15 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("activity");
 
                     b.Property<string>("ApplicationId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("application_id");
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("author_id");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("channel_id");
 
                     b.Property<string>("Components")
@@ -827,11 +827,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("components");
 
                     b.Property<string>("Content")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("content");
 
                     b.Property<DateTime?>("EditedTimestamp")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("edited_timestamp");
 
                     b.Property<string>("Embeds")
@@ -840,11 +840,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("embeds");
 
                     b.Property<string>("Flags")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("flags");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Interaction")
@@ -864,7 +864,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("message_reference");
 
                     b.Property<string>("MessageReferenceId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("message_reference_id");
 
                     b.Property<string>("Nonce")
@@ -881,7 +881,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("reactions");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("timestamp");
 
                     b.Property<bool?>("Tts")
@@ -893,7 +893,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("type");
 
                     b.Property<string>("WebhookId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("webhook_id");
 
                     b.HasKey("Id");
@@ -929,7 +929,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<long>("Timestamp")
@@ -955,7 +955,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("duration");
 
                     b.Property<string>("Identifier")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("identifier");
 
                     b.Property<string>("Query")
@@ -980,7 +980,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.RateLimit", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<bool>("Blocked")
@@ -989,11 +989,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("ExecutorId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("executor_id");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("expires_at");
 
                     b.Property<int>("Hits")
@@ -1008,20 +1008,20 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.ReadState", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("ChannelId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("channel_id");
 
                     b.Property<string>("LastMessageId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("last_message_id");
 
                     b.Property<DateTime?>("LastPinTimestamp")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("last_pin_timestamp");
 
                     b.Property<bool?>("Manual")
@@ -1034,7 +1034,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1050,12 +1050,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Recipient", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("ChannelId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("channel_id");
 
                     b.Property<bool>("Closed")
@@ -1064,7 +1064,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1079,21 +1079,21 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Relationship", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("FromId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("from_id");
 
                     b.Property<string>("Nickname")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("nickname");
 
                     b.Property<string>("ToId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("to_id");
 
                     b.Property<int>("Type")
@@ -1113,7 +1113,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Role", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<int>("Color")
@@ -1121,7 +1121,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("color");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<bool>("Hoist")
@@ -1138,12 +1138,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("Permissions")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("permissions");
 
                     b.Property<int>("Position")
@@ -1164,7 +1164,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Session", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("Activities")
@@ -1178,16 +1178,16 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("SessionId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("session_id");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("status");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1200,7 +1200,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Sticker", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<bool?>("Available")
@@ -1208,7 +1208,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("available");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("description");
 
                     b.Property<int>("FormatType")
@@ -1216,20 +1216,20 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("format_type");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("PackId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("pack_id");
 
                     b.Property<string>("Tags")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("tags");
 
                     b.Property<int>("Type")
@@ -1237,7 +1237,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("type");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1254,28 +1254,28 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.StickerPack", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("BannerAssetId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("banner_asset_id");
 
                     b.Property<string>("CoverStickerId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("cover_sticker_id");
 
                     b.Property<string>("CoverStickerId1")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("coverStickerId");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
@@ -1288,20 +1288,20 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Team", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("icon");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("OwnerUserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("owner_user_id");
 
                     b.HasKey("Id");
@@ -1314,7 +1314,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.TeamMember", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<int>("MembershipState")
@@ -1327,11 +1327,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("permissions");
 
                     b.Property<string>("TeamId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("team_id");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1346,29 +1346,29 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Template", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatorId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("creator_id");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("SerializedSourceGuild")
@@ -1377,11 +1377,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("serialized_source_guild");
 
                     b.Property<string>("SourceGuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("source_guild_id");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<int?>("UsageCount")
@@ -1403,24 +1403,24 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.TypeormMetadatum", b =>
                 {
                     b.Property<string>("Database")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("database");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("Schema")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("schema");
 
                     b.Property<string>("Table")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("table");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("type");
 
                     b.Property<string>("Value")
@@ -1433,7 +1433,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<int?>("AccentColor")
@@ -1441,16 +1441,16 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("accent_color");
 
                     b.Property<string>("Avatar")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("avatar");
 
                     b.Property<string>("Banner")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("banner");
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("bio");
 
                     b.Property<bool>("Bot")
@@ -1458,7 +1458,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("bot");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Data")
@@ -1480,11 +1480,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("discriminator");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("email");
 
                     b.Property<string>("Fingerprints")
@@ -1494,7 +1494,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Flags")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("flags");
 
                     b.Property<bool>("MfaEnabled")
@@ -1510,7 +1510,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("nsfw_allowed");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("phone");
 
                     b.Property<bool>("Premium")
@@ -1527,7 +1527,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Rights")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("rights");
 
                     b.Property<string>("Settings")
@@ -1541,7 +1541,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("username");
 
                     b.Property<bool>("Verified")
@@ -1556,11 +1556,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.VoiceState", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("channel_id");
 
                     b.Property<bool>("Deaf")
@@ -1568,7 +1568,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("deaf");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<bool>("Mute")
@@ -1576,7 +1576,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("mute");
 
                     b.Property<DateTime?>("RequestToSpeakTimestamp")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("request_to_speak_timestamp");
 
                     b.Property<bool>("SelfDeaf")
@@ -1597,7 +1597,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
 
                     b.Property<string>("SessionId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("session_id");
 
                     b.Property<bool>("Suppress")
@@ -1605,11 +1605,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("suppress");
 
                     b.Property<string>("Token")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("token");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1626,35 +1626,35 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Webhook", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("id");
 
                     b.Property<string>("ApplicationId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("application_id");
 
                     b.Property<string>("Avatar")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("avatar");
 
                     b.Property<string>("ChannelId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("channel_id");
 
                     b.Property<string>("GuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("guild_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("name");
 
                     b.Property<string>("SourceGuildId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("source_guild_id");
 
                     b.Property<string>("Token")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("token");
 
                     b.Property<int>("Type")
@@ -1662,7 +1662,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("type");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("text")
+                        .HasColumnType("character varying")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -1686,7 +1686,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnType("integer");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.HasKey("Index", "RoleId");
 
@@ -1698,10 +1698,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("MessageRole", b =>
                 {
                     b.Property<string>("MessagesId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.Property<string>("RolesId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.HasKey("MessagesId", "RolesId");
 
@@ -1713,10 +1713,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("MessageSticker", b =>
                 {
                     b.Property<string>("MessagesId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.Property<string>("StickersId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.HasKey("MessagesId", "StickersId");
 
@@ -1728,10 +1728,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
             modelBuilder.Entity("MessageUser", b =>
                 {
                     b.Property<string>("MessagesId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.Property<string>("UsersId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying");
 
                     b.HasKey("MessagesId", "UsersId");
 

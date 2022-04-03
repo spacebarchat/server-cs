@@ -10,7 +10,7 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Config
     {
         [Key]
-        [Column("key")]
+        [Column("key", TypeName = "character varying")]
         public string Key { get; set; } = null!;
         [Column("value")]
         public string? Value { get; set; }

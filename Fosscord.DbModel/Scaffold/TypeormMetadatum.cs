@@ -10,15 +10,15 @@ namespace Fosscord.DbModel.Scaffold
     [Table("typeorm_metadata")]
     public partial class TypeormMetadatum
     {
-        [Column("type")]
+        [Column("type", TypeName = "character varying")]
         public string Type { get; set; } = null!;
-        [Column("database")]
+        [Column("database", TypeName = "character varying")]
         public string? Database { get; set; }
-        [Column("schema")]
+        [Column("schema", TypeName = "character varying")]
         public string? Schema { get; set; }
-        [Column("table")]
+        [Column("table", TypeName = "character varying")]
         public string? Table { get; set; }
-        [Column("name")]
+        [Column("name", TypeName = "character varying")]
         public string? Name { get; set; }
         [Column("value")]
         public string? Value { get; set; }

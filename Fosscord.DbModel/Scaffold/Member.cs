@@ -19,13 +19,13 @@ namespace Fosscord.DbModel.Scaffold
         [Key]
         [Column("index")]
         public int Index { get; set; }
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("guild_id")]
+        [Column("guild_id", TypeName = "character varying")]
         public string GuildId { get; set; } = null!;
-        [Column("nick")]
+        [Column("nick", TypeName = "character varying")]
         public string? Nick { get; set; }
-        [Column("joined_at")]
+        [Column("joined_at", TypeName = "timestamp without time zone")]
         public DateTime JoinedAt { get; set; }
         [Column("premium_since")]
         public int? PremiumSince { get; set; }
@@ -37,7 +37,7 @@ namespace Fosscord.DbModel.Scaffold
         public bool Pending { get; set; }
         [Column("settings")]
         public string Settings { get; set; } = null!;
-        [Column("last_message_id")]
+        [Column("last_message_id", TypeName = "character varying")]
         public string? LastMessageId { get; set; }
 
         [ForeignKey("GuildId")]

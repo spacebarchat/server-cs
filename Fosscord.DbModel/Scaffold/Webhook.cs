@@ -15,23 +15,23 @@ namespace Fosscord.DbModel.Scaffold
         }
 
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("name")]
+        [Column("name", TypeName = "character varying")]
         public string? Name { get; set; }
-        [Column("avatar")]
+        [Column("avatar", TypeName = "character varying")]
         public string? Avatar { get; set; }
-        [Column("token")]
+        [Column("token", TypeName = "character varying")]
         public string? Token { get; set; }
-        [Column("guild_id")]
+        [Column("guild_id", TypeName = "character varying")]
         public string? GuildId { get; set; }
-        [Column("channel_id")]
+        [Column("channel_id", TypeName = "character varying")]
         public string? ChannelId { get; set; }
-        [Column("application_id")]
+        [Column("application_id", TypeName = "character varying")]
         public string? ApplicationId { get; set; }
-        [Column("user_id")]
+        [Column("user_id", TypeName = "character varying")]
         public string? UserId { get; set; }
-        [Column("source_guild_id")]
+        [Column("source_guild_id", TypeName = "character varying")]
         public string? SourceGuildId { get; set; }
         [Column("type")]
         public int Type { get; set; }

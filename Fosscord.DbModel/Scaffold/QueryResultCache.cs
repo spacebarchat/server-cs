@@ -12,7 +12,7 @@ namespace Fosscord.DbModel.Scaffold
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Column("identifier")]
+        [Column("identifier", TypeName = "character varying")]
         public string? Identifier { get; set; }
         [Column("time")]
         public long Time { get; set; }

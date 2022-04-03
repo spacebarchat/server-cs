@@ -10,17 +10,17 @@ namespace Fosscord.DbModel.Scaffold
     public partial class AuditLog
     {
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("user_id")]
+        [Column("user_id", TypeName = "character varying")]
         public string? UserId { get; set; }
         [Column("options")]
         public string? Options { get; set; }
         [Column("changes")]
         public string Changes { get; set; } = null!;
-        [Column("reason")]
+        [Column("reason", TypeName = "character varying")]
         public string? Reason { get; set; }
-        [Column("target_id")]
+        [Column("target_id", TypeName = "character varying")]
         public string? TargetId { get; set; }
         [Column("action_type")]
         public int ActionType { get; set; }

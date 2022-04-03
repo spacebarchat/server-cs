@@ -10,11 +10,11 @@ namespace Fosscord.DbModel.Scaffold
     public partial class Recipient
     {
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("channel_id")]
+        [Column("channel_id", TypeName = "character varying")]
         public string ChannelId { get; set; } = null!;
-        [Column("user_id")]
+        [Column("user_id", TypeName = "character varying")]
         public string UserId { get; set; } = null!;
         [Column("closed")]
         public bool Closed { get; set; }

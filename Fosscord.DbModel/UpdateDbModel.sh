@@ -48,9 +48,9 @@ then
 fi
 echo '-- Importing db model from postgres... --'
 dotnet ef dbcontext scaffold "server=$PG_HOST;username=$PG_USER;password=$PG_PASS;database=$PG_DB_FOSSCORD;port=$PG_PORT" "Npgsql.EntityFrameworkCore.PostgreSQL" -o Scaffold -f --data-annotations --namespace Fosscord.DbModel.Scaffold
-echo '-- Cleaning up explicit types'
-sed 's/, TypeName = "character varying"//g' Scaffold/*.cs -i
-sed 's/, TypeName = "timestamp without time zone"//g' Scaffold/*.cs -i
+#echo '-- Cleaning up explicit types'
+#sed 's/, TypeName = "character varying"//g' Scaffold/*.cs -i
+#sed 's/, TypeName = "timestamp without time zone"//g' Scaffold/*.cs -i
 echo '-- Listing untracked files --'
 git ls-files Scaffold --exclude-standard --others
 echo '-- Please add these tables to Db --'

@@ -14,14 +14,14 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "client_relase",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    pub_date = table.Column<string>(type: "text", nullable: false),
-                    url = table.Column<string>(type: "text", nullable: false),
-                    deb_url = table.Column<string>(type: "text", nullable: false),
-                    osx_url = table.Column<string>(type: "text", nullable: false),
-                    win_url = table.Column<string>(type: "text", nullable: false),
-                    notes = table.Column<string>(type: "text", nullable: true)
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    pub_date = table.Column<string>(type: "character varying", nullable: false),
+                    url = table.Column<string>(type: "character varying", nullable: false),
+                    deb_url = table.Column<string>(type: "character varying", nullable: false),
+                    osx_url = table.Column<string>(type: "character varying", nullable: false),
+                    win_url = table.Column<string>(type: "character varying", nullable: false),
+                    notes = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "config",
                 columns: table => new
                 {
-                    key = table.Column<string>(type: "text", nullable: false),
+                    key = table.Column<string>(type: "character varying", nullable: false),
                     value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -47,7 +47,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     timestamp = table.Column<long>(type: "bigint", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false)
+                    name = table.Column<string>(type: "character varying", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +60,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    identifier = table.Column<string>(type: "text", nullable: true),
+                    identifier = table.Column<string>(type: "character varying", nullable: true),
                     time = table.Column<long>(type: "bigint", nullable: false),
                     duration = table.Column<int>(type: "integer", nullable: false),
                     query = table.Column<string>(type: "text", nullable: false),
@@ -75,11 +75,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "rate_limits",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    executor_id = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    executor_id = table.Column<string>(type: "character varying", nullable: false),
                     hits = table.Column<int>(type: "integer", nullable: false),
                     blocked = table.Column<bool>(type: "boolean", nullable: false),
-                    expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    expires_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,11 +90,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "typeorm_metadata",
                 columns: table => new
                 {
-                    type = table.Column<string>(type: "text", nullable: false),
-                    database = table.Column<string>(type: "text", nullable: true),
-                    schema = table.Column<string>(type: "text", nullable: true),
-                    table = table.Column<string>(type: "text", nullable: true),
-                    name = table.Column<string>(type: "text", nullable: true),
+                    type = table.Column<string>(type: "character varying", nullable: false),
+                    database = table.Column<string>(type: "character varying", nullable: true),
+                    schema = table.Column<string>(type: "character varying", nullable: true),
+                    table = table.Column<string>(type: "character varying", nullable: true),
+                    name = table.Column<string>(type: "character varying", nullable: true),
                     value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -105,30 +105,30 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "users",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    username = table.Column<string>(type: "text", nullable: false),
-                    discriminator = table.Column<string>(type: "text", nullable: false),
-                    avatar = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    username = table.Column<string>(type: "character varying", nullable: false),
+                    discriminator = table.Column<string>(type: "character varying", nullable: false),
+                    avatar = table.Column<string>(type: "character varying", nullable: true),
                     accent_color = table.Column<int>(type: "integer", nullable: true),
-                    banner = table.Column<string>(type: "text", nullable: true),
-                    phone = table.Column<string>(type: "text", nullable: true),
+                    banner = table.Column<string>(type: "character varying", nullable: true),
+                    phone = table.Column<string>(type: "character varying", nullable: true),
                     desktop = table.Column<bool>(type: "boolean", nullable: false),
                     mobile = table.Column<bool>(type: "boolean", nullable: false),
                     premium = table.Column<bool>(type: "boolean", nullable: false),
                     premium_type = table.Column<int>(type: "integer", nullable: false),
                     bot = table.Column<bool>(type: "boolean", nullable: false),
-                    bio = table.Column<string>(type: "text", nullable: false),
+                    bio = table.Column<string>(type: "character varying", nullable: false),
                     system = table.Column<bool>(type: "boolean", nullable: false),
                     nsfw_allowed = table.Column<bool>(type: "boolean", nullable: false),
                     mfa_enabled = table.Column<bool>(type: "boolean", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     verified = table.Column<bool>(type: "boolean", nullable: false),
                     disabled = table.Column<bool>(type: "boolean", nullable: false),
                     deleted = table.Column<bool>(type: "boolean", nullable: false),
-                    email = table.Column<string>(type: "text", nullable: true),
-                    flags = table.Column<string>(type: "text", nullable: false),
+                    email = table.Column<string>(type: "character varying", nullable: true),
+                    flags = table.Column<string>(type: "character varying", nullable: false),
                     public_flags = table.Column<int>(type: "integer", nullable: false),
-                    rights = table.Column<string>(type: "text", nullable: false),
+                    rights = table.Column<string>(type: "character varying", nullable: false),
                     data = table.Column<string>(type: "text", nullable: false),
                     fingerprints = table.Column<string>(type: "text", nullable: false),
                     settings = table.Column<string>(type: "text", nullable: false)
@@ -142,12 +142,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "audit_logs",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
                     options = table.Column<string>(type: "text", nullable: true),
                     changes = table.Column<string>(type: "text", nullable: false),
-                    reason = table.Column<string>(type: "text", nullable: true),
-                    target_id = table.Column<string>(type: "text", nullable: true),
+                    reason = table.Column<string>(type: "character varying", nullable: true),
+                    target_id = table.Column<string>(type: "character varying", nullable: true),
                     action_type = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -169,14 +169,14 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "connected_accounts",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: true),
-                    access_token = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
+                    access_token = table.Column<string>(type: "character varying", nullable: false),
                     friend_sync = table.Column<bool>(type: "boolean", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
                     revoked = table.Column<bool>(type: "boolean", nullable: false),
                     show_activity = table.Column<bool>(type: "boolean", nullable: false),
-                    type = table.Column<string>(type: "text", nullable: false),
+                    type = table.Column<string>(type: "character varying", nullable: false),
                     verifie = table.Column<bool>(type: "boolean", nullable: false),
                     visibility = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -194,10 +194,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "relationships",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    from_id = table.Column<string>(type: "text", nullable: false),
-                    to_id = table.Column<string>(type: "text", nullable: false),
-                    nickname = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    from_id = table.Column<string>(type: "character varying", nullable: false),
+                    to_id = table.Column<string>(type: "character varying", nullable: false),
+                    nickname = table.Column<string>(type: "character varying", nullable: true),
                     type = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -221,11 +221,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "sessions",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: true),
-                    session_id = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
+                    session_id = table.Column<string>(type: "character varying", nullable: false),
                     client_info = table.Column<string>(type: "text", nullable: false),
-                    status = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<string>(type: "character varying", nullable: false),
                     activities = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -242,10 +242,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "teams",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    icon = table.Column<string>(type: "text", nullable: true),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    owner_user_id = table.Column<string>(type: "text", nullable: true)
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    icon = table.Column<string>(type: "character varying", nullable: true),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    owner_user_id = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,10 +261,10 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "team_members",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
                     permissions = table.Column<string>(type: "text", nullable: false),
-                    team_id = table.Column<string>(type: "text", nullable: true),
-                    user_id = table.Column<string>(type: "text", nullable: true),
+                    team_id = table.Column<string>(type: "character varying", nullable: true),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
                     membership_state = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -286,24 +286,24 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "applications",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    icon = table.Column<string>(type: "text", nullable: true),
-                    description = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    icon = table.Column<string>(type: "character varying", nullable: true),
+                    description = table.Column<string>(type: "character varying", nullable: false),
                     rpc_origins = table.Column<string>(type: "text", nullable: true),
                     bot_public = table.Column<bool>(type: "boolean", nullable: false),
                     bot_require_code_grant = table.Column<bool>(type: "boolean", nullable: false),
-                    terms_of_service_url = table.Column<string>(type: "text", nullable: true),
-                    privacy_policy_url = table.Column<string>(type: "text", nullable: true),
-                    summary = table.Column<string>(type: "text", nullable: true),
-                    verify_key = table.Column<string>(type: "text", nullable: false),
-                    primary_sku_id = table.Column<string>(type: "text", nullable: true),
-                    slug = table.Column<string>(type: "text", nullable: true),
-                    cover_image = table.Column<string>(type: "text", nullable: true),
-                    flags = table.Column<string>(type: "text", nullable: false),
-                    owner_id = table.Column<string>(type: "text", nullable: true),
-                    team_id = table.Column<string>(type: "text", nullable: true),
-                    guild_id = table.Column<string>(type: "text", nullable: true)
+                    terms_of_service_url = table.Column<string>(type: "character varying", nullable: true),
+                    privacy_policy_url = table.Column<string>(type: "character varying", nullable: true),
+                    summary = table.Column<string>(type: "character varying", nullable: true),
+                    verify_key = table.Column<string>(type: "character varying", nullable: false),
+                    primary_sku_id = table.Column<string>(type: "character varying", nullable: true),
+                    slug = table.Column<string>(type: "character varying", nullable: true),
+                    cover_image = table.Column<string>(type: "character varying", nullable: true),
+                    flags = table.Column<string>(type: "character varying", nullable: false),
+                    owner_id = table.Column<string>(type: "character varying", nullable: true),
+                    team_id = table.Column<string>(type: "character varying", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -324,15 +324,15 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "attachments",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    filename = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    filename = table.Column<string>(type: "character varying", nullable: false),
                     size = table.Column<int>(type: "integer", nullable: false),
-                    url = table.Column<string>(type: "text", nullable: false),
-                    proxy_url = table.Column<string>(type: "text", nullable: false),
+                    url = table.Column<string>(type: "character varying", nullable: false),
+                    proxy_url = table.Column<string>(type: "character varying", nullable: false),
                     height = table.Column<int>(type: "integer", nullable: true),
                     width = table.Column<int>(type: "integer", nullable: true),
-                    content_type = table.Column<string>(type: "text", nullable: true),
-                    message_id = table.Column<string>(type: "text", nullable: true)
+                    content_type = table.Column<string>(type: "character varying", nullable: true),
+                    message_id = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -343,12 +343,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "bans",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: true),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
-                    executor_id = table.Column<string>(type: "text", nullable: true),
-                    ip = table.Column<string>(type: "text", nullable: false),
-                    reason = table.Column<string>(type: "text", nullable: true)
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
+                    executor_id = table.Column<string>(type: "character varying", nullable: true),
+                    ip = table.Column<string>(type: "character varying", nullable: false),
+                    reason = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -369,8 +369,8 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "ChannelMessage",
                 columns: table => new
                 {
-                    ChannelsId = table.Column<string>(type: "text", nullable: false),
-                    MessagesId = table.Column<string>(type: "text", nullable: false)
+                    ChannelsId = table.Column<string>(type: "character varying", nullable: false),
+                    MessagesId = table.Column<string>(type: "character varying", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -381,14 +381,14 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "channels",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: true),
                     icon = table.Column<string>(type: "text", nullable: true),
-                    last_message_id = table.Column<string>(type: "text", nullable: true),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
-                    parent_id = table.Column<string>(type: "text", nullable: true),
-                    owner_id = table.Column<string>(type: "text", nullable: true),
+                    last_message_id = table.Column<string>(type: "character varying", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
+                    parent_id = table.Column<string>(type: "character varying", nullable: true),
+                    owner_id = table.Column<string>(type: "character varying", nullable: true),
                     last_pin_timestamp = table.Column<int>(type: "integer", nullable: true),
                     default_auto_archive_duration = table.Column<int>(type: "integer", nullable: true),
                     position = table.Column<int>(type: "integer", nullable: true),
@@ -398,7 +398,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                     user_limit = table.Column<int>(type: "integer", nullable: true),
                     nsfw = table.Column<bool>(type: "boolean", nullable: true),
                     rate_limit_per_user = table.Column<int>(type: "integer", nullable: true),
-                    topic = table.Column<string>(type: "text", nullable: true),
+                    topic = table.Column<string>(type: "character varying", nullable: true),
                     type = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -420,11 +420,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "read_states",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    channel_id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: false),
-                    last_message_id = table.Column<string>(type: "text", nullable: true),
-                    last_pin_timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    channel_id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: false),
+                    last_message_id = table.Column<string>(type: "character varying", nullable: true),
+                    last_pin_timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     mention_count = table.Column<int>(type: "integer", nullable: true),
                     manual = table.Column<bool>(type: "boolean", nullable: true)
                 },
@@ -449,9 +449,9 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "recipients",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    channel_id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    channel_id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: false),
                     closed = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -475,13 +475,13 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "emojis",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
                     animated = table.Column<bool>(type: "boolean", nullable: false),
                     available = table.Column<bool>(type: "boolean", nullable: false),
-                    guild_id = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<string>(type: "text", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: false),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
                     managed = table.Column<bool>(type: "boolean", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
                     require_colons = table.Column<bool>(type: "boolean", nullable: false),
                     roles = table.Column<string>(type: "text", nullable: false)
                 },
@@ -499,39 +499,39 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "guilds",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    afk_channel_id = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    afk_channel_id = table.Column<string>(type: "character varying", nullable: true),
                     afk_timeout = table.Column<int>(type: "integer", nullable: true),
-                    banner = table.Column<string>(type: "text", nullable: true),
+                    banner = table.Column<string>(type: "character varying", nullable: true),
                     default_message_notifications = table.Column<int>(type: "integer", nullable: true),
-                    description = table.Column<string>(type: "text", nullable: true),
-                    discovery_splash = table.Column<string>(type: "text", nullable: true),
+                    description = table.Column<string>(type: "character varying", nullable: true),
+                    discovery_splash = table.Column<string>(type: "character varying", nullable: true),
                     explicit_content_filter = table.Column<int>(type: "integer", nullable: true),
                     features = table.Column<string>(type: "text", nullable: false),
-                    icon = table.Column<string>(type: "text", nullable: true),
+                    icon = table.Column<string>(type: "character varying", nullable: true),
                     large = table.Column<bool>(type: "boolean", nullable: true),
                     max_members = table.Column<int>(type: "integer", nullable: true),
                     max_presences = table.Column<int>(type: "integer", nullable: true),
                     max_video_channel_users = table.Column<int>(type: "integer", nullable: true),
                     member_count = table.Column<int>(type: "integer", nullable: true),
                     presence_count = table.Column<int>(type: "integer", nullable: true),
-                    template_id = table.Column<string>(type: "text", nullable: true),
+                    template_id = table.Column<string>(type: "character varying", nullable: true),
                     mfa_level = table.Column<int>(type: "integer", nullable: true),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    owner_id = table.Column<string>(type: "text", nullable: true),
-                    preferred_locale = table.Column<string>(type: "text", nullable: true),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    owner_id = table.Column<string>(type: "character varying", nullable: true),
+                    preferred_locale = table.Column<string>(type: "character varying", nullable: true),
                     premium_subscription_count = table.Column<int>(type: "integer", nullable: true),
                     premium_tier = table.Column<int>(type: "integer", nullable: true),
-                    public_updates_channel_id = table.Column<string>(type: "text", nullable: true),
-                    rules_channel_id = table.Column<string>(type: "text", nullable: true),
-                    region = table.Column<string>(type: "text", nullable: true),
-                    splash = table.Column<string>(type: "text", nullable: true),
-                    system_channel_id = table.Column<string>(type: "text", nullable: true),
+                    public_updates_channel_id = table.Column<string>(type: "character varying", nullable: true),
+                    rules_channel_id = table.Column<string>(type: "character varying", nullable: true),
+                    region = table.Column<string>(type: "character varying", nullable: true),
+                    splash = table.Column<string>(type: "character varying", nullable: true),
+                    system_channel_id = table.Column<string>(type: "character varying", nullable: true),
                     system_channel_flags = table.Column<int>(type: "integer", nullable: true),
                     unavailable = table.Column<bool>(type: "boolean", nullable: true),
                     verification_level = table.Column<int>(type: "integer", nullable: true),
                     welcome_screen = table.Column<string>(type: "text", nullable: false),
-                    widget_channel_id = table.Column<string>(type: "text", nullable: true),
+                    widget_channel_id = table.Column<string>(type: "character varying", nullable: true),
                     widget_enabled = table.Column<bool>(type: "boolean", nullable: true),
                     nsfw_level = table.Column<int>(type: "integer", nullable: true),
                     nsfw = table.Column<bool>(type: "boolean", nullable: true)
@@ -575,17 +575,17 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "invites",
                 columns: table => new
                 {
-                    code = table.Column<string>(type: "text", nullable: false),
+                    code = table.Column<string>(type: "character varying", nullable: false),
                     temporary = table.Column<bool>(type: "boolean", nullable: false),
                     uses = table.Column<int>(type: "integer", nullable: false),
                     max_uses = table.Column<int>(type: "integer", nullable: false),
                     max_age = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
-                    channel_id = table.Column<string>(type: "text", nullable: true),
-                    inviter_id = table.Column<string>(type: "text", nullable: true),
-                    target_user_id = table.Column<string>(type: "text", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    expires_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
+                    channel_id = table.Column<string>(type: "character varying", nullable: true),
+                    inviter_id = table.Column<string>(type: "character varying", nullable: true),
+                    target_user_id = table.Column<string>(type: "character varying", nullable: true),
                     target_user_type = table.Column<int>(type: "integer", nullable: true),
                     vanity_url = table.Column<bool>(type: "boolean", nullable: true)
                 },
@@ -620,16 +620,16 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 {
                     index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    id = table.Column<string>(type: "text", nullable: false),
-                    guild_id = table.Column<string>(type: "text", nullable: false),
-                    nick = table.Column<string>(type: "text", nullable: true),
-                    joined_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    guild_id = table.Column<string>(type: "character varying", nullable: false),
+                    nick = table.Column<string>(type: "character varying", nullable: true),
+                    joined_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     premium_since = table.Column<int>(type: "integer", nullable: true),
                     deaf = table.Column<bool>(type: "boolean", nullable: false),
                     mute = table.Column<bool>(type: "boolean", nullable: false),
                     pending = table.Column<bool>(type: "boolean", nullable: false),
                     settings = table.Column<string>(type: "text", nullable: false),
-                    last_message_id = table.Column<string>(type: "text", nullable: true)
+                    last_message_id = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -652,14 +652,14 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "roles",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
                     color = table.Column<int>(type: "integer", nullable: false),
                     hoist = table.Column<bool>(type: "boolean", nullable: false),
                     managed = table.Column<bool>(type: "boolean", nullable: false),
                     mentionable = table.Column<bool>(type: "boolean", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    permissions = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    permissions = table.Column<string>(type: "character varying", nullable: false),
                     position = table.Column<int>(type: "integer", nullable: false),
                     tags = table.Column<string>(type: "text", nullable: true)
                 },
@@ -677,15 +677,15 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "templates",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    code = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    code = table.Column<string>(type: "character varying", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    description = table.Column<string>(type: "character varying", nullable: true),
                     usage_count = table.Column<int>(type: "integer", nullable: true),
-                    creator_id = table.Column<string>(type: "text", nullable: true),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    source_guild_id = table.Column<string>(type: "text", nullable: true),
+                    creator_id = table.Column<string>(type: "character varying", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    source_guild_id = table.Column<string>(type: "character varying", nullable: true),
                     serialized_source_guild = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -707,12 +707,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "voice_states",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
-                    channel_id = table.Column<string>(type: "text", nullable: true),
-                    user_id = table.Column<string>(type: "text", nullable: true),
-                    session_id = table.Column<string>(type: "text", nullable: false),
-                    token = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
+                    channel_id = table.Column<string>(type: "character varying", nullable: true),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
+                    session_id = table.Column<string>(type: "character varying", nullable: false),
+                    token = table.Column<string>(type: "character varying", nullable: true),
                     deaf = table.Column<bool>(type: "boolean", nullable: false),
                     mute = table.Column<bool>(type: "boolean", nullable: false),
                     self_deaf = table.Column<bool>(type: "boolean", nullable: false),
@@ -720,7 +720,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                     self_stream = table.Column<bool>(type: "boolean", nullable: true),
                     self_video = table.Column<bool>(type: "boolean", nullable: false),
                     suppress = table.Column<bool>(type: "boolean", nullable: false),
-                    request_to_speak_timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    request_to_speak_timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -746,15 +746,15 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "webhooks",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: true),
-                    avatar = table.Column<string>(type: "text", nullable: true),
-                    token = table.Column<string>(type: "text", nullable: true),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
-                    channel_id = table.Column<string>(type: "text", nullable: true),
-                    application_id = table.Column<string>(type: "text", nullable: true),
-                    user_id = table.Column<string>(type: "text", nullable: true),
-                    source_guild_id = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: true),
+                    avatar = table.Column<string>(type: "character varying", nullable: true),
+                    token = table.Column<string>(type: "character varying", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
+                    channel_id = table.Column<string>(type: "character varying", nullable: true),
+                    application_id = table.Column<string>(type: "character varying", nullable: true),
+                    user_id = table.Column<string>(type: "character varying", nullable: true),
+                    source_guild_id = table.Column<string>(type: "character varying", nullable: true),
                     type = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -792,7 +792,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 columns: table => new
                 {
                     Index = table.Column<int>(type: "integer", nullable: false),
-                    RoleId = table.Column<string>(type: "text", nullable: false)
+                    RoleId = table.Column<string>(type: "character varying", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -815,16 +815,16 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "messages",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    channel_id = table.Column<string>(type: "text", nullable: true),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
-                    author_id = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    channel_id = table.Column<string>(type: "character varying", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
+                    author_id = table.Column<string>(type: "character varying", nullable: true),
                     member_id = table.Column<int>(type: "integer", nullable: true),
-                    webhook_id = table.Column<string>(type: "text", nullable: true),
-                    application_id = table.Column<string>(type: "text", nullable: true),
-                    content = table.Column<string>(type: "text", nullable: true),
-                    timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    edited_timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    webhook_id = table.Column<string>(type: "character varying", nullable: true),
+                    application_id = table.Column<string>(type: "character varying", nullable: true),
+                    content = table.Column<string>(type: "character varying", nullable: true),
+                    timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    edited_timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     tts = table.Column<bool>(type: "boolean", nullable: true),
                     mention_everyone = table.Column<bool>(type: "boolean", nullable: true),
                     embeds = table.Column<string>(type: "text", nullable: false),
@@ -832,11 +832,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                     nonce = table.Column<string>(type: "text", nullable: true),
                     pinned = table.Column<bool>(type: "boolean", nullable: true),
                     activity = table.Column<string>(type: "text", nullable: true),
-                    flags = table.Column<string>(type: "text", nullable: true),
+                    flags = table.Column<string>(type: "character varying", nullable: true),
                     message_reference = table.Column<string>(type: "text", nullable: true),
                     interaction = table.Column<string>(type: "text", nullable: true),
                     components = table.Column<string>(type: "text", nullable: true),
-                    message_reference_id = table.Column<string>(type: "text", nullable: true),
+                    message_reference_id = table.Column<string>(type: "character varying", nullable: true),
                     type = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -883,8 +883,8 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "MessageRole",
                 columns: table => new
                 {
-                    MessagesId = table.Column<string>(type: "text", nullable: false),
-                    RolesId = table.Column<string>(type: "text", nullable: false)
+                    MessagesId = table.Column<string>(type: "character varying", nullable: false),
+                    RolesId = table.Column<string>(type: "character varying", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -907,8 +907,8 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "MessageUser",
                 columns: table => new
                 {
-                    MessagesId = table.Column<string>(type: "text", nullable: false),
-                    UsersId = table.Column<string>(type: "text", nullable: false)
+                    MessagesId = table.Column<string>(type: "character varying", nullable: false),
+                    UsersId = table.Column<string>(type: "character varying", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -931,8 +931,8 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "MessageSticker",
                 columns: table => new
                 {
-                    MessagesId = table.Column<string>(type: "text", nullable: false),
-                    StickersId = table.Column<string>(type: "text", nullable: false)
+                    MessagesId = table.Column<string>(type: "character varying", nullable: false),
+                    StickersId = table.Column<string>(type: "character varying", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -949,12 +949,12 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "sticker_packs",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true),
-                    banner_asset_id = table.Column<string>(type: "text", nullable: true),
-                    cover_sticker_id = table.Column<string>(type: "text", nullable: true),
-                    coverStickerId = table.Column<string>(type: "text", nullable: true)
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    description = table.Column<string>(type: "character varying", nullable: true),
+                    banner_asset_id = table.Column<string>(type: "character varying", nullable: true),
+                    cover_sticker_id = table.Column<string>(type: "character varying", nullable: true),
+                    coverStickerId = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -965,16 +965,16 @@ namespace Fosscord.DbModel.Migrations.Postgres
                 name: "stickers",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true),
-                    tags = table.Column<string>(type: "text", nullable: true),
-                    pack_id = table.Column<string>(type: "text", nullable: true),
-                    guild_id = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<string>(type: "character varying", nullable: false),
+                    name = table.Column<string>(type: "character varying", nullable: false),
+                    description = table.Column<string>(type: "character varying", nullable: true),
+                    tags = table.Column<string>(type: "character varying", nullable: true),
+                    pack_id = table.Column<string>(type: "character varying", nullable: true),
+                    guild_id = table.Column<string>(type: "character varying", nullable: true),
                     type = table.Column<int>(type: "integer", nullable: false),
                     format_type = table.Column<int>(type: "integer", nullable: false),
                     available = table.Column<bool>(type: "boolean", nullable: true),
-                    user_id = table.Column<string>(type: "text", nullable: true)
+                    user_id = table.Column<string>(type: "character varying", nullable: true)
                 },
                 constraints: table =>
                 {

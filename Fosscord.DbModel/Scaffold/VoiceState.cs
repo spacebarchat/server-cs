@@ -10,17 +10,17 @@ namespace Fosscord.DbModel.Scaffold
     public partial class VoiceState
     {
         [Key]
-        [Column("id")]
+        [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
-        [Column("guild_id")]
+        [Column("guild_id", TypeName = "character varying")]
         public string? GuildId { get; set; }
-        [Column("channel_id")]
+        [Column("channel_id", TypeName = "character varying")]
         public string? ChannelId { get; set; }
-        [Column("user_id")]
+        [Column("user_id", TypeName = "character varying")]
         public string? UserId { get; set; }
-        [Column("session_id")]
+        [Column("session_id", TypeName = "character varying")]
         public string SessionId { get; set; } = null!;
-        [Column("token")]
+        [Column("token", TypeName = "character varying")]
         public string? Token { get; set; }
         [Column("deaf")]
         public bool Deaf { get; set; }
@@ -36,7 +36,7 @@ namespace Fosscord.DbModel.Scaffold
         public bool SelfVideo { get; set; }
         [Column("suppress")]
         public bool Suppress { get; set; }
-        [Column("request_to_speak_timestamp")]
+        [Column("request_to_speak_timestamp", TypeName = "timestamp without time zone")]
         public DateTime? RequestToSpeakTimestamp { get; set; }
 
         [ForeignKey("ChannelId")]
