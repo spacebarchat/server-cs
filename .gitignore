@@ -14,3 +14,6 @@ Resources/RunData/
 Fosscord.API/cache/
 Fosscord.API/Resources/Pages/index-updated.html
 Fosscord.API/Resources/Assets/user.css
+Fosscord.Gateway/unknown_events/
+Fosscord.Gateway/dump/
+Fosscord.Gateway/dump.tar.xz

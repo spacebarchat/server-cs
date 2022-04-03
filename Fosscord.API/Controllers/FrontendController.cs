@@ -22,6 +22,8 @@ public class FrontendController : Controller
     [HttpGet("/channels/@me")]
     public async Task<object> Home()
     {
+        if (FosscordConfig.GetBool("client_testClient_debug", false))
+            return Resolvers.ReturnFileWithVars("Resources/Pages/index-dbg.html", _db);
         if (FosscordConfig.GetBool("client_testClient_latest", false))
             return Resolvers.ReturnFileWithVars("Resources/Pages/index-updated.html", _db);
         return Resolvers.ReturnFileWithVars("Resources/Pages/index.html", _db);

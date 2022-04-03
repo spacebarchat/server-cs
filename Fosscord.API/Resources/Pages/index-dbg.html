@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Discord Test Client</title>
+		<link rel="stylesheet" href="/assets/fosscord.css" />
+		<link id="logincss" rel="stylesheet" href="/assets/fosscord-login.css" />
+		<link id="customcss" rel="stylesheet" href="/assets/user.css" />
+		<!-- preload plugin marker -->
+	</head>
+
+	<body>
+		<div id="app-mount"></div>
+		<script>
+			window.__OVERLAY__ = /overlay/.test(location.pathname);
+			window.__BILLING_STANDALONE__ = /^\/billing/.test(location.pathname);
+			window.GLOBAL_ENV = {
+				API_ENDPOINT: "/api",
+				API_VERSION: 9,
+				GATEWAY_ENDPOINT: `${location.protocol === "https:" ? "wss://" : "ws://"}${location.hostname}:2001`,
+				WEBAPP_ENDPOINT: "",
+				CDN_HOST: `${location.hostname}:3003`,
+				ASSET_ENDPOINT: "",
+				MEDIA_PROXY_ENDPOINT: "https://media.discordapp.net",
+				WIDGET_ENDPOINT: `//${location.host}/widget`,
+				INVITE_HOST: `${location.host}/invite`,
+				GUILD_TEMPLATE_HOST: "discord.new",
+				GIFT_CODE_HOST: "discord.gift",
+				RELEASE_CHANNEL: "canary",
+				MARKETING_ENDPOINT: "//discord.com",
+				BRAINTREE_KEY: "production_5st77rrc_49pp2rp4phym7387",
+				STRIPE_KEY: "pk_live_CUQtlpQUF0vufWpnpUmQvcdi",
+				NETWORKING_ENDPOINT: "//router.discordapp.net",
+				RTC_LATENCY_ENDPOINT: "//latency.discord.media/rtc",
+				ACTIVITY_APPLICATION_HOST: 'discordsays.com',
+				PROJECT_ENV: "production",
+				REMOTE_AUTH_ENDPOINT: "//localhost:3020",
+				SENTRY_TAGS: { buildId: "75e36d9", buildType: "normal" },
+				MIGRATION_SOURCE_ORIGIN: "https://discordapp.com",
+				MIGRATION_DESTINATION_ORIGIN: "https://discord.com",
+				HTML_TIMESTAMP: Date.now(),
+				ALGOLIA_KEY: "aca0d7082e4e63af5ba5917d5e96bed0"
+			};
+			GLOBAL_ENV.MEDIA_PROXY_ENDPOINT = location.protocol + "//" + GLOBAL_ENV.CDN_HOST;
+			const sockets = [];
+			const nativeWebSocket = window.WebSocket;
+			window.WebSocket = function(...args){
+				console.log("Starting new websocket");
+				const socket = new nativeWebSocket(...args);
+				sockets.push(socket);
+				console.log(socket);
+				socket.addEventListener("message", ev=>{
+					console.log("Dumping message...");
+					var xhr = new XMLHttpRequest;
+					xhr.open("POST", "http://localhost:2001/dump/cs", false);
+					xhr.send(ev.data);
+				});
+				console.log("Websocket hooked!");
+				return socket;
+			};
+			const localStorage = window.localStorage;
+			// TODO: remote auth
+			// window.GLOBAL_ENV.REMOTE_AUTH_ENDPOINT = window.GLOBAL_ENV.GATEWAY_ENDPOINT.replace(/wss?:/, "");
+			localStorage.setItem("gatewayURL", window.GLOBAL_ENV.GATEWAY_ENDPOINT);
+			localStorage.setItem(
+				"DeveloperOptionsStore",
+				`{"trace":false,"canary":true,"logGatewayEvents":true,"logOverlayEvents":true,"logAnalyticsEvents":true,"sourceMapsEnabled":false,"axeEnabled":false}`
+			);
+
+			setInterval(() => {
+				var token = JSON.parse(localStorage.getItem("token"));
+				if (token) {
+					var logincss = document.querySelector('#logincss'),
+					canRemove = logincss ? logincss: "";
+					if(canRemove !== "") {
+					document.querySelector("#logincss").remove();
+					canRemove = "";
+					}
+				}
+			}, 1000)
+
+			const settings = JSON.parse(localStorage.getItem("UserSettingsStore"));
+			if (settings && settings.locale.length <= 2) {
+				// fix client locale wrong and client not loading at all
+				settings.locale = "en-US";
+				localStorage.setItem("UserSettingsStore", JSON.stringify(settings));
+			}
+		</script>
+		<link rel="prefetch" as="script" href="/assets/d110af2d26131beb5874.js">
+		<link rel="prefetch" as="script" href="/assets/b4499d2a6b9046b1b402.js">
+		<link rel="prefetch" as="script" href="/assets/4b58fa778cc38e586a72.js">
+		<link rel="prefetch" as="script" href="/assets/2e45b6b321248222f12a.js">
+		<link rel="prefetch" as="script" href="/assets/2a6b8d1c4c54837fbc1c.js">
+		<link rel="prefetch" as="script" href="/assets/32a385a6252512863141.js">
+		<link rel="prefetch" as="script" href="/assets/66fb582b4c0e8351bd05.js">
+		<link rel="prefetch" as="script" href="/assets/d5b25e619c7d3c54072a.js">
+		<link rel="prefetch" as="script" href="/assets/e03405baa0373b35d236.js">
+		<link rel="prefetch" as="script" href="/assets/7ac1c95d059085cc0b95.js">
+		<link rel="prefetch" as="script" href="/assets/0778eb7c5d969638777f.js">
+		<link rel="prefetch" as="script" href="/assets/d2888bff1a9b35045d7a.js">
+		<link rel="prefetch" as="script" href="/assets/46f8b7fcfcafca99414f.js">
+		<link rel="prefetch" as="script" href="/assets/e2d458306e3a43a03786.js">
+		<link rel="prefetch" as="script" href="/assets/2f6fc578446032c0c0a5.js">
+		<link rel="prefetch" as="script" href="/assets/14a17120248ea20823d1.js">
+		<link rel="prefetch" as="script" href="/assets/0cfed40d2532db2e560f.js">
+		<link rel="prefetch" as="script" href="/assets/f66efd328f8ca3ad6f1d.js">
+		<link rel="prefetch" as="script" href="/assets/a1ad32825016ef835b51.js">
+		<link rel="prefetch" as="script" href="/assets/916a3fd42b56f5b5b0ff.js">
+		<link rel="prefetch" as="script" href="/assets/e4c9aec8e2ccf49c6a43.js">
+		<link rel="prefetch" as="script" href="/assets/4eb8ce79510c19e425f0.js">
+		<link rel="prefetch" as="script" href="/assets/669ce420727060b05505.js">
+		<link rel="prefetch" as="script" href="/assets/90adae2a1e530ee2388a.js">
+		<link rel="prefetch" as="script" href="/assets/95785439b23503f2a4bc.js">
+		<link rel="prefetch" as="script" href="/assets/4dcc4abc98689f0e601b.js">
+		<link rel="prefetch" as="script" href="/assets/50b1f37a5e2c8602463a.js">
+		<link rel="prefetch" as="script" href="/assets/0d7b3701d6136866c7ec.js">
+		<link rel="prefetch" as="script" href="/assets/d84f21f10b08966b8903.js">
+		<link rel="prefetch" as="script" href="/assets/60385fdbdf9f90d8c4c7.js">
+		<link rel="prefetch" as="script" href="/assets/7f327522a62dfbc3fa17.js">
+		<link rel="prefetch" as="script" href="/assets/50ef6fe50ba0096918d9.js">
+		<link rel="prefetch" as="script" href="/assets/6f81e4e1883133e82730.js">
+		<link rel="prefetch" as="script" href="/assets/ec34e6ac622f2adf141a.js">
+		<link rel="prefetch" as="script" href="/assets/1839152a11550e6304c2.js">
+		<link rel="prefetch" as="script" href="/assets/e7ab6471de10e3f701e6.js">
+		<link rel="prefetch" as="script" href="/assets/efb278e1216055e3d1a8.js">
+		<link rel="prefetch" as="script" href="/assets/70093dfc536e766dbb27.js">
+		<link rel="stylesheet" href="/assets/40532.bd1a2e262154456bad22.css">
+	 	<script src="/assets/checkLocale.js"></script>
+		<script src="/assets/81d16d948535e8d77831.js"></script>
+		<script src="/assets/d110af2d26131beb5874.js"></script>
+		<script src="/assets/c44d54de4c931fca740e.js"></script>
+		<script src="/assets/2cc7dd42639b0c3ae762.js"></script>
+		<!-- plugin marker -->
+	</body>
+</html>

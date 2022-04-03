@@ -121,8 +121,10 @@ public class AspUtils
         app.Use((context, next) =>
         {
             context.Response.Headers["Content-Type"] += "; charset=utf-8";
+            context.Response.Headers["Access-Control-Allow-Origin"] = "*";
             return next.Invoke();
         });
+        app.UseCors("*");
 
         app.MapControllers();
         app.UseDeveloperExceptionPage();
