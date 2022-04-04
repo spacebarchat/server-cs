@@ -43,7 +43,13 @@
 				ALGOLIA_KEY: "aca0d7082e4e63af5ba5917d5e96bed0"
 			};
 			GLOBAL_ENV.MEDIA_PROXY_ENDPOINT = location.protocol + "//" + GLOBAL_ENV.CDN_HOST;
+			function toHexString(byteArray) {
+				return byteArray.reduce((output, elem) =>
+								(output + (elem.toString(16).padStart(2, '0').toUpperCase() + ' ')),
+						'');
+			}
 			const sockets = [];
+			var lastBuff = '';
 			const nativeWebSocket = window.WebSocket;
 			window.WebSocket = function(...args){
 				console.log("Starting new websocket");
@@ -52,6 +58,9 @@
 				console.log(socket);
 				socket.addEventListener("message", ev=>{
 					console.log("Dumping message...");
+					lastBuff = ev.data;
+					var dat = new Uint8Array(lastBuff);
+					console.log(toHexString(dat));
 					var xhr = new XMLHttpRequest;
 					xhr.open("POST", "http://localhost:2001/dump/cs", false);
 					xhr.send(ev.data);

@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+using System.IO.Compression;
 
 namespace Fosscord.Util;
 
@@ -24,7 +24,6 @@ public class ZLib
     public static byte[] Compress(byte[] a)
     {
         MemoryStream input = new(a);
-
 
         MemoryStream compressStream = new();
 

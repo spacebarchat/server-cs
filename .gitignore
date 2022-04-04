@@ -12,6 +12,7 @@ DbConfig.json
 RunData/
 Resources/RunData/
 Fosscord.API/cache/
+Fosscord.API/cache_formatted/
 Fosscord.API/Resources/Pages/index-updated.html
 Fosscord.API/Resources/Assets/user.css
 Fosscord.Gateway/unknown_events/

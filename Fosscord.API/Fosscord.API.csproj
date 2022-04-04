@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="cache_formatted" />
       <Folder Include="Resources\Assets" />
     </ItemGroup>
 
