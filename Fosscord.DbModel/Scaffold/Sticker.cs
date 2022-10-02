@@ -22,20 +22,20 @@ namespace Fosscord.DbModel.Scaffold
         public string Name { get; set; } = null!;
         [Column("description", TypeName = "character varying")]
         public string? Description { get; set; }
+        [Column("available")]
+        public bool? Available { get; set; }
         [Column("tags", TypeName = "character varying")]
         public string? Tags { get; set; }
         [Column("pack_id", TypeName = "character varying")]
         public string? PackId { get; set; }
         [Column("guild_id", TypeName = "character varying")]
         public string? GuildId { get; set; }
+        [Column("user_id", TypeName = "character varying")]
+        public string? UserId { get; set; }
         [Column("type")]
         public int Type { get; set; }
         [Column("format_type")]
         public int FormatType { get; set; }
-        [Column("available")]
-        public bool? Available { get; set; }
-        [Column("user_id", TypeName = "character varying")]
-        public string? UserId { get; set; }
 
         [ForeignKey("GuildId")]
         [InverseProperty("Stickers")]

@@ -19,12 +19,14 @@ namespace Fosscord.DbModel.Scaffold
         public string UserId { get; set; } = null!;
         [Column("last_message_id", TypeName = "character varying")]
         public string? LastMessageId { get; set; }
+        [Column("public_ack", TypeName = "character varying")]
+        public string? PublicAck { get; set; }
+        [Column("notifications_cursor", TypeName = "character varying")]
+        public string? NotificationsCursor { get; set; }
         [Column("last_pin_timestamp", TypeName = "timestamp without time zone")]
         public DateTime? LastPinTimestamp { get; set; }
         [Column("mention_count")]
         public int? MentionCount { get; set; }
-        [Column("manual")]
-        public bool? Manual { get; set; }
 
         [ForeignKey("ChannelId")]
         [InverseProperty("ReadStates")]

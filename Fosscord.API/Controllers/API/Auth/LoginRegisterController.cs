@@ -47,7 +47,7 @@ public class AuthController : Controller
             Disabled = false,
             Deleted = false,
             Email = data.Email,
-            Rights = "0", // TODO = grant rights correctly, as 0 actually stands for no rights at all
+            Rights = 0, // TODO = grant rights correctly, as 0 actually stands for no rights at all
             NsfwAllowed = true, // TODO = depending on age
             PublicFlags = 0,
             Flags = "0", // TODO = generate
@@ -56,7 +56,7 @@ public class AuthController : Controller
                 hash = BCrypt.Net.BCrypt.HashPassword(data.Password, 12),
                 valid_tokens_since = DateTime.Now,
             }),
-            Settings = JsonConvert.SerializeObject(new UserSettings()),
+            Settings = new(),
             Fingerprints = "",
         };
         _db.Users.Add(user);

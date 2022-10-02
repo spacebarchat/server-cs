@@ -26,8 +26,8 @@ namespace Fosscord.DbModel.Scaffold
         public bool ShowActivity { get; set; }
         [Column("type", TypeName = "character varying")]
         public string Type { get; set; } = null!;
-        [Column("verifie")]
-        public bool Verifie { get; set; }
+        [Column("verified")]
+        public bool Verified { get; set; }
         [Column("visibility")]
         public int Visibility { get; set; }
 

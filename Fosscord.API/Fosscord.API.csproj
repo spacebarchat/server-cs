@@ -8,10 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj" />
+      <ProjectReference Include="..\Fosscord.Shared\Fosscord.Shared.csproj" />
       <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="cache" />
       <Folder Include="cache_formatted" />
       <Folder Include="Resources\Assets" />
     </ItemGroup>

@@ -35,6 +35,8 @@ namespace Fosscord.DbModel.Scaffold
         public string? Name { get; set; }
         [Column("icon")]
         public string? Icon { get; set; }
+        [Column("type")]
+        public int Type { get; set; }
         [Column("last_message_id", TypeName = "character varying")]
         public string? LastMessageId { get; set; }
         [Column("guild_id", TypeName = "character varying")]
@@ -63,8 +65,12 @@ namespace Fosscord.DbModel.Scaffold
         public int? RateLimitPerUser { get; set; }
         [Column("topic", TypeName = "character varying")]
         public string? Topic { get; set; }
-        [Column("type")]
-        public int Type { get; set; }
+        [Column("retention_policy_id", TypeName = "character varying")]
+        public string? RetentionPolicyId { get; set; }
+        [Column("flags")]
+        public int? Flags { get; set; }
+        [Column("default_thread_rate_limit_per_user")]
+        public int? DefaultThreadRateLimitPerUser { get; set; }
 
         [ForeignKey("GuildId")]
         [InverseProperty("Channels")]

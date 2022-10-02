@@ -19,36 +19,40 @@ public class Db : DbContext
     {
     }
 
-    public virtual DbSet<Application> Applications { get; set; } = null!;
-    public virtual DbSet<Attachment> Attachments { get; set; } = null!;
-    public virtual DbSet<AuditLog> AuditLogs { get; set; } = null!;
-    public virtual DbSet<Ban> Bans { get; set; } = null!;
-    public virtual DbSet<Channel> Channels { get; set; } = null!;
-    public virtual DbSet<ClientRelase> ClientRelases { get; set; } = null!;
-    public virtual DbSet<Config> Configs { get; set; } = null!;
-    public virtual DbSet<ConnectedAccount> ConnectedAccounts { get; set; } = null!;
-    public virtual DbSet<Emoji> Emojis { get; set; } = null!;
-    public virtual DbSet<Guild> Guilds { get; set; } = null!;
-    public virtual DbSet<Invite> Invites { get; set; } = null!;
-    public virtual DbSet<Member> Members { get; set; } = null!;
-    public virtual DbSet<Message> Messages { get; set; } = null!;
-    public virtual DbSet<Migration> Migrations { get; set; } = null!;
-    public virtual DbSet<QueryResultCache> QueryResultCaches { get; set; } = null!;
-    public virtual DbSet<RateLimit> RateLimits { get; set; } = null!;
-    public virtual DbSet<ReadState> ReadStates { get; set; } = null!;
-    public virtual DbSet<Recipient> Recipients { get; set; } = null!;
-    public virtual DbSet<Relationship> Relationships { get; set; } = null!;
-    public virtual DbSet<Role> Roles { get; set; } = null!;
-    public virtual DbSet<Session> Sessions { get; set; } = null!;
-    public virtual DbSet<Sticker> Stickers { get; set; } = null!;
-    public virtual DbSet<StickerPack> StickerPacks { get; set; } = null!;
-    public virtual DbSet<Team> Teams { get; set; } = null!;
-    public virtual DbSet<TeamMember> TeamMembers { get; set; } = null!;
-    public virtual DbSet<Template> Templates { get; set; } = null!;
-    public virtual DbSet<TypeormMetadatum> TypeormMetadata { get; set; } = null!;
-    public virtual DbSet<User> Users { get; set; } = null!;
-    public virtual DbSet<VoiceState> VoiceStates { get; set; } = null!;
-    public virtual DbSet<Webhook> Webhooks { get; set; } = null!;
+        public virtual DbSet<Application> Applications { get; set; } = null!;
+        public virtual DbSet<Attachment> Attachments { get; set; } = null!;
+        public virtual DbSet<AuditLog> AuditLogs { get; set; } = null!;
+        public virtual DbSet<BackupCode> BackupCodes { get; set; } = null!;
+        public virtual DbSet<Ban> Bans { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Channel> Channels { get; set; } = null!;
+        public virtual DbSet<ClientRelease> ClientReleases { get; set; } = null!;
+        public virtual DbSet<Config> Configs { get; set; } = null!;
+        public virtual DbSet<ConnectedAccount> ConnectedAccounts { get; set; } = null!;
+        public virtual DbSet<Emoji> Emojis { get; set; } = null!;
+        public virtual DbSet<Guild> Guilds { get; set; } = null!;
+        public virtual DbSet<Invite> Invites { get; set; } = null!;
+        public virtual DbSet<Member> Members { get; set; } = null!;
+        public virtual DbSet<Message> Messages { get; set; } = null!;
+        public virtual DbSet<Migration> Migrations { get; set; } = null!;
+        public virtual DbSet<Note> Notes { get; set; } = null!;
+        public virtual DbSet<QueryResultCache> QueryResultCaches { get; set; } = null!;
+        public virtual DbSet<RateLimit> RateLimits { get; set; } = null!;
+        public virtual DbSet<ReadState> ReadStates { get; set; } = null!;
+        public virtual DbSet<Recipient> Recipients { get; set; } = null!;
+        public virtual DbSet<Relationship> Relationships { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Session> Sessions { get; set; } = null!;
+        public virtual DbSet<Sticker> Stickers { get; set; } = null!;
+        public virtual DbSet<StickerPack> StickerPacks { get; set; } = null!;
+        public virtual DbSet<Team> Teams { get; set; } = null!;
+        public virtual DbSet<TeamMember> TeamMembers { get; set; } = null!;
+        public virtual DbSet<Template> Templates { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserSetting> UserSettings { get; set; } = null!;
+        public virtual DbSet<ValidRegistrationToken> ValidRegistrationTokens { get; set; } = null!;
+        public virtual DbSet<VoiceState> VoiceStates { get; set; } = null!;
+        public virtual DbSet<Webhook> Webhooks { get; set; } = null!;
 
 //         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //         {

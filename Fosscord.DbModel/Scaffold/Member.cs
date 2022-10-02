@@ -12,7 +12,6 @@ namespace Fosscord.DbModel.Scaffold
     {
         public Member()
         {
-            Messages = new HashSet<Message>();
             Roles = new HashSet<Role>();
         }
 
@@ -27,8 +26,6 @@ namespace Fosscord.DbModel.Scaffold
         public string? Nick { get; set; }
         [Column("joined_at", TypeName = "timestamp without time zone")]
         public DateTime JoinedAt { get; set; }
-        [Column("premium_since")]
-        public int? PremiumSince { get; set; }
         [Column("deaf")]
         public bool Deaf { get; set; }
         [Column("mute")]
@@ -39,6 +36,18 @@ namespace Fosscord.DbModel.Scaffold
         public string Settings { get; set; } = null!;
         [Column("last_message_id", TypeName = "character varying")]
         public string? LastMessageId { get; set; }
+        [Column("joined_by", TypeName = "character varying")]
+        public string? JoinedBy { get; set; }
+        [Column("premium_since", TypeName = "timestamp without time zone")]
+        public DateTime? PremiumSince { get; set; }
+        [Column("avatar", TypeName = "character varying")]
+        public string? Avatar { get; set; }
+        [Column("banner", TypeName = "character varying")]
+        public string? Banner { get; set; }
+        [Column("bio", TypeName = "character varying")]
+        public string Bio { get; set; } = null!;
+        [Column("communication_disabled_until", TypeName = "timestamp without time zone")]
+        public DateTime? CommunicationDisabledUntil { get; set; }
 
         [ForeignKey("GuildId")]
         [InverseProperty("Members")]
@@ -46,8 +55,6 @@ namespace Fosscord.DbModel.Scaffold
         [ForeignKey("Id")]
         [InverseProperty("Members")]
         public virtual User IdNavigation { get; set; } = null!;
-        [InverseProperty("Member")]
-        public virtual ICollection<Message> Messages { get; set; }
 
         [ForeignKey("Index")]
         [InverseProperty("Indices")]

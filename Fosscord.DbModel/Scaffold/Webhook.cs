@@ -17,6 +17,8 @@ namespace Fosscord.DbModel.Scaffold
         [Key]
         [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
+        [Column("type")]
+        public int Type { get; set; }
         [Column("name", TypeName = "character varying")]
         public string? Name { get; set; }
         [Column("avatar", TypeName = "character varying")]
@@ -33,8 +35,6 @@ namespace Fosscord.DbModel.Scaffold
         public string? UserId { get; set; }
         [Column("source_guild_id", TypeName = "character varying")]
         public string? SourceGuildId { get; set; }
-        [Column("type")]
-        public int Type { get; set; }
 
         [ForeignKey("ApplicationId")]
         [InverseProperty("Webhooks")]

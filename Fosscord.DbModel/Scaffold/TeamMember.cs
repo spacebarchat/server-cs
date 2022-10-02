@@ -12,14 +12,14 @@ namespace Fosscord.DbModel.Scaffold
         [Key]
         [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
+        [Column("membership_state")]
+        public int MembershipState { get; set; }
         [Column("permissions")]
         public string Permissions { get; set; } = null!;
         [Column("team_id", TypeName = "character varying")]
         public string? TeamId { get; set; }
         [Column("user_id", TypeName = "character varying")]
         public string? UserId { get; set; }
-        [Column("membership_state")]
-        public int MembershipState { get; set; }
 
         [ForeignKey("TeamId")]
         [InverseProperty("TeamMembers")]

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Fosscord.DbModel.Scaffold
 {
     [Table("applications")]
+    [Index("BotUserId", Name = "UQ_2ce5a55796fe4c2f77ece57a647", IsUnique = true)]
     public partial class Application
     {
         public Application()
@@ -23,9 +24,7 @@ namespace Fosscord.DbModel.Scaffold
         [Column("icon", TypeName = "character varying")]
         public string? Icon { get; set; }
         [Column("description", TypeName = "character varying")]
-        public string Description { get; set; } = null!;
-        [Column("rpc_origins")]
-        public string? RpcOrigins { get; set; }
+        public string? Description { get; set; }
         [Column("bot_public")]
         public bool BotPublic { get; set; }
         [Column("bot_require_code_grant")]
@@ -38,26 +37,48 @@ namespace Fosscord.DbModel.Scaffold
         public string? Summary { get; set; }
         [Column("verify_key", TypeName = "character varying")]
         public string VerifyKey { get; set; } = null!;
-        [Column("primary_sku_id", TypeName = "character varying")]
-        public string? PrimarySkuId { get; set; }
-        [Column("slug", TypeName = "character varying")]
-        public string? Slug { get; set; }
         [Column("cover_image", TypeName = "character varying")]
         public string? CoverImage { get; set; }
-        [Column("flags", TypeName = "character varying")]
-        public string Flags { get; set; } = null!;
         [Column("owner_id", TypeName = "character varying")]
         public string? OwnerId { get; set; }
         [Column("team_id", TypeName = "character varying")]
         public string? TeamId { get; set; }
-        [Column("guild_id", TypeName = "character varying")]
-        public string? GuildId { get; set; }
+        [Column("type")]
+        public string? Type { get; set; }
+        [Column("hook")]
+        public bool Hook { get; set; }
+        [Column("redirect_uris")]
+        public string? RedirectUris { get; set; }
+        [Column("rpc_application_state")]
+        public int? RpcApplicationState { get; set; }
+        [Column("store_application_state")]
+        public int? StoreApplicationState { get; set; }
+        [Column("verification_state")]
+        public int? VerificationState { get; set; }
+        [Column("interactions_endpoint_url", TypeName = "character varying")]
+        public string? InteractionsEndpointUrl { get; set; }
+        [Column("integration_public")]
+        public bool? IntegrationPublic { get; set; }
+        [Column("integration_require_code_grant")]
+        public bool? IntegrationRequireCodeGrant { get; set; }
+        [Column("discoverability_state")]
+        public int? DiscoverabilityState { get; set; }
+        [Column("discovery_eligibility_flags")]
+        public int? DiscoveryEligibilityFlags { get; set; }
+        [Column("tags")]
+        public string? Tags { get; set; }
+        [Column("install_params")]
+        public string? InstallParams { get; set; }
+        [Column("bot_user_id", TypeName = "character varying")]
+        public string? BotUserId { get; set; }
+        [Column("flags")]
+        public int Flags { get; set; }
 
-        [ForeignKey("GuildId")]
-        [InverseProperty("Applications")]
-        public virtual Guild? Guild { get; set; }
+        [ForeignKey("BotUserId")]
+        [InverseProperty("ApplicationBotUser")]
+        public virtual User? BotUser { get; set; }
         [ForeignKey("OwnerId")]
-        [InverseProperty("Applications")]
+        [InverseProperty("ApplicationOwners")]
         public virtual User? Owner { get; set; }
         [ForeignKey("TeamId")]
         [InverseProperty("Applications")]

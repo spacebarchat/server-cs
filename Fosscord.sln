@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Tests", "Fosscord.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevUtils", "DevUtils", "{276B9829-08F2-4738-9AFB-BC16E0020CFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Shared", "Fosscord.Shared\Fosscord.Shared.csproj", "{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{4B5596DE-9F1B-487F-89DB-646DE596EE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B5596DE-9F1B-487F-89DB-646DE596EE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B5596DE-9F1B-487F-89DB-646DE596EE66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

@@ -11,7 +11,6 @@ namespace Fosscord.DbModel.Scaffold
     {
         public Guild()
         {
-            Applications = new HashSet<Application>();
             Bans = new HashSet<Ban>();
             Channels = new HashSet<Channel>();
             Emojis = new HashSet<Emoji>();
@@ -45,6 +44,8 @@ namespace Fosscord.DbModel.Scaffold
         public int? ExplicitContentFilter { get; set; }
         [Column("features")]
         public string Features { get; set; } = null!;
+        [Column("primary_category_id")]
+        public int? PrimaryCategoryId { get; set; }
         [Column("icon", TypeName = "character varying")]
         public string? Icon { get; set; }
         [Column("large")]
@@ -99,6 +100,10 @@ namespace Fosscord.DbModel.Scaffold
         public int? NsfwLevel { get; set; }
         [Column("nsfw")]
         public bool? Nsfw { get; set; }
+        [Column("parent", TypeName = "character varying")]
+        public string? Parent { get; set; }
+        [Column("premium_progress_bar_enabled")]
+        public bool? PremiumProgressBarEnabled { get; set; }
 
         [ForeignKey("AfkChannelId")]
         [InverseProperty("GuildAfkChannels")]
@@ -121,8 +126,6 @@ namespace Fosscord.DbModel.Scaffold
         [ForeignKey("WidgetChannelId")]
         [InverseProperty("GuildWidgetChannels")]
         public virtual Channel? WidgetChannel { get; set; }
-        [InverseProperty("Guild")]
-        public virtual ICollection<Application> Applications { get; set; }
         [InverseProperty("Guild")]
         public virtual ICollection<Ban> Bans { get; set; }
         [InverseProperty("Guild")]

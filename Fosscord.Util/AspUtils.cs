@@ -112,7 +112,8 @@ public class AspUtils
         app.UseSentryTracing();
 
         app.UseAuthentication();
-        // app.UseAuthorization();
+        //app.UseAuthorization();
+        
 
         app.UseRewriter(new RewriteOptions().Add(new ApiVersionRewriteRule()));
         app.UseWebSockets();

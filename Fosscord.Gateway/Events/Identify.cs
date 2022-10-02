@@ -6,21 +6,21 @@ using Fosscord.DbModel.Scaffold;
 using Fosscord.Gateway.Controllers;
 using Fosscord.Gateway.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Constants = Fosscord.Gateway.Models.Constants;
 
 namespace Fosscord.Gateway.Events;
 
-public class Identify: IGatewayMessage
+public class Identify : IGatewayMessage
 {
     private readonly JWTAuthenticationManager _auth;
+
     public Identify()
     {
         _auth = new JWTAuthenticationManager();
     }
-    
+
     public Constants.OpCodes OpCode { get; } = Constants.OpCodes.Identify;
 
     public async Task Invoke(Payload payload, Websocket client)
@@ -31,19 +31,19 @@ public class Identify: IGatewayMessage
             User user = null;
             try
             {
-                 user = _auth.GetUserFromToken(identify.token);
+                user = _auth.GetUserFromToken(identify.token);
             }
             catch (Exception e)
             {
                 if (GatewayController.Clients.ContainsKey(client))
-                    await GatewayController.Clients[client].CloseAsync(WebSocketCloseStatus.NormalClosure, ((int)Constants.CloseCodes.Authentication_failed).ToString(), client.CancellationToken);
+                    await GatewayController.Clients[client].CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString(), client.CancellationToken);
                 return;
             }
 
             if (user == null)
             {
                 if (GatewayController.Clients.ContainsKey(client))
-                    await GatewayController.Clients[client].CloseAsync(WebSocketCloseStatus.NormalClosure, ((int)Constants.CloseCodes.Authentication_failed).ToString(), client.CancellationToken);
+                    await GatewayController.Clients[client].CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString(), client.CancellationToken);
                 return;
             }
 
@@ -68,7 +68,7 @@ public class Identify: IGatewayMessage
                 premium = user.Premium,
                 premium_type = user.PremiumType,
                 nsfw_allowed = user.NsfwAllowed,
-                mfa_enabled = user.MfaEnabled,
+                mfa_enabled = user.MfaEnabled ?? false,
                 verified = user.Verified,
                 public_flags = user.PublicFlags,
             };
@@ -88,15 +88,16 @@ public class Identify: IGatewayMessage
                     public_flags = rel.To.PublicFlags,
                     username = rel.To.Username
                 };
-                
+
                 relationShips.Add(new ReadyEvent.PublicRelationShip()
                 {
                     id = rel.Id,
                     nickname = rel.Nickname,
                     type = rel.Type,
-                    user = user1 
+                    user = user1
                 });
             }
+
             var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(user.Settings);
             var readyEventData = new ReadyEvent.ReadyEventData()
             {
@@ -146,7 +147,7 @@ public class Identify: IGatewayMessage
                 s = client.sequence++
             });
             client.is_ready = true;
-            
+
             Console.WriteLine($"Got user {user.Id} {user.Email}");
         }
     }

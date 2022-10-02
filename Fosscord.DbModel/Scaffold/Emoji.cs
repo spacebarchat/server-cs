@@ -28,6 +28,8 @@ namespace Fosscord.DbModel.Scaffold
         public bool RequireColons { get; set; }
         [Column("roles")]
         public string Roles { get; set; } = null!;
+        [Column("groups")]
+        public string? Groups { get; set; }
 
         [ForeignKey("GuildId")]
         [InverseProperty("Emojis")]

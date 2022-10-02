@@ -34,6 +34,10 @@ namespace Fosscord.DbModel.Scaffold
         public string Permissions { get; set; } = null!;
         [Column("position")]
         public int Position { get; set; }
+        [Column("icon", TypeName = "character varying")]
+        public string? Icon { get; set; }
+        [Column("unicode_emoji", TypeName = "character varying")]
+        public string? UnicodeEmoji { get; set; }
         [Column("tags")]
         public string? Tags { get; set; }
 

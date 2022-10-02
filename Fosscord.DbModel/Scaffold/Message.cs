@@ -31,8 +31,8 @@ namespace Fosscord.DbModel.Scaffold
         public string? GuildId { get; set; }
         [Column("author_id", TypeName = "character varying")]
         public string? AuthorId { get; set; }
-        [Column("member_id")]
-        public int? MemberId { get; set; }
+        [Column("member_id", TypeName = "character varying")]
+        public string? MemberId { get; set; }
         [Column("webhook_id", TypeName = "character varying")]
         public string? WebhookId { get; set; }
         [Column("application_id", TypeName = "character varying")]
@@ -55,6 +55,8 @@ namespace Fosscord.DbModel.Scaffold
         public string? Nonce { get; set; }
         [Column("pinned")]
         public bool? Pinned { get; set; }
+        [Column("type")]
+        public int Type { get; set; }
         [Column("activity")]
         public string? Activity { get; set; }
         [Column("flags", TypeName = "character varying")]
@@ -67,14 +69,12 @@ namespace Fosscord.DbModel.Scaffold
         public string? Components { get; set; }
         [Column("message_reference_id", TypeName = "character varying")]
         public string? MessageReferenceId { get; set; }
-        [Column("type")]
-        public int Type { get; set; }
 
         [ForeignKey("ApplicationId")]
         [InverseProperty("Messages")]
         public virtual Application? Application { get; set; }
         [ForeignKey("AuthorId")]
-        [InverseProperty("Messages")]
+        [InverseProperty("MessageAuthors")]
         public virtual User? Author { get; set; }
         [ForeignKey("ChannelId")]
         [InverseProperty("Messages")]
@@ -83,8 +83,8 @@ namespace Fosscord.DbModel.Scaffold
         [InverseProperty("Messages")]
         public virtual Guild? Guild { get; set; }
         [ForeignKey("MemberId")]
-        [InverseProperty("Messages")]
-        public virtual Member? Member { get; set; }
+        [InverseProperty("MessageMembers")]
+        public virtual User? Member { get; set; }
         [ForeignKey("MessageReferenceId")]
         [InverseProperty("InverseMessageReferenceNavigation")]
         public virtual Message? MessageReferenceNavigation { get; set; }
@@ -106,7 +106,7 @@ namespace Fosscord.DbModel.Scaffold
         [InverseProperty("Messages")]
         public virtual ICollection<Sticker> Stickers { get; set; }
         [ForeignKey("MessagesId")]
-        [InverseProperty("MessagesNavigation")]
+        [InverseProperty("Messages")]
         public virtual ICollection<User> Users { get; set; }
     }
 }
