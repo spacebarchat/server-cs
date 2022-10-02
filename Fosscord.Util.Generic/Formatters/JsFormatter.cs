@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using ArcaneLibs;
-using Microsoft.AspNetCore.Routing.Patterns;
 
 namespace Fosscord.Util.Formatters;
 

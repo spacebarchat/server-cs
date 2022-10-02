@@ -9,21 +9,17 @@ using Newtonsoft.Json;
 
 namespace Fosscord.API.Classes;
 
-public class JWTAuthenticationManager
+public class JwtAuthenticationManager
 {
-    private readonly Db db = Db.GetNewDb();
+    private readonly Db _db = Db.GetNewDb();
  
-    private readonly string tokenKey;
+    private readonly string _tokenKey = Static.Config.Security.JwtSecret;
  
-    public JWTAuthenticationManager()
-    {
-        tokenKey = FosscordConfig.GetString("security_jwtSecret", RandomStringGenerator.Generate(255));
-    }
 
     public User GetUserFromToken(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(tokenKey);
+        var key = Encoding.ASCII.GetBytes(_tokenKey);
         var validationParameters = new TokenValidationParameters()
         {
             IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -33,18 +29,18 @@ public class JWTAuthenticationManager
             ValidateIssuer = false,
         };
         var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken tokenValidated);
-        return db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
+        return _db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
     }
  
-    public string Authenticate(string username, string password)
+    public string? Authenticate(string username, string password)
     {
-        var user = db.Users.FirstOrDefault(x => x.Email == username);
+        var user = _db.Users.FirstOrDefault(x => x.Email == username);
         if (user == null) return null;
         var hash = ((dynamic) JsonConvert.DeserializeObject(user.Data)).hash;
         if (!BCrypt.Net.BCrypt.Verify(password, hash.ToString())) return null;
         
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(tokenKey);
+        var key = Encoding.ASCII.GetBytes(_tokenKey);
         
         var tokenDescriptor = new SecurityTokenDescriptor
         {

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text;
+using Fosscord.API;
 using Fosscord.API.Classes;
 using Fosscord.API.Rewrites;
 using Fosscord.API.Utilities;
@@ -26,7 +27,7 @@ public class AspUtils
     {
         var cfg = DbConfig.Read();
         cfg.Save();
-        
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
@@ -38,11 +39,10 @@ public class AspUtils
             }
             else o.AddConsole();
 
-            if (FosscordConfig.GetBool("sentry_enabled", true))
+            if (Static.Config.Sentry.Enabled)
                 o.AddSentry(p =>
                 {
-                    p.Dsn = FosscordConfig.GetString("sentry_endpoint",
-                        "https://b2bf2393e4f64336af713ed9b06f0a9a@sentry.thearcanebrony.net/8");
+                    p.Dsn = Static.Config.Sentry.Dsn;
                     p.TracesSampleRate = 1.0;
                     p.AttachStacktrace = true;
                     p.MaxQueueItems = int.MaxValue;
@@ -51,13 +51,12 @@ public class AspUtils
                     p.Release = GenericUtils.GetVersion();
                 });
         });
-        if (FosscordConfig.GetBool("sentry_enabled", true))
+        if (Static.Config.Sentry.Enabled)
         {
             Console.WriteLine("Sentry enabled!");
             builder.WebHost.UseSentry(o =>
             {
-                o.Dsn = FosscordConfig.GetString("sentry_endpoint",
-                    "https://b2bf2393e4f64336af713ed9b06f0a9a@sentry.thearcanebrony.net/8");
+                o.Dsn = Static.Config.Sentry.Dsn;
                 o.TracesSampleRate = 1.0;
                 o.AttachStacktrace = true;
                 o.MaxQueueItems = int.MaxValue;
@@ -76,9 +75,9 @@ public class AspUtils
                     $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port}")
                 .LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging();
         });
-        builder.Services.AddSingleton(new JWTAuthenticationManager());
+        builder.Services.AddSingleton(new JwtAuthenticationManager());
 
-        var tokenKey = FosscordConfig.GetString("security_jwtSecret", RandomStringGenerator.Generate(255));
+        var tokenKey = Static.Config.Security.JwtSecret;
         var key = Encoding.UTF8.GetBytes(tokenKey);
 
         builder.Services.AddAuthentication(x =>
@@ -113,11 +112,11 @@ public class AspUtils
 
         app.UseAuthentication();
         //app.UseAuthorization();
-        
+
 
         app.UseRewriter(new RewriteOptions().Add(new ApiVersionRewriteRule()));
         app.UseWebSockets();
-        
+
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         app.Use((context, next) =>
         {
@@ -129,6 +128,5 @@ public class AspUtils
 
         app.MapControllers();
         app.UseDeveloperExceptionPage();
-
     }
 }

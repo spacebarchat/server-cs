@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
         <PackageReference Include="FosscordSharp" Version="0.0.0.1-preview1603996795.56cdb09" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
         <PackageReference Include="xunit" Version="2.4.1" />

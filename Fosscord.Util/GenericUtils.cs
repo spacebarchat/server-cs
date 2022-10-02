@@ -1,4 +1,5 @@
-﻿using Fosscord.DbModel;
+﻿using Fosscord.API;
+using Fosscord.DbModel;
 
 namespace Fosscord.Dependencies;
 
@@ -13,11 +14,10 @@ public class GenericUtils
 
     public static string GetSentryEnvironment()
     {
-        var envname = FosscordConfig.GetString("sentry_environment", Environment.MachineName);
+        var envname = Static.Config.Sentry.Environment;
         if (envname == Environment.MachineName)
         {
             Console.WriteLine("Environment name not set! Using hostname, to change this, set in Config.json!");
-            envname = Environment.MachineName;
         }
 
         return envname;

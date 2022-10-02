@@ -13,10 +13,10 @@ namespace Fosscord.API.Controllers.API.Auth;
 public class AuthController : Controller
 {
     private readonly Db _db;
-    private readonly JWTAuthenticationManager _auth;
-    private static readonly Random rnd = new Random();
+    private readonly JwtAuthenticationManager _auth;
+    private static readonly Random Rnd = new Random();
     
-    public AuthController(Db db, JWTAuthenticationManager auth)
+    public AuthController(Db db, JwtAuthenticationManager auth)
     {
         _db = db;
         _auth = auth;
@@ -27,7 +27,7 @@ public class AuthController : Controller
     {
         var data = JsonConvert.DeserializeObject<RegisterData>(await new StreamReader(Request.Body).ReadToEndAsync());
         Console.WriteLine(JsonConvert.SerializeObject(data));
-        string discrim = rnd.Next(10000).ToString();
+        string discrim = Rnd.Next(10000).ToString();
         if (_db.Users.Any(x => x.Email == data.Email)) return new StatusCodeResult(403);
         var user = new User()
         {
@@ -64,7 +64,7 @@ public class AuthController : Controller
         
         var token = _auth.Authenticate(data.Email, data.Password);
         if (token == null) return new StatusCodeResult(500);
-        return new {token = token};
+        return new {token};
     }
     [HttpPost("/api/auth/login")]
     public async Task<object> Login()
@@ -74,6 +74,6 @@ public class AuthController : Controller
         
         var token = _auth.Authenticate(data.Login, data.Password);
         if (token == null) return new StatusCodeResult(403);
-        return new {token = token};
+        return new {token};
     }
 }

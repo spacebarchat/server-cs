@@ -10,7 +10,6 @@ namespace Fosscord.API.Controllers;
 public class AssetsController : Controller
 {
     private readonly Db _db;
-    private static readonly WebClient wc = new WebClient();
     private static readonly Dictionary<string, byte[]> cache = new();
 
     public AssetsController(Db db)
@@ -65,17 +64,12 @@ public class AssetsController : Controller
             if (!Directory.Exists("./cache")) Directory.CreateDirectory("./cache");
             if (res.EndsWith(".map")) return NotFound();
             Console.WriteLine($"[Asset cache] Downloading {"https://discord.com/assets/" + res} -> ./cache/{res}");
-            new WebClient().DownloadFile("https://discord.com/assets/" + res, "./cache/" + res);
+            await new WebClient().DownloadFileTaskAsync("https://discord.com/assets/" + res, "./cache/" + res);
             cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync("./cache/" + res));
         }
 
-        //todo reimplement
-        //return Resolvers.ReturnFile("./cache/" + res);
         if (cache.ContainsKey(res)) return File(cache[res], contentType);
-        else
-            return NotFound();
-
-        //return new RedirectResult("https://discord.gg/assets/" + res);
+        else return NotFound();
     }
 
     [HttpGet("/robots.txt")]

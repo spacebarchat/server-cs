@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
       <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
     </ItemGroup>
 

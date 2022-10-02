@@ -16,15 +16,14 @@
 
 ## [About](https://fosscord.com)
 
+This is a WIP implementation of Fosscord in C#!
+
 This repository contains:
 - A partial implementation of:
   - [Fosscord HTTP API Server](/Fosscord.API)
   - [WebSocket Gateway Server](/Fosscord.Gateay)
   - [HTTP CDN Server](/Fosscord.CDN)
   - [Database Models](/Fosscord.DbModel)
-  - [RTC Server](/Fosscord.RTC)
-  - [WebRTC Server](/Fosscord.WebRTC)
-  - [Admin Dashboard](/Fosscord.Dashboard)
 
 ## [Resources](https://docs.fosscord.com/resources/)
 

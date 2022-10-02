@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fosscord.DbModel.Scaffold
@@ -97,7 +99,7 @@ namespace Fosscord.DbModel.Scaffold
         [Column("public_flags")]
         public int PublicFlags { get; set; }
         [Column("rights")]
-        public ulong Rights { get; set; }
+        public BitArray Rights { get; set; }
         [Column("data")]
         public string Data { get; set; } = null!;
         [Column("fingerprints")]

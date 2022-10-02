@@ -27,7 +27,6 @@ public class Db : DbContext
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Channel> Channels { get; set; } = null!;
         public virtual DbSet<ClientRelease> ClientReleases { get; set; } = null!;
-        public virtual DbSet<Config> Configs { get; set; } = null!;
         public virtual DbSet<ConnectedAccount> ConnectedAccounts { get; set; } = null!;
         public virtual DbSet<Emoji> Emojis { get; set; } = null!;
         public virtual DbSet<Guild> Guilds { get; set; } = null!;

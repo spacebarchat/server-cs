@@ -21,9 +21,9 @@ public class RightsMiddleware
         var attribute = endpoint?.Metadata.GetMetadata<RequireRightsAttribute>();
         if (attribute != null)
         {
-            var jwtam = context.RequestServices.GetService(typeof(JWTAuthenticationManager)) as JWTAuthenticationManager;
+            var jwtam = context.RequestServices.GetService(typeof(JwtAuthenticationManager)) as JwtAuthenticationManager;
             var user = jwtam.GetUserFromToken(context.Request.Headers["Authorization"].ToString().Replace("Bot ", ""));
-            if (!attribute.HasRights((Rights) user.Rights)) throw new UnauthorizedAccessException("You don't have the rights to do this.");
+            if (!attribute.HasRights(user.Rights)) throw new UnauthorizedAccessException("You don't have the rights to do this.");
         }
 
         await _next(context); // Here the action in the controller is called

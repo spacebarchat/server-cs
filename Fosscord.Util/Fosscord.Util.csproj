@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj" />
         <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj" />
     </ItemGroup>

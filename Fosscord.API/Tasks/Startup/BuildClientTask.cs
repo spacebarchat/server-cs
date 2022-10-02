@@ -8,8 +8,8 @@ public class BuildClientTask
 {
     public static void Execute()
     {
-        if (!FosscordConfig.GetBool("client_useTestClient", true) ||
-            !FosscordConfig.GetBool("client_testClient_latest", false)) return;
+        if (!Static.Config.TestClient.Enabled ||
+            !Static.Config.TestClient.Debug) return;
         Console.WriteLine("[Client updater] Fetching client");
         string client = HtmlUtils.CleanupHtml(new WebClient().DownloadString("https://discord.com/channels/@me"));
         Console.WriteLine("[Client updater] Building client...");

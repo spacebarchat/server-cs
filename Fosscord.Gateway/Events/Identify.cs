@@ -14,11 +14,11 @@ namespace Fosscord.Gateway.Events;
 
 public class Identify : IGatewayMessage
 {
-    private readonly JWTAuthenticationManager _auth;
+    private readonly JwtAuthenticationManager _auth;
 
     public Identify()
     {
-        _auth = new JWTAuthenticationManager();
+        _auth = new JwtAuthenticationManager();
     }
 
     public Constants.OpCodes OpCode { get; } = Constants.OpCodes.Identify;

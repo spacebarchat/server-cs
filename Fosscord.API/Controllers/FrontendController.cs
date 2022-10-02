@@ -22,16 +22,20 @@ public class FrontendController : Controller
     [HttpGet("/channels/@me")]
     public async Task<object> Home()
     {
-        if (FosscordConfig.GetBool("client_testClient_debug", false))
+        if (Static.Config.TestClient.Debug)
             return Resolvers.ReturnFileWithVars("Resources/Pages/index-dbg.html", _db);
-        if (FosscordConfig.GetBool("client_testClient_latest", false))
+        if (Static.Config.TestClient.UseLatest)
             return Resolvers.ReturnFileWithVars("Resources/Pages/index-updated.html", _db);
-        return Resolvers.ReturnFileWithVars("Resources/Pages/index.html", _db);
+        if (Static.Config.TestClient.Enabled)
+            return Resolvers.ReturnFileWithVars("Resources/Pages/index.html", _db);
+        return NotFound("Test client is disabled");
     }
-    
+
     [HttpGet("/developers")]
     public async Task<object> Developers()
     {
-        return Resolvers.ReturnFileWithVars("Resources/Pages/developers.html", _db);
+        if (Static.Config.TestClient.Enabled)
+            return Resolvers.ReturnFileWithVars("Resources/Pages/developers.html", _db);
+        return NotFound("Test client is disabled");
     }
 }

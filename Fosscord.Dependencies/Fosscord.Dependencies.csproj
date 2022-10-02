@@ -7,8 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
       <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
-      <PackageReference Include="IdGen" Version="3.0.0" />
+      <PackageReference Include="IdGen" Version="3.0.2" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
       <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0" />
       <PackageReference Include="Sentry.AspNetCore" Version="3.15.0" />
