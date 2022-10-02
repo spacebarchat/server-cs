@@ -18,7 +18,7 @@ public class UnitTest1
                 Email = $"FosscordSharp{Environment.TickCount64}@unit.tests",
                 // Email = $"FosscordSharpDev1234@example.com",
                 Password = "FosscordSharp",
-                Endpoint = "http://localhost:5000",
+                Endpoint = "http://localhost:2000",
                 Verbose = true,
                 ShouldRegister = true,
                 RegistrationOptions =
@@ -34,22 +34,22 @@ public class UnitTest1
 
         return _cli;
     }
-    [Fact]
+    [Fact, Trait("type", "api")]
     public User GetCurrentUser()
     {
         return GetClient().GetCurrentUser().Result;
     }
-    [Fact]
+    [Fact, Trait("type", "api")]
     public Guild[] GetGuildlist()
     {
         return GetClient().GetGuilds().Result;
     }
-    [Fact]
+    [Fact, Trait("type", "api")]
     public Guild GetGuildById()
     {
         return GetClient().GetGuild(GetGuildlist()[0].Id).Result;
     }
-    [Fact]
+    [Fact, Trait("type", "api")]
     public Channel[] GetChannels()
     {
         return GetGuildlist()[0].GetChannels().Result;
