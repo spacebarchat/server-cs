@@ -63,5 +63,5 @@ public class Rights
     public static int SELF_EDIT_FLAGS = 45; // can modify own flags
     public static int EDIT_FLAGS = 46; // can set others' flags
     public static int MANAGE_GROUPS = 47; // can manage others' groups
-    public static int VIEW_SERVER_STATS = 48 // added per @chrischrome's request — can view server stats
+    public static int VIEW_SERVER_STATS = 48; // added per @chrischrome's request — can view server stats
 }

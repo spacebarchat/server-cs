@@ -2,6 +2,7 @@ using Fosscord.API.Classes;
 using Fosscord.API.PostData;
 using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
+using Fosscord.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -22,6 +23,10 @@ public class AuthController : Controller
         _auth = auth;
     }
 
+    /// <summary>
+    /// Register a new user
+    /// </summary>
+    /// <returns>Json object with token</returns>
     [HttpPost("/api/auth/register")]
     public async Task<object> Register()
     {
@@ -47,7 +52,7 @@ public class AuthController : Controller
             Disabled = false,
             Deleted = false,
             Email = data.Email,
-            Rights = 0, // TODO = grant rights correctly, as 0 actually stands for no rights at all
+            Rights = Config.Read()., // TODO = grant rights correctly, as 0 actually stands for no rights at all
             NsfwAllowed = true, // TODO = depending on age
             PublicFlags = 0,
             Flags = "0", // TODO = generate
@@ -66,6 +71,10 @@ public class AuthController : Controller
         if (token == null) return new StatusCodeResult(500);
         return new {token};
     }
+    /// <summary>
+    /// Log a user in
+    /// </summary>
+    /// <returns>Json object with token</returns>
     [HttpPost("/api/auth/login")]
     public async Task<object> Login()
     {

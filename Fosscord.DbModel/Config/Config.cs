@@ -28,3 +28,5 @@ public class TestClientConfig
     public bool UseLatest = true;
     public bool Debug = false;
 }
+
+//register config
