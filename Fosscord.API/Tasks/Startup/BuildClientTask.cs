@@ -4,12 +4,17 @@ using Fosscord.DbModel;
 
 namespace Fosscord.API.Tasks.Startup;
 
-public class BuildClientTask
+public class BuildClientTask : ITask
 {
-    public static void Execute()
+    public string GetName()
+    {
+        return "Build updated test client";
+    }
+
+    public void Execute()
     {
         if (!Static.Config.TestClient.Enabled ||
-            !Static.Config.TestClient.Debug) return;
+            !Static.Config.TestClient.UseLatest) return;
         Console.WriteLine("[Client updater] Fetching client");
         string client = HtmlUtils.CleanupHtml(new WebClient().DownloadString("https://discord.com/channels/@me"));
         Console.WriteLine("[Client updater] Building client...");

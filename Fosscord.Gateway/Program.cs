@@ -10,7 +10,32 @@ AspUtils.ConfigureBuilder(ref builder);
 
 var app = builder.Build();
 
-AspUtils.ConfigureApp(ref app);
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseRouting();
+app.UseSentryTracing();
+
+app.UseAuthentication();
+//app.UseAuthorization();
+
+app.UseWebSockets();
+
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.Use((context, next) =>
+{
+    context.Response.Headers["Content-Type"] += "; charset=utf-8";
+    context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+    return next.Invoke();
+});
+app.UseCors("*");
+
+app.MapControllers();
+app.UseDeveloperExceptionPage();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}");

@@ -1,6 +1,8 @@
+using System.Text;
 using Fosscord.API.Classes;
 using Fosscord.Shared.Attributes;
 using Fosscord.Shared.Enums;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Features;
 
 namespace Fosscord.API.Middlewares;
@@ -16,16 +18,24 @@ public class RightsMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        // a try/catch can be added here because you don't want middleware failures to interfere with normal functionality
-        var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
+        var endpoint = context.GetEndpoint();
         var attribute = endpoint?.Metadata.GetMetadata<RequireRightsAttribute>();
         if (attribute != null)
         {
+            if(context.Request.Headers["Authorization"].ToString() == "")
+            {
+                context.Response.StatusCode = 401;
+                await context.Response.Body.WriteAsync(Encoding.UTF8.GetBytes("This route requires authorization"));
+                return;
+            }
             var jwtam = context.RequestServices.GetService(typeof(JwtAuthenticationManager)) as JwtAuthenticationManager;
             var user = jwtam.GetUserFromToken(context.Request.Headers["Authorization"].ToString().Replace("Bot ", ""));
-            if (!attribute.HasRights(user.Rights)) throw new UnauthorizedAccessException("You don't have the rights to do this.");
+            if (!attribute.HasRights(user.Rights))
+            {
+                throw new UnauthorizedAccessException("You don't have the rights to do this.");
+            }
         }
 
-        await _next(context); // Here the action in the controller is called
+        await _next(context);
     }
 }

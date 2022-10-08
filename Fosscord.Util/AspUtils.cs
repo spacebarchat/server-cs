@@ -28,6 +28,8 @@ public class AspUtils
         var cfg = DbConfig.Read();
         cfg.Save();
 
+        Db.GetNewPostgres().Dispose();
+        
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
@@ -97,36 +99,5 @@ public class AspUtils
                     ValidateAudience = false
                 };
             });
-    }
-
-    public static void ConfigureApp(ref WebApplication app)
-    {
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseRouting();
-        app.UseSentryTracing();
-
-        app.UseAuthentication();
-        //app.UseAuthorization();
-
-
-        app.UseRewriter(new RewriteOptions().Add(new ApiVersionRewriteRule()));
-        app.UseWebSockets();
-
-        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        app.Use((context, next) =>
-        {
-            context.Response.Headers["Content-Type"] += "; charset=utf-8";
-            context.Response.Headers["Access-Control-Allow-Origin"] = "*";
-            return next.Invoke();
-        });
-        app.UseCors("*");
-
-        app.MapControllers();
-        app.UseDeveloperExceptionPage();
     }
 }

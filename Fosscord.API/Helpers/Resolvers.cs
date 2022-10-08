@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Fosscord.DbModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,7 +67,7 @@ public static class Resolvers {
     }
 
     public static object ReturnFileWithVars(string path, Db db, Dictionary<string, object>? customVars = null) {
-        if (!File.Exists(path)) return new NotFoundObjectResult("File doesn't exist!");
+        if (!File.Exists(path)) return new NotFoundObjectResult(Debugger.IsAttached ? $"File {path} doesn't exist!" : "File doesn't exist!");
         var result = ReturnFile(path);
         if (result.GetType() != typeof(ContentResult)) return result;
         var contentResult = (ContentResult)result;

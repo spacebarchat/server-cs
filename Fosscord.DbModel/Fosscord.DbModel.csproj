@@ -20,9 +20,9 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Remove="test" />
-        <Folder Include="Migrations\Postgres" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Fosscord.Shared\Fosscord.Shared.csproj" />
       <ProjectReference Include="..\Fosscord.Util.Generic\Fosscord.Util.Generic.csproj" />
     </ItemGroup>
 </Project>

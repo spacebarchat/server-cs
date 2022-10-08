@@ -2,6 +2,7 @@ using Fosscord.API.Classes;
 using Fosscord.API.PostData;
 using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
+using Fosscord.Shared.Attributes;
 using Fosscord.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -52,7 +53,7 @@ public class AuthController : Controller
             Disabled = false,
             Deleted = false,
             Email = data.Email,
-            Rights = Config.Read()., // TODO = grant rights correctly, as 0 actually stands for no rights at all
+            Rights = Config.Read().Security.Register.DefaultRights,
             NsfwAllowed = true, // TODO = depending on age
             PublicFlags = 0,
             Flags = "0", // TODO = generate
@@ -82,7 +83,7 @@ public class AuthController : Controller
         Console.WriteLine(JsonConvert.SerializeObject(data));
         
         var token = _auth.Authenticate(data.Login, data.Password);
-        if (token == null) return new StatusCodeResult(403);
+        if (token == null) return StatusCode(403, "Invalid username or password!");
         return new {token};
     }
 }
