@@ -1,8 +1,4 @@
-﻿using System.IO.Compression;
-using Ionic.Zlib;
-using DeflateStream = System.IO.Compression.DeflateStream;
-
-namespace Fosscord.Gateway.Models;
+﻿namespace Fosscord.Gateway.Models;
 
 public class Websocket
 {

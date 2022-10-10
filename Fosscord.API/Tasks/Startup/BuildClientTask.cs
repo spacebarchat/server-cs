@@ -1,6 +1,5 @@
 using System.Net;
 using Fosscord.API.Utilities;
-using Fosscord.DbModel;
 
 namespace Fosscord.API.Tasks.Startup;
 
@@ -16,7 +15,7 @@ public class BuildClientTask : ITask
         if (!Static.Config.TestClient.Enabled ||
             !Static.Config.TestClient.UseLatest) return;
         Console.WriteLine("[Client updater] Fetching client");
-        string client = HtmlUtils.CleanupHtml(new WebClient().DownloadString("https://discord.com/channels/@me"));
+        string client = HtmlUtils.CleanupHtml(new WebClient().DownloadString("https://canary.discord.com/channels/@me"));
         Console.WriteLine("[Client updater] Building client...");
         string target = File.ReadAllText("Resources/Pages/index-template.html");
         var lines = client.Split("\n");
@@ -26,6 +25,7 @@ public class BuildClientTask : ITask
             string.Join("\n", lines.Where(x => x.Contains("<script src="))));
         target = target.Replace("<!--client_css-->",
             string.Join("\n", lines.Where(x => x.Contains("link rel=\"stylesheet\""))));
+        target = target.Replace("integrity", "hashes");
         File.WriteAllText("Resources/Pages/index-updated.html", target);
         Console.WriteLine("[Client updater] Finished building client!");
     }

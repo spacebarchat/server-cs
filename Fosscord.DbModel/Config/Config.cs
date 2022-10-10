@@ -1,10 +1,10 @@
 using System.Collections;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
+using System.Text;
 using ArcaneLibs;
 using Fosscord.API;
 using Fosscord.API.Utilities;
 using Fosscord.Shared.Enums;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace Fosscord.DbModel;
@@ -20,6 +20,7 @@ public class Config : SaveableObject<Config>
 public class SecurityConfig
 {
     public string JwtSecret { get; set; } = RandomStringGenerator.Generate(255);
+    public string? IssuerSigningKey { get; set; } = null!;
     public RegisterSecurityConfig Register { get; set; } = new();
     public LoginSecurityConfig Login { get; set; } = new();
 }

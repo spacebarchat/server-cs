@@ -1,5 +1,4 @@
 using System.Reflection;
-using Fosscord.DbModel.Scaffold;
 using Fosscord.Gateway.Controllers;
 using Fosscord.Gateway.Events;
 using Fosscord.Util;

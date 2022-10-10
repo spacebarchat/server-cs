@@ -27,11 +27,14 @@ public class Identify : IGatewayMessage
     {
         if (payload.d is JObject jObject)
         {
+            Db db = Db.GetNewDb();
             var identify = jObject.ToObject<Models.Identify>();
             User user = null;
             try
             {
                 user = _auth.GetUserFromToken(identify.token);
+                var settings = db.UserSettings.FirstOrDefault(x => x.Id == user.Id);
+                user.Settings = settings;
             }
             catch (Exception e)
             {
@@ -47,7 +50,6 @@ public class Identify : IGatewayMessage
                 return;
             }
 
-            Db db = Db.GetNewDb();
             client.session_id = RandomStringGenerator.Generate(32);
 
             var privateUser = new ReadyEvent.PrivateUser()
@@ -98,13 +100,13 @@ public class Identify : IGatewayMessage
                 });
             }
 
-            var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(user.Settings);
+            //var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(user.Settings);
             var readyEventData = new ReadyEvent.ReadyEventData()
             {
                 v = 9,
                 application = db.Applications.FirstOrDefault(s => s.Id == user.Id),
                 user = privateUser,
-                user_settings = user.Settings,
+                //user_settings = user.Settings,
                 guilds = db.Members.Where(s => s.Id == user.Id).Select(s => s.Guild).ToList(),
                 relationships = relationShips,
                 read_state = new ReadyEvent.ReadState()
@@ -131,7 +133,7 @@ public class Identify : IGatewayMessage
                         consented = false,
                     }
                 },
-                country_code = settings.ContainsKey("locale") ? settings["locale"] : "en-us",
+                //country_code = settings.ContainsKey("locale") ? settings["locale"] : "en-us",
                 friend_suggestions = 0,
                 experiments = new List<object>(),
                 guild_join_requests = new List<object>(),

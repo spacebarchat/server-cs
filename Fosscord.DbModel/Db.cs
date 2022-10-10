@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
 using ArcaneLibs.Logging;
 using ArcaneLibs.Logging.LogEndpoints;
 using Fosscord.DbModel.Scaffold;

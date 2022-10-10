@@ -1,9 +1,6 @@
 using System.Text;
 using Fosscord.API.Classes;
 using Fosscord.Shared.Attributes;
-using Fosscord.Shared.Enums;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace Fosscord.API.Middlewares;
 

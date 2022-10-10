@@ -1,5 +1,4 @@
 ﻿using Fosscord.API;
-using Fosscord.DbModel;
 
 namespace Fosscord.Dependencies;
 

@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Fosscord.API.Utilities;
 using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +13,6 @@ public class JwtAuthenticationManager
     private readonly Db _db = Db.GetNewDb();
  
     private readonly string _tokenKey = Static.Config.Security.JwtSecret;
- 
 
     public User GetUserFromToken(string token)
     {

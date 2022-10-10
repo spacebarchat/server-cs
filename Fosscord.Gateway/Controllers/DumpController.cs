@@ -1,13 +1,6 @@
-﻿using System.IO.Compression;
-using System.Net.WebSockets;
-using System.Text;
-using Fosscord.DbModel;
-using Fosscord.Gateway.Events;
-using Fosscord.Gateway.Models;
+﻿using Fosscord.DbModel;
 using Fosscord.Util;
-using Ionic.Zlib;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Fosscord.Gateway.Controllers;
 

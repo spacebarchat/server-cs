@@ -25,4 +25,9 @@
       <ProjectReference Include="..\Fosscord.Shared\Fosscord.Shared.csproj" />
       <ProjectReference Include="..\Fosscord.Util.Generic\Fosscord.Util.Generic.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Microsoft.IdentityModel.Tokens">
+        <HintPath>..\..\..\..\.nuget\packages\microsoft.identitymodel.tokens\6.10.0\lib\netstandard2.0\Microsoft.IdentityModel.Tokens.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

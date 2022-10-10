@@ -27,15 +27,15 @@ public class ZLib
 
         MemoryStream compressStream = new();
 
-        using DeflateStream compressor = new(compressStream, CompressionLevel.Fastest, true);
+        using DeflateStream compressor = new(compressStream, CompressionLevel.NoCompression, true);
         input.CopyTo(compressor);
         compressor.Close();
 
-        compressStream.Write(new byte[] { 0, 0, 0xFF, 0xFF });
+        //compressStream.Write(new byte[] { 0, 0, 0xFF, 0xFF });
         var ar = compressStream.ToArray();
 
         //TODO: remove this hack
-        ar[0] = (byte)(ar[0] - 1); //before: 0xab
+        //ar[0] = (byte)(ar[0] - 1); //before: 0xab
         return ar;
     }
 }

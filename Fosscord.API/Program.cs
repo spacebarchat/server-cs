@@ -1,12 +1,8 @@
 using Fosscord.API;
-using Fosscord.API.Classes;
 using Fosscord.API.Middlewares;
 using Fosscord.API.Rewrites;
 using Fosscord.API.Tasks;
-using Fosscord.Shared.Attributes;
 using Fosscord.Util;
-using Fosscord.Util.Formatters;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Rewrite;
 
 if (!Directory.Exists("cache_formatted")) Directory.CreateDirectory("cache_formatted");
@@ -72,6 +68,6 @@ var defaultRights = Static.Config.Security.Register.DefaultRights;
 Console.WriteLine("[DEBUG] Calling setter on config default rights");
 Static.Config.Security.Register.DefaultRights = defaultRights;
 
-Static.Config.Save();
+Static.Config.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 Console.WriteLine("Starting web server!");
 app.Run();
