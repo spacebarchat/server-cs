@@ -31,42 +31,24 @@ public class AuthController : Controller
     {
         var data = JsonConvert.DeserializeObject<RegisterData>(await new StreamReader(Request.Body).ReadToEndAsync());
         Console.WriteLine(JsonConvert.SerializeObject(data));
-        string discrim = Rnd.Next(10000).ToString();
+        string discrim = Rnd.Next(10000).ToString().PadLeft(4, '0');
         if (_db.Users.Any(x => x.Email == data.Email)) return new StatusCodeResult(403);
         var user = new User()
         {
-            CreatedAt = DateTime.Now,
             Username = data.Username,
             Discriminator = discrim,
             Id = new IdGen.IdGenerator(0).CreateId() + "",
-            Bot = false,
-            System = false,
-            Desktop = false,
-            Mobile = false,
-            Premium = true,
-            PremiumType = 2,
-            Bio = "",
-            MfaEnabled = false,
-            Verified = true,
-            Disabled = false,
-            Deleted = false,
             Email = data.Email,
-            Rights = Static.Config.Security.Register.DefaultRights,
-            NsfwAllowed = true, // TODO = depending on age
-            PublicFlags = 0,
-            Flags = "0", // TODO = generate
             Data = JsonConvert.SerializeObject(new
             {
                 hash = BCrypt.Net.BCrypt.HashPassword(data.Password, 12),
                 valid_tokens_since = DateTime.Now,
             }),
-            Settings = new(),
-            Fingerprints = "",
-            ExtendedSettings = ""
+            Settings = new()
         };
         user.Settings.Id = user.Id;
         _db.Users.Add(user);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         
         var token = _auth.Authenticate(data.Email, data.Password);
         if (token == null) return new StatusCodeResult(500);

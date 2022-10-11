@@ -58,14 +58,14 @@ public class AssetsController : Controller
         }
         else if (System.IO.File.Exists("./cache/" + res))
         {
-            cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync("./cache/" + res));
+            cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync($"{Static.Config.Api.AssetCache.DiskCachePath}/{res}"));
             //return Resolvers.ReturnFile("./cache_formatted/" + res);
         }
         else
         {
-            if (!Directory.Exists("./cache")) Directory.CreateDirectory("./cache");
+            if (!Directory.Exists(Static.Config.Api.AssetCache.DiskCachePath)) Directory.CreateDirectory(Static.Config.Api.AssetCache.DiskCachePath);
             if (res.EndsWith(".map")) return NotFound();
-            Console.WriteLine($"[Asset cache] Downloading {"https://discord.com/assets/" + res} -> ./cache/{res}");
+            Console.WriteLine($"[Asset cache] Downloading {"https://discord.com/assets/" + res} -> {Static.Config.Api.AssetCache.DiskCachePath}/{res}");
             try
             {
                 using (var hc = new HttpClient())
@@ -78,7 +78,7 @@ public class AssetsController : Controller
                     //check if cloudflare
                     if (bytes.Length == 0)
                     {
-                        Console.WriteLine($"[Asset cache] Cloudflare detected, retrying {"https://discord.com/assets/" + res} -> ./cache/{res}");
+                        Console.WriteLine($"[Asset cache] Cloudflare detected, retrying {"https://discord.com/assets/" + res} -> {Static.Config.Api.AssetCache.DiskCachePath}/{res}");
                         await Task.Delay(1000);
                         resp = await hc.GetAsync("https://discord.com/assets/" + res);
                         if (!resp.IsSuccessStatusCode) return NotFound();
@@ -102,7 +102,7 @@ public class AssetsController : Controller
                         bytes = Encoding.UTF8.GetBytes(str);
                     }
                     
-                    await System.IO.File.WriteAllBytesAsync("./cache/" + res, bytes);
+                    if(Static.Config.Api.AssetCache.DiskCache) await System.IO.File.WriteAllBytesAsync($"{Static.Config.Api.AssetCache.DiskCachePath}/{res}", bytes);
                     cache.TryAdd(res, bytes);
                 }
                 //await new WebClient().DownloadFileTaskAsync("https://discord.com/assets/" + res, "./cache/" + res);
@@ -115,7 +115,12 @@ public class AssetsController : Controller
             }
         }
 
-        if (cache.ContainsKey(res)) return File(cache[res], contentType);
+        if (cache.ContainsKey(res))
+        {
+            byte[] result = cache[res];
+            if(!Static.Config.Api.AssetCache.MemoryCache) cache.TryRemove(res, out _);
+            return File(result, contentType);
+        }
         return NotFound();
     }
 

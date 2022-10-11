@@ -1,4 +1,5 @@
 using System.Reflection;
+using Fosscord.API;
 using Fosscord.Gateway.Controllers;
 using Fosscord.Gateway.Events;
 using Fosscord.Util;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 AspUtils.ConfigureBuilder(ref builder);
 
+Static.Config.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -15,6 +15,7 @@ namespace Fosscord.DbModel.Scaffold
 
         [Key]
         [Column("index")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Index { get; set; }
         [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;

@@ -17,4 +17,13 @@
       <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="unknown_events\Presence_Update\0.json" />
+      <_ContentIncludedByDefault Remove="unknown_events\Presence_Update\1.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="unknown_events" />
+    </ItemGroup>
+
 </Project>

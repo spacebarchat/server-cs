@@ -40,23 +40,29 @@ namespace Fosscord.DbModel.Scaffold
         [Column("explicit_content_filter")]
         public int? ExplicitContentFilter { get; set; }
         [Column("features")]
-        public string Features { get; set; } = null!;
+        public string Features { get; set; } = "";
         [Column("primary_category_id")]
         public int? PrimaryCategoryId { get; set; }
         [Column("icon", TypeName = "character varying")]
         public string? Icon { get; set; }
+
         [Column("large")]
-        public bool? Large { get; set; }
+        public bool? Large { get; set; } = false;
+
         [Column("max_members")]
-        public int? MaxMembers { get; set; }
+        public int? MaxMembers { get; set; } = 100;
+
         [Column("max_presences")]
-        public int? MaxPresences { get; set; }
+        public int? MaxPresences { get; set; } = 100;
+
         [Column("max_video_channel_users")]
-        public int? MaxVideoChannelUsers { get; set; }
+        public int? MaxVideoChannelUsers { get; set; } = 100;
+
         [Column("member_count")]
-        public int? MemberCount { get; set; }
+        public int? MemberCount { get; set; } = 1;
+
         [Column("presence_count")]
-        public int? PresenceCount { get; set; }
+        public int? PresenceCount { get; set; } = 1;
         [Column("template_id", TypeName = "character varying")]
         public string? TemplateId { get; set; }
         [Column("mfa_level")]

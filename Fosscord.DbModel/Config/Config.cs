@@ -15,6 +15,19 @@ public class Config : SaveableObject<Config>
     public SentryConfig Sentry { get; set; } = new();
     public SecurityConfig Security { get; set; } = new();
     public LoggingConfig Logging { get; set; } = new();
+    public ApiConfig Api { get; set; } = new();
+}
+
+public class ApiConfig
+{
+    public AssetCacheConfig AssetCache { get; set; } = new();
+}
+
+public class AssetCacheConfig
+{
+    public bool MemoryCache { get; set; } = true;
+    public bool DiskCache { get; set; } = true;
+    public string DiskCachePath { get; set; } = "cache";
 }
 
 public class SecurityConfig
@@ -91,6 +104,7 @@ public class TestClientConfig
 public class LoggingConfig
 {
     public bool DefaultRightsDebug = false;
+    public bool DumpGatewayEventsToFiles = false;
 }
 
 //register config

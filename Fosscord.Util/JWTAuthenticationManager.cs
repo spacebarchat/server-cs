@@ -14,8 +14,9 @@ public class JwtAuthenticationManager
  
     private readonly string _tokenKey = Static.Config.Security.JwtSecret;
 
-    public User GetUserFromToken(string token)
+    public User GetUserFromToken(string token, Db? db = null)
     {
+        db ??= _db;
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenKey);
         var validationParameters = new TokenValidationParameters()
@@ -27,7 +28,7 @@ public class JwtAuthenticationManager
             ValidateIssuer = false,
         };
         var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken tokenValidated);
-        return _db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
+        return db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
     }
  
     public string? Authenticate(string username, string password)

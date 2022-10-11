@@ -18,3 +18,5 @@ Fosscord.API/Resources/Assets/user.css
 Fosscord.Gateway/unknown_events/
 Fosscord.Gateway/dump/
 Fosscord.Gateway/dump.tar.xz
+event_dump/
+assets/

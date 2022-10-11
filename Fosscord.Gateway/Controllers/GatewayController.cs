@@ -1,11 +1,13 @@
 ﻿using System.Net.WebSockets;
 using System.Text;
+using Fosscord.API;
 using Fosscord.DbModel;
 using Fosscord.Gateway.Events;
 using Fosscord.Gateway.Models;
 using Fosscord.Util;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Fosscord.Gateway.Controllers;
 
@@ -107,6 +109,21 @@ public class GatewayController : Controller
                     var message = JsonConvert.DeserializeObject<Payload>(msgString);
                     if (message != null && !string.IsNullOrEmpty(msgString))
                     {
+                        //dump gateway events
+                        if (Static.Config.Logging.DumpGatewayEventsToFiles)
+                        {
+                            if (!Directory.Exists("event_dump"))
+                                Directory.CreateDirectory("event_dump");
+                            if (!Directory.Exists("event_dump/in"))
+                                Directory.CreateDirectory("event_dump/in");
+                            if (!Directory.Exists($"event_dump/in/{message.op}"))
+                                Directory.CreateDirectory($"event_dump/in/{message.op}");
+                            
+                            System.IO.File.WriteAllText(
+                                $"event_dump/in/{message.op}/{Directory.GetFiles($"event_dump/in/{message.op}").Length}.json",
+                                JsonConvert.SerializeObject(JsonConvert.DeserializeObject<dynamic>(msgString), Formatting.Indented));
+                        }
+
                         if (GatewayActions.ContainsKey(message.op))
                         {
                             try
@@ -131,7 +148,7 @@ public class GatewayController : Controller
                                 Directory.CreateDirectory($"unknown_events/{message.op}");
                             System.IO.File.WriteAllText(
                                 $"unknown_events/{message.op}/{Directory.GetFiles($"unknown_events/{message.op}").Length}.json",
-                                msgString);
+                                JsonConvert.SerializeObject(JsonConvert.DeserializeObject<dynamic>(msgString), Formatting.Indented));
                             //add disconnect once done
                         }
                     }
@@ -153,12 +170,31 @@ public class GatewayController : Controller
         {
             case "json":
 
-                string data = JsonConvert.SerializeObject(payload, Formatting.None, new JsonSerializerSettings
+                string data = JsonConvert.SerializeObject(payload, Formatting.Indented, new JsonSerializerSettings
                 {
-                    NullValueHandling = NullValueHandling.Ignore
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ContractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    }
                 });
-                Console.Write("send: ");
-                Console.WriteLine(data);
+                //Console.Write("send: ");
+                //Console.WriteLine(data);
+                //dump gateway events
+                if (Static.Config.Logging.DumpGatewayEventsToFiles)
+                {
+                    if (!Directory.Exists("event_dump"))
+                        Directory.CreateDirectory("event_dump");
+                    if (!Directory.Exists("event_dump/out"))
+                        Directory.CreateDirectory("event_dump/out");
+                    if (!Directory.Exists($"event_dump/out/{payload.op}"))
+                        Directory.CreateDirectory($"event_dump/out/{payload.op}");
+                            
+                    await System.IO.File.WriteAllTextAsync(
+                        $"event_dump/out/{payload.op}/{Directory.GetFiles($"event_dump/out/{payload.op}").Length}.json",
+                        JsonConvert.SerializeObject((object) JsonConvert.DeserializeObject<dynamic>(data), Formatting.Indented));
+                }
                 var bytes = Encoding.UTF8.GetBytes(data);
                 if (client.compress == "zlib-stream")
                 {

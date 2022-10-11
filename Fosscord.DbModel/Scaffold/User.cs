@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Fosscord.API;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fosscord.DbModel.Scaffold
@@ -57,52 +58,66 @@ namespace Fosscord.DbModel.Scaffold
         public string? Banner { get; set; }
         [Column("phone", TypeName = "character varying")]
         public string? Phone { get; set; }
+
         [Column("desktop")]
-        public bool Desktop { get; set; }
+        public bool Desktop { get; set; } = false;
+
         [Column("mobile")]
-        public bool Mobile { get; set; }
+        public bool Mobile { get; set; } = false;
+
         [Column("premium")]
-        public bool Premium { get; set; }
+        public bool Premium { get; set; } = true;
+
         [Column("premium_type")]
-        public int PremiumType { get; set; }
+        public int PremiumType { get; set; } = 2;
+
         [Column("bot")]
-        public bool Bot { get; set; }
+        public bool Bot { get; set; } = false;
+
         [Column("bio", TypeName = "character varying")]
-        public string? Bio { get; set; }
+        public string? Bio { get; set; } = "";
+
         [Column("system")]
-        public bool System { get; set; }
+        public bool System { get; set; } = false;
+
         [Column("nsfw_allowed")]
-        public bool NsfwAllowed { get; set; }
+        public bool NsfwAllowed { get; set; } = true;
+
         [Column("mfa_enabled")]
-        public bool? MfaEnabled { get; set; }
+        public bool? MfaEnabled { get; set; } = false;
         [Column("totp_secret", TypeName = "character varying")]
         public string? TotpSecret { get; set; }
         [Column("totp_last_ticket", TypeName = "character varying")]
         public string? TotpLastTicket { get; set; }
         [Column("created_at", TypeName = "timestamp without time zone")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Column("premium_since", TypeName = "timestamp without time zone")]
         public DateTime? PremiumSince { get; set; }
+
         [Column("verified")]
-        public bool Verified { get; set; }
+        public bool Verified { get; set; } = true;
+
         [Column("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled { get; set; } = false;
+
         [Column("deleted")]
-        public bool Deleted { get; set; }
+        public bool Deleted { get; set; } = false;
         [Column("email", TypeName = "character varying")]
         public string? Email { get; set; }
         [Column("flags", TypeName = "character varying")]
-        public string Flags { get; set; } = null!;
+        public string Flags { get; set; } = "0";
+
         [Column("public_flags")]
-        public int PublicFlags { get; set; }
+        public int PublicFlags { get; set; } = 0;
+
         [Column("rights")]
-        public BitArray Rights { get; set; }
+        public BitArray Rights { get; set; } = Static.Config.Security.Register.DefaultRights;
         [Column("data")]
         public string Data { get; set; } = null!;
         [Column("fingerprints")]
-        public string Fingerprints { get; set; } = null!;
+        public string Fingerprints { get; set; } = "";
         [Column("extended_settings")]
-        public string ExtendedSettings { get; set; } = null!;
+        public string ExtendedSettings { get; set; } = "";
         [Column("settingsId", TypeName = "character varying")]
         public string? SettingsId { get; set; }
 

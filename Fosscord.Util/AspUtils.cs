@@ -64,15 +64,26 @@ public class AspUtils
             });
         }
 
-        builder.Services.AddDbContextPool<Db>(optionsBuilder =>
+        builder.Services.AddDbContext<Db>(optionsBuilder =>
         {
             var cfg = DbConfig.Read();
             cfg.Save();
             optionsBuilder
                 .UseNpgsql(
-                    $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port}")
-                .LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging();
+                    $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+                //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
+                ;
         });
+        /*builder.Services.AddDbContextPool<Db>(optionsBuilder =>
+        {
+            var cfg = DbConfig.Read();
+            cfg.Save();
+            optionsBuilder
+                .UseNpgsql(
+                    $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+                //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
+                ;
+        }, 4096);*/
         builder.Services.AddSingleton(new JwtAuthenticationManager());
 
         var tokenKey = Static.Config.Security.JwtSecret;
