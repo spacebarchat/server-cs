@@ -106,7 +106,7 @@ public class Identify : IGatewayMessage
                 v = 9,
                 application = db.Applications.FirstOrDefault(s => s.Id == user.Id),
                 user = privateUser,
-                //user_settings = user.Settings,
+                user_settings = user.Settings,
                 guilds = db.Members.Where(s => s.Id == user.Id).Select(s => s.Guild).ToList(),
                 relationships = relationShips,
                 read_state = new ReadyEvent.ReadState()

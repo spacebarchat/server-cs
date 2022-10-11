@@ -35,8 +35,7 @@ public class JwtAuthenticationManager
     {
         var user = _db.Users.FirstOrDefault(x => x.Email == username);
         if (user == null) return null;
-        var hash = ((dynamic) JsonConvert.DeserializeObject(user.Data)).hash;
-        if (!BCrypt.Net.BCrypt.Verify(password, hash.ToString())) return null;
+        if (!BCrypt.Net.BCrypt.Verify(password, user.Data.Hash)) return null;
         
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenKey);

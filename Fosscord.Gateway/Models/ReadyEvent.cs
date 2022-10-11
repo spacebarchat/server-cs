@@ -57,7 +57,7 @@ public class ReadyEvent
         
         
         public PrivateUser user { get; set; }
-        public string user_settings { get; set; }
+        public UserSetting user_settings { get; set; }
         public List<Guild> guilds { get; set; }
         public List<object> guild_experiments { get; set; } //todo
         public List<object> geo_ordered_rtc_regions { get; set; } //todo
@@ -96,7 +96,7 @@ public class ReadyEvent
     
     public class GuildMemberSettings
     {
-        public List<string> entries { get; set; }
+        public List<UserChannelSettings> entries { get; set; }
         public bool partial { get; set; }
         public int version { get; set; }
     }

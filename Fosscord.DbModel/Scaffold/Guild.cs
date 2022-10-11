@@ -93,8 +93,8 @@ namespace Fosscord.DbModel.Scaffold
         public bool? Unavailable { get; set; }
         [Column("verification_level")]
         public int? VerificationLevel { get; set; }
-        [Column("welcome_screen")]
-        public string WelcomeScreen { get; set; } = null!;
+        [Column("welcome_screen", TypeName = "jsonb")]
+        public WelcomeScreen WelcomeScreen { get; set; } = null!;
         [Column("widget_channel_id", TypeName = "character varying")]
         public string? WidgetChannelId { get; set; }
         [Column("widget_enabled")]
@@ -153,5 +153,13 @@ namespace Fosscord.DbModel.Scaffold
         public virtual ICollection<Webhook> WebhookGuilds { get; set; }
         [InverseProperty("SourceGuild")]
         public virtual ICollection<Webhook> WebhookSourceGuilds { get; set; }
+    }
+
+    public class WelcomeScreen
+    {
+        //{"enabled":false,"description":"Fill in your description","welcome_channels":[]}
+        public bool Enabled { get; set; } = false;
+        public string Description { get; set; } = "Fill in your description";
+        public Channel[] WelcomeChannels { get; set; } = new Channel[0];
     }
 }

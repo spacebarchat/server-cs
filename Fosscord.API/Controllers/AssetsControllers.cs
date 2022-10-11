@@ -97,8 +97,7 @@ public class AssetsController : Controller
                     {
                         //remove sourcemap
                         var str = Encoding.UTF8.GetString(bytes);
-                        str = str.Replace("//# sourceMappingURL=", "//# disabledSourceMappingURL=");
-                        str = str.Replace("e.isDiscordGatewayPlaintextSet=function(){0;return!1};", "e.isDiscordGatewayPlaintextSet=function(){return true};");
+                        str = PatchClient(str);
                         bytes = Encoding.UTF8.GetBytes(str);
                     }
                     
@@ -122,6 +121,13 @@ public class AssetsController : Controller
             return File(result, contentType);
         }
         return NotFound();
+    }
+
+    public static string PatchClient(string str)
+    {
+        str = str.Replace("//# sourceMappingURL=", "//# disabledSourceMappingURL=");
+        str = str.Replace("e.isDiscordGatewayPlaintextSet=function(){0;return!1};", "e.isDiscordGatewayPlaintextSet=function(){return true};");
+        return str;
     }
 
     [HttpGet("/robots.txt")]

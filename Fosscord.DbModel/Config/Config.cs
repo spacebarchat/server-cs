@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Text;
 using ArcaneLibs;
 using Fosscord.API;
 using Fosscord.API.Utilities;
 using Fosscord.Shared.Enums;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace Fosscord.DbModel;
@@ -106,5 +104,3 @@ public class LoggingConfig
     public bool DefaultRightsDebug = false;
     public bool DumpGatewayEventsToFiles = false;
 }
-
-//register config

@@ -48,8 +48,8 @@ namespace Fosscord.DbModel.Scaffold
         public int? DefaultAutoArchiveDuration { get; set; }
         [Column("position")]
         public int? Position { get; set; }
-        [Column("permission_overwrites")]
-        public string? PermissionOverwrites { get; set; }
+        [Column("permission_overwrites", TypeName = "jsonb")]
+        public PermissionOverwrite[] PermissionOverwrites { get; set; }
         [Column("video_quality_mode")]
         public int? VideoQualityMode { get; set; }
         [Column("bitrate")]
@@ -106,5 +106,14 @@ namespace Fosscord.DbModel.Scaffold
         [ForeignKey("ChannelsId")]
         [InverseProperty("Channels")]
         public virtual ICollection<Message> MessagesNavigation { get; set; }
+    }
+
+    public class PermissionOverwrite
+    {
+        //[{"id":"1006733166226110647","type":0,"allow":"0","deny":"2048"}]
+        public string Id { get; set; }
+        public int Type { get; set; }
+        public string Allow { get; set; } = "0";
+        public string Deny { get; set; } = "0";
     }
 }

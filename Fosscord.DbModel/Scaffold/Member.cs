@@ -31,8 +31,8 @@ namespace Fosscord.DbModel.Scaffold
         public bool Mute { get; set; }
         [Column("pending")]
         public bool Pending { get; set; }
-        [Column("settings")]
-        public string Settings { get; set; } = null!;
+        [Column("settings", TypeName = "jsonb")]
+        public UserChannelSettings Settings { get; set; } = null!;
         [Column("last_message_id", TypeName = "character varying")]
         public string? LastMessageId { get; set; }
         [Column("joined_by", TypeName = "character varying")]
@@ -59,4 +59,16 @@ namespace Fosscord.DbModel.Scaffold
         [InverseProperty("Indices")]
         public virtual ICollection<Role> Roles { get; set; }
     }
+
+    public class UserChannelSettings
+    {
+        //{"channel_overrides":[],"message_notifications":0,"mobile_push":true,"muted":false,"suppress_everyone":false,"suppress_roles":false,"version":0}
+        public int Version { get; set; }= 0;
+        public int MessageNotifications { get; set; } = 0;
+        public bool MobilePush { get; set; } = true;
+        public bool Muted { get; set; } = false;
+        public bool SuppressEveryone { get; set; } = false;
+        public bool SuppressRoles { get; set; } = false;
+        public object[] ChannelOverrides { get; set; } = Array.Empty<object>();
+    } 
 }

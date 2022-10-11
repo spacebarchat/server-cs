@@ -65,8 +65,8 @@ namespace Fosscord.DbModel.Scaffold
         public int? DiscoveryEligibilityFlags { get; set; }
         [Column("tags")]
         public string? Tags { get; set; }
-        [Column("install_params")]
-        public string? InstallParams { get; set; }
+        [Column("install_params", TypeName = "jsonb")]
+        public InstallParams? InstallParams { get; set; }
         [Column("bot_user_id", TypeName = "character varying")]
         public string? BotUserId { get; set; }
         [Column("flags")]
@@ -85,5 +85,12 @@ namespace Fosscord.DbModel.Scaffold
         public virtual ICollection<Message> Messages { get; set; }
         [InverseProperty("Application")]
         public virtual ICollection<Webhook> Webhooks { get; set; }
+    }
+
+    public class InstallParams
+    {
+        //{"scopes":["applications.commands","bot"],"permissions":"8"}
+        public string Permissions { get; set; } = "0";
+        public string[] Scopes { get; set; } = Array.Empty<string>();
     }
 }

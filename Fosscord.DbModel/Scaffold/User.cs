@@ -112,8 +112,8 @@ namespace Fosscord.DbModel.Scaffold
 
         [Column("rights")]
         public BitArray Rights { get; set; } = Static.Config.Security.Register.DefaultRights;
-        [Column("data")]
-        public string Data { get; set; } = null!;
+        [Column("data", TypeName = "jsonb")]
+        public UserData Data { get; set; } = null!;
         [Column("fingerprints")]
         public string Fingerprints { get; set; } = "";
         [Column("extended_settings")]
@@ -186,5 +186,11 @@ namespace Fosscord.DbModel.Scaffold
         [ForeignKey("UsersId")]
         [InverseProperty("Users")]
         public virtual ICollection<Message> Messages { get; set; }
+    }
+
+    public class UserData
+    {
+        public string Hash { get; set; }
+        public DateTime ValidTokensSince { get; set; }
     }
 }

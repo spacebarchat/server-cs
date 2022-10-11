@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="cache" />
       <Folder Include="cache_formatted" />
       <Folder Include="Middlewares" />
     </ItemGroup>

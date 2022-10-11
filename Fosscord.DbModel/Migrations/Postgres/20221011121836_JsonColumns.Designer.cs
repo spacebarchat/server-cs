@@ -5,6 +5,7 @@ using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fosscord.DbModel.Migrations.Postgres
 {
     [DbContext(typeof(Db))]
-    partial class DbModelSnapshot : ModelSnapshot
+    [Migration("20221011121836_JsonColumns")]
+    partial class JsonColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1051,6 +1053,29 @@ namespace Fosscord.DbModel.Migrations.Postgres
                     b.ToTable("messages");
                 });
 
+            modelBuilder.Entity("Fosscord.DbModel.Scaffold.Migration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying")
+                        .HasColumnName("name");
+
+                    b.Property<long>("Timestamp")
+                        .HasColumnType("bigint")
+                        .HasColumnName("timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("migrations");
+                });
+
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.Note", b =>
                 {
                     b.Property<string>("Id")
@@ -1078,6 +1103,42 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .IsUnique();
 
                     b.ToTable("notes");
+                });
+
+            modelBuilder.Entity("Fosscord.DbModel.Scaffold.QueryResultCache", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("integer")
+                        .HasColumnName("duration");
+
+                    b.Property<string>("Identifier")
+                        .HasColumnType("character varying")
+                        .HasColumnName("identifier");
+
+                    b.Property<string>("Query")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("query");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("result");
+
+                    b.Property<long>("Time")
+                        .HasColumnType("bigint")
+                        .HasColumnName("time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("query-result-cache");
                 });
 
             modelBuilder.Entity("Fosscord.DbModel.Scaffold.RateLimit", b =>

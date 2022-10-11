@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Shared", "Fosscord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Util.Generic", "Fosscord.Util.Generic\Fosscord.Util.Generic.csproj", "{94B1DA41-081A-4F5F-956F-F7DC72146827}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Util.Db", "Fosscord.Util.Db\Fosscord.Util.Db.csproj", "{2053C064-246F-452D-8287-B6208E8C17D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2053C064-246F-452D-8287-B6208E8C17D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2053C064-246F-452D-8287-B6208E8C17D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2053C064-246F-452D-8287-B6208E8C17D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2053C064-246F-452D-8287-B6208E8C17D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

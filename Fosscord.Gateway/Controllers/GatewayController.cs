@@ -78,7 +78,7 @@ public class GatewayController : Controller
             Clients.Add(clientSocket, webSocket);
 
             //TODO: what this this do?
-            await SendByteArray(clientSocket, new byte[] {0x78, 0x9c});
+            //await SendByteArray(clientSocket, new byte[] {0x78, 0x9c});
             await Send(clientSocket, new Payload()
             {
                 op = Constants.OpCodes.Hello,

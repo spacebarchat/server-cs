@@ -9,7 +9,8 @@ public class Tasks
         var defaultColor = Console.ForegroundColor;
         List<ITask> tasks = new()
         {
-            new BuildClientTask()
+            new BuildClientTask(),
+            new PatchClientAssetsTask()
         };
         foreach (var task in tasks)
         {

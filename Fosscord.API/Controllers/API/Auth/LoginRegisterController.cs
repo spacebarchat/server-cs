@@ -39,11 +39,11 @@ public class AuthController : Controller
             Discriminator = discrim,
             Id = new IdGen.IdGenerator(0).CreateId() + "",
             Email = data.Email,
-            Data = JsonConvert.SerializeObject(new
+            Data = new()
             {
-                hash = BCrypt.Net.BCrypt.HashPassword(data.Password, 12),
-                valid_tokens_since = DateTime.Now,
-            }),
+                Hash = BCrypt.Net.BCrypt.HashPassword(data.Password, 12),
+                ValidTokensSince = DateTime.Now,
+            },
             Settings = new()
         };
         user.Settings.Id = user.Id;

@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Text;
 
 namespace Fosscord.Util;
 
@@ -6,36 +7,32 @@ public class ZLib
 {
     public static byte[] Decompress(byte[] a)
     {
-        var sss = new MemoryStream(a);
-
-        MemoryStream decodedStream = new();
-        byte[] buffer = new byte[4096];
-
-        using (DeflateStream c = new(sss, CompressionMode.Decompress))
-        {
-            int bytesRead;
-            while ((bytesRead = c.Read(buffer, 0, buffer.Length)) > 0)
-                decodedStream.Write(buffer, 0, bytesRead);
-        }
-
-        return decodedStream.ToArray();
+        var src = new MemoryStream(a);
+        var dst = new MemoryStream();
+        using var stream = new ZLibStream(src, CompressionMode.Decompress);
+        stream.CopyTo(dst);
+        stream.Flush();
+        return dst.ToArray();
     }
 
     public static byte[] Compress(byte[] a)
     {
-        MemoryStream input = new(a);
+        Console.WriteLine("Source: " + Encoding.UTF8.GetString(a));
+        using var ms = new MemoryStream();
+        using var stream = new ZLibStream(ms, CompressionLevel.Optimal);
+        var src = new MemoryStream(a);
+        src.CopyTo(stream);
+        Console.WriteLine("Before flush: " + ms.Length);
+        stream.Flush();
+        Console.WriteLine("After flush: " + ms.Length);
 
-        MemoryStream compressStream = new();
-
-        using DeflateStream compressor = new(compressStream, CompressionLevel.NoCompression, true);
-        input.CopyTo(compressor);
-        compressor.Close();
-
-        //compressStream.Write(new byte[] { 0, 0, 0xFF, 0xFF });
-        var ar = compressStream.ToArray();
-
-        //TODO: remove this hack
-        //ar[0] = (byte)(ar[0] - 1); //before: 0xab
-        return ar;
+        var data = ms.ToArray();
+        //decompress and log
+        var decompressed = Decompress(data);
+        Console.WriteLine("Decompressed: " + Encoding.UTF8.GetString(decompressed));
+        File.WriteAllBytes("data.bin", data);
+        File.WriteAllBytes("datadec.bin", decompressed);
+        
+        return data;
     }
 }
