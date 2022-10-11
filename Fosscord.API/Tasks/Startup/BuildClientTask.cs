@@ -12,8 +12,17 @@ public class BuildClientTask : ITask
 
     public void Execute()
     {
+        if (Static.Config.Api.AssetCache.WipeOnStartup)
+        {
+            Directory.Delete(Static.Config.Api.AssetCache.DiskCachePath, true);
+            Directory.CreateDirectory(Static.Config.Api.AssetCache.DiskCachePath);
+        }
         if (!Static.Config.TestClient.Enabled ||
-            !Static.Config.TestClient.UseLatest) return;
+            !Static.Config.TestClient.UseLatest)
+        {
+            Console.WriteLine("[Client Updater] Test client is disabled or not set to use latest version, skipping!");
+            return;
+        }
         Console.WriteLine("[Client updater] Fetching client");
         string client = HtmlUtils.CleanupHtml(new WebClient().DownloadString("https://canary.discord.com/channels/@me"));
         Console.WriteLine("[Client updater] Building client...");

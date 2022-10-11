@@ -19,6 +19,16 @@ public class Config : SaveableObject<Config>
 public class ApiConfig
 {
     public AssetCacheConfig AssetCache { get; set; } = new();
+    public ApiDebugConfig Debug { get; set; } = new();
+    
+}
+
+public class ApiDebugConfig
+{
+    public bool ReformatAssets { get; set; } = false;
+    public string FormattedAssetPath { get; set; } = "cache_formatted";
+    public bool OpenFormattedDirAfterReformat { get; set; } = false;
+    public (string Command, string Args) OpenFormattedDirCommand { get; set; } = ("code-insiders", "$dir");
 }
 
 public class AssetCacheConfig
@@ -26,6 +36,7 @@ public class AssetCacheConfig
     public bool MemoryCache { get; set; } = true;
     public bool DiskCache { get; set; } = true;
     public string DiskCachePath { get; set; } = "cache";
+    public bool WipeOnStartup { get; set; } = false;
 }
 
 public class SecurityConfig
@@ -103,4 +114,5 @@ public class LoggingConfig
 {
     public bool DefaultRightsDebug = false;
     public bool DumpGatewayEventsToFiles = false;
+    public bool LogClientPatching = false;
 }
