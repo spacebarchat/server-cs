@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System.Diagnostics;
+using System.Net.WebSockets;
 using System.Text;
 using Fosscord.API;
 using Fosscord.DbModel;
@@ -110,7 +111,7 @@ public class GatewayController : Controller
                     if (message != null && !string.IsNullOrEmpty(msgString))
                     {
                         //dump gateway events
-                        if (Static.Config.Logging.DumpGatewayEventsToFiles)
+                        if (Static.Config.Logging.DumpGatewayEventsToFiles && !Static.Config.Gateway.Debug.IgnoredEvents.Contains(message.op.ToString()))
                         {
                             if (!Directory.Exists("event_dump"))
                                 Directory.CreateDirectory("event_dump");
@@ -118,10 +119,13 @@ public class GatewayController : Controller
                                 Directory.CreateDirectory("event_dump/in");
                             if (!Directory.Exists($"event_dump/in/{message.op}"))
                                 Directory.CreateDirectory($"event_dump/in/{message.op}");
-                            
-                            System.IO.File.WriteAllText(
-                                $"event_dump/in/{message.op}/{Directory.GetFiles($"event_dump/in/{message.op}").Length}.json",
+
+                            var targetfile = $"event_dump/in/{message.op}/{Directory.GetFiles($"event_dump/in/{message.op}").Length}.json";
+                            System.IO.File.WriteAllText(targetfile,
                                 JsonConvert.SerializeObject(JsonConvert.DeserializeObject<dynamic>(msgString), Formatting.Indented));
+                            
+                            if(Static.Config.Gateway.Debug.OpenDumpsAfterWrite)
+                                Process.Start(Static.Config.Gateway.Debug.OpenDumpCommand.Command, Static.Config.Gateway.Debug.OpenDumpCommand.Args.Replace("$file", targetfile));
                         }
 
                         if (GatewayActions.ContainsKey(message.op))
@@ -189,10 +193,11 @@ public class GatewayController : Controller
                         Directory.CreateDirectory("event_dump/out");
                     if (!Directory.Exists($"event_dump/out/{payload.op}"))
                         Directory.CreateDirectory($"event_dump/out/{payload.op}");
-                            
-                    await System.IO.File.WriteAllTextAsync(
-                        $"event_dump/out/{payload.op}/{Directory.GetFiles($"event_dump/out/{payload.op}").Length}.json",
+                    var targetfile = $"event_dump/out/{payload.op}/{Directory.GetFiles($"event_dump/out/{payload.op}").Length}.json";
+                    await System.IO.File.WriteAllTextAsync(targetfile,
                         JsonConvert.SerializeObject((object) JsonConvert.DeserializeObject<dynamic>(data), Formatting.Indented));
+                    if(Static.Config.Gateway.Debug.OpenDumpsAfterWrite && !Static.Config.Gateway.Debug.IgnoredEvents.Contains(payload.op.ToString()))
+                        Process.Start(Static.Config.Gateway.Debug.OpenDumpCommand.Command, Static.Config.Gateway.Debug.OpenDumpCommand.Args.Replace("$file", targetfile));
                 }
                 var bytes = Encoding.UTF8.GetBytes(data);
                 if (client.compress == "zlib-stream")

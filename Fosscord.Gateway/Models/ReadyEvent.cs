@@ -1,4 +1,5 @@
 ﻿using Fosscord.DbModel.Scaffold;
+using Fosscord.Gateway.EventDataBuilders;
 
 namespace Fosscord.Gateway.Models;
 

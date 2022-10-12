@@ -153,6 +153,9 @@ namespace Fosscord.DbModel.Scaffold
         public virtual ICollection<Webhook> WebhookGuilds { get; set; }
         [InverseProperty("SourceGuild")]
         public virtual ICollection<Webhook> WebhookSourceGuilds { get; set; }
+        
+        [NotMapped]
+        public List<object> GuildScheduledEvents { get; set; } = new List<object>();
     }
 
     public class WelcomeScreen

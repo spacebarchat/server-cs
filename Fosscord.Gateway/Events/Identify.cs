@@ -4,6 +4,7 @@ using Fosscord.API.Utilities;
 using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
 using Fosscord.Gateway.Controllers;
+using Fosscord.Gateway.EventDataBuilders;
 using Fosscord.Gateway.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -50,9 +51,31 @@ public class Identify : IGatewayMessage
                 return;
             }
 
-            client.session_id = RandomStringGenerator.Generate(32);
+            var readyEvent = ReadyEventDataBuilder.Build(db, user);
+            client.session_id = readyEvent.session_id;
+            
+            await GatewayController.Send(client, new Payload()
+            {
+                d = readyEvent,
+                op = Constants.OpCodes.Dispatch,
+                t = "READY",
+                s = client.sequence++
+            });
+            client.is_ready = true;
+            Console.WriteLine($"User {user.Username}#{user.Discriminator} ({user.Id}) connected");
+            /*foreach (var userGuild in user.Guilds)
+            {
+                await GatewayController.Send(client, new Payload()
+                {
+                    d = userGuild,
+                    op = Constants.OpCodes.Dispatch,
+                    t = "GUILD_CREATE",
+                    s = client.sequence++
+                });
 
-            var privateUser = new ReadyEvent.PrivateUser()
+            }*/
+
+            /*var privateUser = new ReadyEvent.PrivateUser()
             {
                 accent_color = user.AccentColor,
                 avatar = user.Avatar,
@@ -106,7 +129,7 @@ public class Identify : IGatewayMessage
                 v = 9,
                 application = db.Applications.FirstOrDefault(s => s.Id == user.Id),
                 user = privateUser,
-                user_settings = user.Settings,
+                user_settings = JsonConvert.SerializeObject(user.Settings),
                 guilds = db.Members.Where(s => s.Id == user.Id).Select(s => s.Guild).ToList(),
                 relationships = relationShips,
                 read_state = new ReadyEvent.ReadState()
@@ -117,7 +140,8 @@ public class Identify : IGatewayMessage
                 },
                 user_guild_settings = new ReadyEvent.GuildMemberSettings()
                 {
-                    entries = db.Members.Where(s => s.Id == user.Id).Select(s => s.Settings).ToList(),
+                    //entries = db.Members.Where(s => s.Id == user.Id).Select(s => s.Settings).ToList(),
+                    entries = new List<UserChannelSettings>(),
                     partial = false,
                     version = 642,
                 },
@@ -133,7 +157,7 @@ public class Identify : IGatewayMessage
                         consented = false,
                     }
                 },
-                //country_code = settings.ContainsKey("locale") ? settings["locale"] : "en-us",
+                country_code = user.Settings.Locale ?? "en-us",
                 friend_suggestions = 0,
                 experiments = new List<object>(),
                 guild_join_requests = new List<object>(),
@@ -150,7 +174,7 @@ public class Identify : IGatewayMessage
             });
             client.is_ready = true;
 
-            Console.WriteLine($"Got user {user.Id} {user.Email}");
+            Console.WriteLine($"Got user {user.Id} {user.Email}");*/
         }
     }
 }

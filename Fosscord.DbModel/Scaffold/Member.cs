@@ -29,8 +29,9 @@ namespace Fosscord.DbModel.Scaffold
         public bool Deaf { get; set; }
         [Column("mute")]
         public bool Mute { get; set; }
+
         [Column("pending")]
-        public bool Pending { get; set; }
+        public bool Pending { get; set; } = false;
         [Column("settings", TypeName = "jsonb")]
         public UserChannelSettings Settings { get; set; } = null!;
         [Column("last_message_id", TypeName = "character varying")]

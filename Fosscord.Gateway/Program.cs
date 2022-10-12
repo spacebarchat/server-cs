@@ -9,6 +9,10 @@ builder.Services.AddControllers();
 AspUtils.ConfigureBuilder(ref builder);
 
 Static.Config.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
+if (Static.Config.Gateway.Debug.WipeOnStartup)
+{
+    Directory.Delete("event_dump", true);
+}
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

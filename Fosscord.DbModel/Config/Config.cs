@@ -14,13 +14,30 @@ public class Config : SaveableObject<Config>
     public SecurityConfig Security { get; set; } = new();
     public LoggingConfig Logging { get; set; } = new();
     public ApiConfig Api { get; set; } = new();
+    public GatewayConfig Gateway { get; set; } = new();
 }
 
 public class ApiConfig
 {
     public AssetCacheConfig AssetCache { get; set; } = new();
     public ApiDebugConfig Debug { get; set; } = new();
-    
+}
+
+public class GatewayConfig
+{
+    public GatewayDebugConfig Debug { get; set; } = new();
+}
+
+public class GatewayDebugConfig
+{
+    public bool WipeOnStartup { get; set; } = false;
+    public bool OpenDumpsAfterWrite { get; set; } = false;
+    public (string Command, string Args) OpenDumpCommand { get; set; } = ("code-insiders", "$file");
+    public List<string> IgnoredEvents { get; set; } = new()
+    {
+        "Heartbeat",
+        "Heartbeat_ACK",
+    };
 }
 
 public class ApiDebugConfig
@@ -81,8 +98,8 @@ public class RegisterSecurityConfig
         set
         {
             var _rightsDef = typeof(Rights);
-            _defaultRights = new();
-            for (int i = 0; i < value.Length; i++)
+            _defaultRights = new Dictionary<string, bool>();
+            for (var i = 0; i < value.Length; i++)
             {
                 var field = _rightsDef.GetFields()[i];
                 if (Static.Config.Logging.DefaultRightsDebug) Console.WriteLine($"[DEBUG] Setting default right '{field.Name}' to '{value[i]}'");
@@ -98,16 +115,16 @@ public class LoginSecurityConfig
 
 public class SentryConfig
 {
+    public string Dsn = "https://b2bf2393e4f64336af713ed9b06f0a9a@sentry.thearcanebrony.net/8";
     public bool Enabled = true;
     public string Environment = System.Environment.MachineName;
-    public string Dsn = "https://b2bf2393e4f64336af713ed9b06f0a9a@sentry.thearcanebrony.net/8";
 }
 
 public class TestClientConfig
 {
+    public bool Debug = false;
     public bool Enabled = true;
     public bool UseLatest = true;
-    public bool Debug = false;
 }
 
 public class LoggingConfig
