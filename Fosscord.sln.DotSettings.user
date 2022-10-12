@@ -8,5 +8,11 @@
   &lt;Project Location="/home/thearcanebrony/RiderProjects/Fosscord/Fosscord.Tests" Presentation="&amp;lt;Fosscord.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=686b726e_002D69da_002D40b7_002D8b75_002D585b75eb56bc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Fosscord.Tests&amp;gt; #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/thearcanebrony/RiderProjects/Fosscord/Fosscord.Tests" Presentation="&amp;lt;Fosscord.Tests&amp;gt;" /&gt;
+  &lt;And&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;xUnit::4B5596DE-9F1B-487F-89DB-646DE596EE66::net6.0::Fosscord.Tests.ZlibTests&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;Project Location="/home/thearcanebrony/git/fosscord/fosscord-server-cs/Fosscord.Tests" Presentation="&amp;lt;Fosscord.Tests&amp;gt;" /&gt;
+    &lt;Namespace&gt;Fosscord.Tests&lt;/Namespace&gt;
+  &lt;/And&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

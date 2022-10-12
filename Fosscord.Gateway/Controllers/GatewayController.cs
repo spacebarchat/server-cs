@@ -96,7 +96,7 @@ public class GatewayController : Controller
             {
                 using (var ms = new MemoryStream())
                 {
-                    var messageBuffer = WebSocket.CreateClientBuffer(8192, 8192);
+                    var messageBuffer = WebSocket.CreateClientBuffer(65535, 65535);
                     WebSocketReceiveResult result;
                     do
                     {
@@ -169,7 +169,6 @@ public class GatewayController : Controller
         switch (client.encoding)
         {
             case "json":
-
                 string data = JsonConvert.SerializeObject(payload, Formatting.Indented, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -198,8 +197,8 @@ public class GatewayController : Controller
                 var bytes = Encoding.UTF8.GetBytes(data);
                 if (client.compress == "zlib-stream")
                 {
-                    await Clients[client].SendAsync(ZLib.Compress(bytes), WebSocketMessageType.Binary, true,
-                        client.CancellationToken);
+                        await Clients[client].SendAsync(ZLib.Compress(bytes), WebSocketMessageType.Binary, true,
+                            client.CancellationToken);
                 }
                 else
                 {
