@@ -5,6 +5,7 @@ using Fosscord.DbModel;
 using Fosscord.DbModel.Scaffold;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fosscord.DbModel.Migrations.Postgres
 {
     [DbContext(typeof(Db))]
-    partial class DbModelSnapshot : ModelSnapshot
+    [Migration("20221013100825_TimestampTz")]
+    partial class TimestampTz
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,7 +363,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("bitrate");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<int?>("DefaultAutoArchiveDuration")
@@ -622,7 +624,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("banner");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<int?>("DefaultMessageNotifications")
@@ -798,11 +800,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("channel_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_at");
 
                     b.Property<string>("GuildId")
@@ -877,7 +879,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("bio");
 
                     b.Property<DateTime?>("CommunicationDisabledUntil")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("communication_disabled_until");
 
                     b.Property<bool>("Deaf")
@@ -895,7 +897,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("id");
 
                     b.Property<DateTime>("JoinedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("joined_at");
 
                     b.Property<string>("JoinedBy")
@@ -919,7 +921,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("pending");
 
                     b.Property<DateTime?>("PremiumSince")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("premium_since");
 
                     b.Property<UserChannelSettings>("Settings")
@@ -968,7 +970,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("content");
 
                     b.Property<DateTime?>("EditedTimestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("edited_timestamp");
 
                     b.Property<string>("Embeds")
@@ -1018,7 +1020,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("reactions");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("timestamp");
 
                     b.Property<bool?>("Tts")
@@ -1100,7 +1102,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("executor_id");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_at");
 
                     b.Property<int>("Hits")
@@ -1128,7 +1130,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("last_message_id");
 
                     b.Property<DateTime?>("LastPinTimestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_pin_timestamp");
 
                     b.Property<int?>("MentionCount")
@@ -1474,7 +1476,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatorId")
@@ -1500,7 +1502,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("source_guild_id");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<int?>("UsageCount")
@@ -1546,7 +1548,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("bot");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<UserData>("Data")
@@ -1611,7 +1613,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("premium");
 
                     b.Property<DateTime?>("PremiumSince")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("premium_since");
 
                     b.Property<int>("PremiumType")
@@ -1802,11 +1804,11 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("token");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_at");
 
                     b.HasKey("Token");
@@ -1837,7 +1839,7 @@ namespace Fosscord.DbModel.Migrations.Postgres
                         .HasColumnName("mute");
 
                     b.Property<DateTime?>("RequestToSpeakTimestamp")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("request_to_speak_timestamp");
 
                     b.Property<bool>("SelfDeaf")

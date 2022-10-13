@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="cache_formatted" />
       <Folder Include="Middlewares" />
     </ItemGroup>
 
@@ -34,6 +33,10 @@
 
     <ItemGroup>
       <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="cache\version.stable.json" />
     </ItemGroup>
 
 </Project>

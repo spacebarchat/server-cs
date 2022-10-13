@@ -182,7 +182,7 @@ public class GatewayController : Controller
                         NamingStrategy = new SnakeCaseNamingStrategy()
                     }
                 });
-                //Console.Write("send: ");
+                Console.WriteLine("send: " + payload.op + " " + payload.t);
                 //Console.WriteLine(data);
                 //dump gateway events
                 if (Static.Config.Logging.DumpGatewayEventsToFiles)
@@ -202,8 +202,11 @@ public class GatewayController : Controller
                 var bytes = Encoding.UTF8.GetBytes(data);
                 if (client.compress == "zlib-stream")
                 {
-                        await Clients[client].SendAsync(ZLib.Compress(bytes), WebSocketMessageType.Binary, true,
+                    await Clients[client].SendAsync(ZLib.Compress(bytes), WebSocketMessageType.Binary, true,
                             client.CancellationToken);
+                    if (payload.op == Constants.OpCodes.Dispatch && payload.t == "READY")
+                    {
+                    }
                 }
                 else
                 {

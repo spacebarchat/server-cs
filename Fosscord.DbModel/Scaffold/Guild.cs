@@ -25,6 +25,8 @@ namespace Fosscord.DbModel.Scaffold
         [Key]
         [Column("id", TypeName = "character varying")]
         public string Id { get; set; } = null!;
+        [Column("created_at", TypeName = "timestamp without time zone")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Column("afk_channel_id", TypeName = "character varying")]
         public string? AfkChannelId { get; set; }
         [Column("afk_timeout")]

@@ -26,7 +26,8 @@ public class ZLib
         stream.Flush();
         //Console.WriteLine("After flush: " + ms.Length);
         */
-        Ionic.Zlib.ZlibStream zs = new Ionic.Zlib.ZlibStream(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Default);
+        Ionic.Zlib.ZlibStream zs = new(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Default);
+        //Ionic.Zlib.DeflateStream zs = new(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Default);
         var ms = new MemoryStream();
         zs.CopyTo(ms);
         var data = ms.ToArray();
