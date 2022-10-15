@@ -2,7 +2,7 @@ namespace Fosscord.API.Utilities;
 
 public class RandomStringGenerator
 {
-    private readonly static Random rnd = new Random();
+    private readonly static Random rnd = new();
     private readonly static string str_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     public static string Generate(int length)

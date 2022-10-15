@@ -14,7 +14,7 @@ public class AuthController : Controller
 {
     private readonly Db _db;
     private readonly JwtAuthenticationManager _auth;
-    private static readonly Random Rnd = new Random();
+    private static readonly Random Rnd = new();
     
     public AuthController(Db db, JwtAuthenticationManager auth)
     {

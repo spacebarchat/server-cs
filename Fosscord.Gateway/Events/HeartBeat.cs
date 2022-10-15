@@ -7,7 +7,7 @@ public class HeartBeat: IGatewayMessage
 {
     public Constants.OpCodes OpCode { get; } = Constants.OpCodes.Heartbeat;
 
-    public async Task Invoke(Payload payload, Websocket client)
+    public async Task Invoke(Payload payload, WebSocketInfo client)
     {
         client.Lastheartbeat = DateTime.UtcNow;
         Console.WriteLine("Heartbeat");

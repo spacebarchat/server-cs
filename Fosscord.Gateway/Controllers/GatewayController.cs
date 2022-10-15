@@ -23,13 +23,12 @@ public class GatewayController : Controller
         _db = db;
     }
 
-    public static Dictionary<Constants.OpCodes, IGatewayMessage> GatewayActions =
-        new Dictionary<Constants.OpCodes, IGatewayMessage>();
+    public static Dictionary<Constants.OpCodes, IGatewayMessage> GatewayActions = new();
 
     public const int HeartbeatInverval = 1000 * 30;
     public const int HeartbeatTimout = 1000 * 45;
 
-    public static Dictionary<Websocket, WebSocket> Clients = new Dictionary<Websocket, WebSocket>();
+    public static Dictionary<WebSocketInfo, WebSocket> Clients = new();
 
     [HttpGet("/")]
     public async Task GetWS([FromQuery] string encoding, [FromQuery] int v, [FromQuery] string compress = "")
@@ -38,14 +37,14 @@ public class GatewayController : Controller
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
             _Logger.LogInformation($"Client Connected: {HttpContext.Connection.RemoteIpAddress.ToString()}");
-            Websocket clientSocket = new Websocket();
+            WebSocketInfo clientSocketInfo = new WebSocketInfo();
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            clientSocket.CancellationToken = cancellationTokenSource.Token;
-            clientSocket.encoding = encoding;
+            clientSocketInfo.CancellationToken = cancellationTokenSource.Token;
+            clientSocketInfo.encoding = encoding;
             if (encoding != "json" /* && encoding != "etf"*/) //todo etf format
             {
                 await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                    ((int) Constants.CloseCodes.Decode_error).ToString(), clientSocket.CancellationToken);
+                    ((int) Constants.CloseCodes.Decode_error).ToString(), clientSocketInfo.CancellationToken);
                 cancellationTokenSource.Cancel();
                 return;
             }
@@ -53,34 +52,34 @@ public class GatewayController : Controller
             if (v != 9)
             {
                 await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                    ((int) Constants.CloseCodes.Invalid_API_version).ToString(), clientSocket.CancellationToken);
+                    ((int) Constants.CloseCodes.Invalid_API_version).ToString(), clientSocketInfo.CancellationToken);
                 cancellationTokenSource.Cancel();
                 return;
             }
 
-            clientSocket.compress = compress;
+            clientSocketInfo.compress = compress;
             if (!string.IsNullOrEmpty(compress))
             {
                 if (compress != "zlib-stream")
                 {
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                        ((int) Constants.CloseCodes.Decode_error).ToString(), clientSocket.CancellationToken);
+                        ((int) Constants.CloseCodes.Decode_error).ToString(), clientSocketInfo.CancellationToken);
                     cancellationTokenSource.Cancel();
                     return;
                 }
             }
 
-            clientSocket.events = new Dictionary<string, Action>();
-            clientSocket.member_events = new Dictionary<string, Action>();
-            clientSocket.permissions = new Dictionary<string, object>();
-            clientSocket.sequence = 0;
+            clientSocketInfo.events = new Dictionary<string, Action>();
+            clientSocketInfo.member_events = new Dictionary<string, Action>();
+            clientSocketInfo.permissions = new Dictionary<string, object>();
+            clientSocketInfo.sequence = 0;
             //todo: heartbeat timeout
 
-            Clients.Add(clientSocket, webSocket);
+            Clients.Add(clientSocketInfo, webSocket);
 
             //TODO: what this this do?
             //await SendByteArray(clientSocket, new byte[] {0x78, 0x9c});
-            await Send(clientSocket, new Payload()
+            await Send(clientSocketInfo, new Payload()
             {
                 op = Constants.OpCodes.Hello,
                 d = new
@@ -90,10 +89,10 @@ public class GatewayController : Controller
             });
 
 
-            Task.Run(() => HeartBeat(clientSocket));
-            Task.Run(() => ReadyTimout(clientSocket));
+            Task.Run(() => HeartBeat(clientSocketInfo));
+            Task.Run(() => ReadyTimout(clientSocketInfo));
 
-            while (webSocket.State == WebSocketState.Open && !clientSocket.CancellationToken.IsCancellationRequested)
+            while (webSocket.State == WebSocketState.Open && !clientSocketInfo.CancellationToken.IsCancellationRequested)
             {
                 using (var ms = new MemoryStream())
                 {
@@ -132,14 +131,14 @@ public class GatewayController : Controller
                         {
                             try
                             {
-                                await GatewayActions[message.op].Invoke(message, clientSocket);
+                                await GatewayActions[message.op].Invoke(message, clientSocketInfo);
                             }
                             catch (Exception e) //safely disconnect
                             {
                                 _Logger.LogError($"Failed to execute GatewayAction\n {e}");
                                 await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
                                     ((int) Constants.CloseCodes.Unknown_error).ToString(),
-                                    clientSocket.CancellationToken);
+                                    clientSocketInfo.CancellationToken);
                                 cancellationTokenSource.Cancel();
                             }
                         }
@@ -160,7 +159,7 @@ public class GatewayController : Controller
             }
 
             cancellationTokenSource.Cancel();
-            Clients.Remove(clientSocket);
+            Clients.Remove(clientSocketInfo);
         }
         else
         {
@@ -168,7 +167,7 @@ public class GatewayController : Controller
         }
     }
 
-    public static async Task Send(Websocket client, Payload payload)
+    public static async Task Send(WebSocketInfo client, Payload payload)
     {
         switch (client.encoding)
         {
@@ -220,22 +219,23 @@ public class GatewayController : Controller
         }
     }
 
-    public static async Task SendByteArray(Websocket client, byte[] b)
+    public static async Task SendByteArray(WebSocketInfo client, byte[] b)
     {
         await Clients[client].SendAsync(b, WebSocketMessageType.Binary, true, client.CancellationToken);
     }
 
-    private async void ReadyTimout(Websocket clientSocket)
+    private async void ReadyTimout(WebSocketInfo clientSocket)
     {
         await Task.Delay(1000 * 30);
         if (!clientSocket.is_ready && Clients.ContainsKey(clientSocket))
         {
             await Clients[clientSocket].CloseAsync(WebSocketCloseStatus.NormalClosure,
                 ((int) Constants.CloseCodes.Unknown_error).ToString(), clientSocket.CancellationToken);
+            Clients[clientSocket].Dispose();
         }
     }
 
-    private async void HeartBeat(Websocket clientSocket)
+    private async void HeartBeat(WebSocketInfo clientSocket)
     {
         while (Clients.ContainsKey(clientSocket) && Clients[clientSocket].State == WebSocketState.Open &&
                !clientSocket.CancellationToken.IsCancellationRequested)

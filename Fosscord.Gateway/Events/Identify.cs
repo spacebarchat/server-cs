@@ -24,7 +24,7 @@ public class Identify : IGatewayMessage
 
     public Constants.OpCodes OpCode { get; } = Constants.OpCodes.Identify;
 
-    public async Task Invoke(Payload payload, Websocket client)
+    public async Task Invoke(Payload payload, WebSocketInfo client)
     {
         if (payload.d is JObject jObject)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Fosscord.Gateway.Models;
 
-public class Websocket
+public class WebSocketInfo
 {
     public int version;
     public string user_id;

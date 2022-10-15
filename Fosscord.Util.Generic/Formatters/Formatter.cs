@@ -6,7 +6,7 @@ namespace Fosscord.Util.Formatters;
 
 public class Formatter
 {
-    private static LogManager log = new LogManager() {Prefix = "[Formatter] "};
+    private static LogManager log = new() {Prefix = "[Formatter] "};
 
     internal static LogManager GetLog([CallerFilePath] string name = "Formatter")
     {

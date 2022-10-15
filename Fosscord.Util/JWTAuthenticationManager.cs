@@ -44,7 +44,7 @@ public class JwtAuthenticationManager
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Id)
+                new(ClaimTypes.Name, user.Id)
             }),
             Expires = DateTime.UtcNow.AddDays(30),
             IssuedAt = DateTime.UtcNow,

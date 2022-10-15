@@ -24,7 +24,7 @@ public class ReadyEvent
         public bool bot { get; set; }
         public string bio { get; set; } = null!;
         public int public_flags { get; set; }
-        public DateTime premium_since { get; set; } = new DateTime();
+        public DateTime premium_since { get; set; } = new();
     }
     
     public class PrivateUser
@@ -48,7 +48,7 @@ public class ReadyEvent
         public string? email { get; set; }
         public string flags { get; set; } = null!;
         public int public_flags { get; set; }
-        public DateTime premium_since { get; set; } = new DateTime();
+        public DateTime premium_since { get; set; } = new();
     }
 
     public class ReadyEventData

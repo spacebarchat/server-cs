@@ -157,7 +157,7 @@ namespace Fosscord.DbModel.Scaffold
         public virtual ICollection<Webhook> WebhookSourceGuilds { get; set; }
         
         [NotMapped]
-        public List<object> GuildScheduledEvents { get; set; } = new List<object>();
+        public List<object> GuildScheduledEvents { get; set; } = new();
     }
 
     public class WelcomeScreen
