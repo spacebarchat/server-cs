@@ -26,6 +26,9 @@ public class ApiConfig
 public class GatewayConfig
 {
     public GatewayDebugConfig Debug { get; set; } = new();
+    public int HeartbeatInterval { get; set; } = 1000 * 30;
+    public int HeartbeatIntervalBuffer { get; set; } = 1000 * 5;
+    public int ReadyTimeout { get; set; } = 1000 * 10; //old default = 30s
 }
 
 public class GatewayDebugConfig
@@ -33,7 +36,9 @@ public class GatewayDebugConfig
     public bool WipeOnStartup { get; set; } = false;
     public bool OpenDumpsAfterWrite { get; set; } = false;
     public (string Command, string Args) OpenDumpCommand { get; set; } = ("code-insiders", "$file");
-    public string[] IgnoredEvents { get; set; } = {
+
+    public string[] IgnoredEvents { get; set; } =
+    {
         "Heartbeat",
         "Heartbeat_ACK",
     };

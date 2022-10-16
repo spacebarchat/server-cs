@@ -11,9 +11,9 @@ public class HeartBeat: IGatewayMessage
     {
         client.Lastheartbeat = DateTime.UtcNow;
         Console.WriteLine("Heartbeat");
-        await GatewayController.Send(client, new Payload()
+        await client.SendAsync(new Payload()
         {
-            op = Constants.OpCodes.Heartbeat_ACK,
+            op = Constants.OpCodes.HeartbeatAck,
         });
     }
 }

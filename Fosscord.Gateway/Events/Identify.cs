@@ -30,7 +30,7 @@ public class Identify : IGatewayMessage
         {
             Db db = Db.GetNewDb();
             var identify = jObject.ToObject<Models.Identify>();
-            User user = null;
+            User? user;
             try
             {
                 user = _auth.GetUserFromToken(identify.token);
@@ -39,142 +39,28 @@ public class Identify : IGatewayMessage
             }
             catch (Exception e)
             {
-                if (GatewayController.Clients.ContainsKey(client))
-                    await GatewayController.Clients[client].CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString(), client.CancellationToken);
+                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString());
                 return;
             }
 
-            if (user == null)
+            if (user is null)
             {
-                if (GatewayController.Clients.ContainsKey(client))
-                    await GatewayController.Clients[client].CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString(), client.CancellationToken);
+                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString());
                 return;
             }
 
             var readyEvent = ReadyEventDataBuilder.Build(db, user);
-            client.session_id = readyEvent.session_id;
+            client.SessionId = readyEvent.session_id;
             
-            await GatewayController.Send(client, new Payload()
+            await client.SendAsync(new()
             {
                 d = readyEvent,
                 op = Constants.OpCodes.Dispatch,
                 t = "READY",
-                s = client.sequence++
+                s = client.Sequence++
             });
-            client.is_ready = true;
+            client.IsReady = true;
             Console.WriteLine($"User {user.Username}#{user.Discriminator} ({user.Id}) connected");
-            /*foreach (var userGuild in user.Guilds)
-            {
-                await GatewayController.Send(client, new Payload()
-                {
-                    d = userGuild,
-                    op = Constants.OpCodes.Dispatch,
-                    t = "GUILD_CREATE",
-                    s = client.sequence++
-                });
-
-            }*/
-
-            /*var privateUser = new ReadyEvent.PrivateUser()
-            {
-                accent_color = user.AccentColor,
-                avatar = user.Avatar,
-                banner = user.Banner,
-                bio = user.Bio,
-                bot = user.Bot,
-                desktop = user.Desktop,
-                discriminator = user.Discriminator,
-                email = user.Email,
-                flags = user.Flags,
-                id = user.Id,
-                username = user.Username,
-                mobile = user.Mobile,
-                phone = user.Phone,
-                premium = user.Premium,
-                premium_type = user.PremiumType,
-                nsfw_allowed = user.NsfwAllowed,
-                mfa_enabled = user.MfaEnabled ?? false,
-                verified = user.Verified,
-                public_flags = user.PublicFlags,
-            };
-            List<ReadyEvent.PublicRelationShip> relationShips = new List<ReadyEvent.PublicRelationShip>();
-            foreach (var rel in db.Relationships.Include(s => s.To).Where(s => s.Id == user.Id))
-            {
-                ReadyEvent.PublicUser user1 = new ReadyEvent.PublicUser()
-                {
-                    accent_color = rel.To.AccentColor,
-                    avatar = rel.To.Avatar,
-                    banner = rel.To.Banner,
-                    bio = rel.To.Bio,
-                    bot = rel.To.Bot,
-                    discriminator = rel.To.Discriminator,
-                    id = rel.To.Id,
-                    premium_since = new DateTime(),
-                    public_flags = rel.To.PublicFlags,
-                    username = rel.To.Username
-                };
-
-                relationShips.Add(new ReadyEvent.PublicRelationShip()
-                {
-                    id = rel.Id,
-                    nickname = rel.Nickname,
-                    type = rel.Type,
-                    user = user1
-                });
-            }
-
-            //var settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(user.Settings);
-            var readyEventData = new ReadyEvent.ReadyEventData()
-            {
-                v = 9,
-                application = db.Applications.FirstOrDefault(s => s.Id == user.Id),
-                user = privateUser,
-                user_settings = JsonConvert.SerializeObject(user.Settings),
-                guilds = db.Members.Where(s => s.Id == user.Id).Select(s => s.Guild).ToList(),
-                relationships = relationShips,
-                read_state = new ReadyEvent.ReadState()
-                {
-                    entries = db.ReadStates.Where(s => s.User.Id == user.Id).ToList(),
-                    partial = false,
-                    version = 304128,
-                },
-                user_guild_settings = new ReadyEvent.GuildMemberSettings()
-                {
-                    //entries = db.Members.Where(s => s.Id == user.Id).Select(s => s.Settings).ToList(),
-                    entries = new List<UserChannelSettings>(),
-                    partial = false,
-                    version = 642,
-                },
-                private_channels = db.Channels
-                    .Where(s => (s.Type == 1 || s.Type == 3) && s.Recipients.Any(s => s.Id == user.Id)).ToList(),
-                session_id = client.session_id,
-                analytics_token = "",
-                connected_accounts = db.ConnectedAccounts.Where(s => s.User.Id == user.Id).ToList(),
-                consents = new ReadyEvent.Consents()
-                {
-                    personalization = new ReadyEvent.PersonalizationConsents()
-                    {
-                        consented = false,
-                    }
-                },
-                country_code = user.Settings.Locale ?? "en-us",
-                friend_suggestions = 0,
-                experiments = new List<object>(),
-                guild_join_requests = new List<object>(),
-                users = new List<ReadyEvent.PublicUser>(),
-                merged_members = db.Members.Where(s => s.Id == user.Id).ToList()
-            };
-
-            await GatewayController.Send(client, new Payload()
-            {
-                d = readyEventData,
-                op = Constants.OpCodes.Dispatch,
-                t = "READY",
-                s = client.sequence++
-            });
-            client.is_ready = true;
-
-            Console.WriteLine($"Got user {user.Id} {user.Email}");*/
         }
     }
 }

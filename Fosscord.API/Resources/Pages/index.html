@@ -49,8 +49,66 @@
 			localStorage.setItem("gatewayURL", window.GLOBAL_ENV.GATEWAY_ENDPOINT);
 			localStorage.setItem(
 				"DeveloperOptionsStore",
-				`{"trace":false,"canary":true,"logGatewayEvents":true,"logOverlayEvents":true,"logAnalyticsEvents":true,"sourceMapsEnabled":false,"axeEnabled":false}`
+				JSON.stringify({
+					trace: false,
+					canary: true,
+					logGatewayEvents: true,
+					logOverlayEvents: true,
+					logAnalyticsEvents: true,
+					sourceMapsEnabled: false,
+					axeEnabled: true,
+					bugReporterEnabled: true,
+					idleStatusIndicatorEnabled: false
+				})
+				//`{"trace":false,"canary":true,"logGatewayEvents":true,"logOverlayEvents":true,"logAnalyticsEvents":true,"sourceMapsEnabled":false,"axeEnabled":false,"": true}`
 			);
+			<!--
+			b = {
+          trace: !1,
+          canary: !1,
+          logGatewayEvents: !1,
+          logOverlayEvents: !1,
+          logAnalyticsEvents: !1,
+          sourceMapsEnabled: !1,
+          axeEnabled: !1,
+          analyticsDebuggerEnabled: !1,
+          bugReporterEnabled: !0,
+        },
+        b = {
+                    trace: !1,
+                    canary: !1,
+                    logGatewayEvents: !1,
+                    logOverlayEvents: !1,
+                    logAnalyticsEvents: !1,
+                    sourceMapsEnabled: !1,
+                    axeEnabled: !1,
+                    analyticsDebuggerEnabled: !1,
+                    bugReporterEnabled: !0,
+                    idleStatusIndicatorEnabled: !1,
+                },
+                 g = {
+          trace: !1,
+          canary: !1,
+          logGatewayEvents: !1,
+          logOverlayEvents: !1,
+          logAnalyticsEvents: !1,
+          sourceMapsEnabled: !1,
+          axeEnabled: !1,
+          analyticsDebuggerEnabled: !1,
+          bugReporterEnabled: !0,
+        },
+         g = {
+          trace: !1,
+          canary: !1,
+          logGatewayEvents: !1,
+          logOverlayEvents: !1,
+          logAnalyticsEvents: !1,
+          sourceMapsEnabled: !1,
+          axeEnabled: !1,
+          analyticsDebuggerEnabled: !1,
+          bugReporterEnabled: !0,
+        },
+			-->
 
 			setInterval(() => {
 				var token = JSON.parse(localStorage.getItem("token"));

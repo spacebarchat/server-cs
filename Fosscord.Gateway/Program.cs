@@ -2,6 +2,7 @@ using System.Reflection;
 using Fosscord.API;
 using Fosscord.Gateway.Controllers;
 using Fosscord.Gateway.Events;
+using Fosscord.Gateway.Models;
 using Fosscord.Util;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ builder.Services.AddControllers();
 AspUtils.ConfigureBuilder(ref builder);
 
 Static.Config.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
-if (Static.Config.Gateway.Debug.WipeOnStartup)
+if (Static.Config.Gateway.Debug.WipeOnStartup && Directory.Exists("event_dump"))
 {
     Directory.Delete("event_dump", true);
 }
@@ -58,7 +59,7 @@ foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => typeo
         IGatewayMessage message = constructor.Invoke(null) as IGatewayMessage;
         if (@message == null) 
             continue;
-        GatewayController.GatewayActions.Add(message.OpCode, message);
+        WebSocketInfo.GatewayActions.Add(message.OpCode, message);
         Console.WriteLine($"Successfully registered handler for {message.OpCode}");
     }
 }
