@@ -34,6 +34,7 @@ public class GatewayConfig
 public class GatewayDebugConfig
 {
     public bool WipeOnStartup { get; set; } = false;
+    public bool DumpGatewayEventsToFiles = false;
     public bool OpenDumpsAfterWrite { get; set; } = false;
     public (string Command, string Args) OpenDumpCommand { get; set; } = ("code-insiders", "$file");
 
@@ -126,14 +127,27 @@ public class SentryConfig
 
 public class TestClientConfig
 {
-    public bool Debug = false;
     public bool Enabled = true;
     public bool UseLatest = true;
+    public TestClientDebug DebugOptions = new();
+}
+
+public class TestClientDebug
+{
+    public TestClientPatchOptions PatchOptions = new();
+    public bool DumpWebsocketTraffic = false;
+    public bool DumpWebsocketTrafficToBrowserConsole = false;
+}
+
+public class TestClientPatchOptions
+{
+    public bool GatewayImmediateReconnect = false;
+    public bool NoXssWarning = true;
+    public bool GatewayPlaintext = true;
 }
 
 public class LoggingConfig
 {
     public bool DefaultRightsDebug = false;
-    public bool DumpGatewayEventsToFiles = false;
     public bool LogClientPatching = false;
 }

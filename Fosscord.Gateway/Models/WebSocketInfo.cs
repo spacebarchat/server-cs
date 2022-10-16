@@ -58,7 +58,15 @@ public class WebSocketInfo : IDisposable
 #pragma warning disable CS4014 Ignore not awaiting task
             Task.Run(HandleTimeouts, _cancellationToken);
 #pragma warning restore CS4014
-            await RunReceiveLoop();
+            try
+            {
+                await RunReceiveLoop();
+            }
+            catch (WebSocketException e)
+            {
+                Console.WriteLine($"Connection closed: {e.Message}");
+            }
+            
             try
             {
                 _cancellationTokenSource.Cancel();
@@ -92,7 +100,7 @@ public class WebSocketInfo : IDisposable
             {
                 //dump gateway events
                 await DumpPayloadToFile(message, false);
-
+                Console.WriteLine($"[{SessionId}] <- {message.op} {message.t}");
                 if (GatewayActions.ContainsKey(message.op))
                 {
                     try
@@ -172,6 +180,7 @@ public class WebSocketInfo : IDisposable
 
     public async Task SendAsync(Payload payload)
     {
+        Console.WriteLine($"[{SessionId}] -> {payload.op} {payload.t}");
         switch (Encoding)
         {
             case "json":
@@ -185,8 +194,7 @@ public class WebSocketInfo : IDisposable
     private async Task SendJsonAsync(Payload payload)
     {
         string data = JsonConvert.SerializeObject(payload, JsonSerializerSettings);
-        Console.WriteLine("send: " + payload.op + " " + payload.t);
-        if (Static.Config.Logging.DumpGatewayEventsToFiles)
+        if (Static.Config.Gateway.Debug.DumpGatewayEventsToFiles)
             await DumpPayloadToFile(payload, true);
 
         var bytes = System.Text.Encoding.UTF8.GetBytes(data);
@@ -196,7 +204,8 @@ public class WebSocketInfo : IDisposable
         }
         else
         {
-            await _webSocket.SendAsync(bytes, WebSocketMessageType.Text, true, _cancellationToken);
+            if(_webSocket.State == WebSocketState.Open)
+                await _webSocket.SendAsync(bytes, WebSocketMessageType.Text, true, _cancellationToken);
         }
     }
 

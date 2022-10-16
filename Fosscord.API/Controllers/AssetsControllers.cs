@@ -42,25 +42,14 @@ public class AssetsController : Controller
             _ => "application/octet-stream"
         };
         if (cache.ContainsKey(res))
-        {
             return File(cache[res], contentType);
-        }
 
         if (System.IO.File.Exists("./Resources/Assets/" + res))
-        {
             cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync("./Resources/Assets/" + res));
-            //return Resolvers.ReturnFile("./Resources/Assets/" + res);
-        }
         else if (System.IO.File.Exists("./cache_formatted/" + res))
-        {
             cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync("./cache_formatted/" + res));
-            //return Resolvers.ReturnFile("./cache_formatted/" + res);
-        }
         else if (System.IO.File.Exists("./cache/" + res))
-        {
             cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync($"{Static.Config.Api.AssetCache.DiskCachePath}/{res}"));
-            //return Resolvers.ReturnFile("./cache_formatted/" + res);
-        }
         else
         {
             if (!Directory.Exists(Static.Config.Api.AssetCache.DiskCachePath)) Directory.CreateDirectory(Static.Config.Api.AssetCache.DiskCachePath);
@@ -125,10 +114,25 @@ public class AssetsController : Controller
 
     public static string PatchClient(string str)
     {
+        TestClientPatchOptions patchOptions = Static.Config.TestClient.DebugOptions.PatchOptions;
         str = str.Replace("//# sourceMappingURL=", "//# disabledSourceMappingURL=");
-        str = str.Replace("e.isDiscordGatewayPlaintextSet=function(){0;return!1};", "e.isDiscordGatewayPlaintextSet=function(){return true};");
-        str = str.Replace("console.log(\"%c\"+n.SELF_XSS_", "console.valueOf(n.SELF_XSS_");
-        str = str.Replace("console.log(\"%c\".concat(n.SELF_XSS_", "console.valueOf(console.valueOf(n.SELF_XSS_");
+        str = str.Replace("https://fa97a90475514c03a42f80cd36d147c4@sentry.io/140984", "https://6bad92b0175d41a18a037a73d0cff282@sentry.thearcanebrony.net/12");
+        if (patchOptions.GatewayPlaintext)
+        {
+            str = str.Replace("e.isDiscordGatewayPlaintextSet=function(){0;return!1};", "e.isDiscordGatewayPlaintextSet = function() { return true };");
+        }
+        
+        if (patchOptions.NoXssWarning)
+        {
+            str = str.Replace("console.log(\"%c\"+n.SELF_XSS_", "console.valueOf(n.SELF_XSS_");
+            str = str.Replace("console.log(\"%c\".concat(n.SELF_XSS_", "console.valueOf(console.valueOf(n.SELF_XSS_");
+        }
+
+        if (patchOptions.GatewayImmediateReconnect)
+        {
+            str = str.Replace("nextReconnectIsImmediate=!1", "nextReconnectIsImmediate = true");
+        }
+
         return str;
     }
 
