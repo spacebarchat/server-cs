@@ -128,6 +128,7 @@ public class AssetsController : Controller
         str = str.Replace("//# sourceMappingURL=", "//# disabledSourceMappingURL=");
         str = str.Replace("e.isDiscordGatewayPlaintextSet=function(){0;return!1};", "e.isDiscordGatewayPlaintextSet=function(){return true};");
         str = str.Replace("console.log(\"%c\"+n.SELF_XSS_", "console.valueOf(n.SELF_XSS_");
+        str = str.Replace("console.log(\"%c\".concat(n.SELF_XSS_", "console.valueOf(console.valueOf(n.SELF_XSS_");
         return str;
     }
 

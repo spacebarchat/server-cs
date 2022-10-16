@@ -50,7 +50,17 @@
 			localStorage.setItem("gatewayURL", window.GLOBAL_ENV.GATEWAY_ENDPOINT);
 			localStorage.setItem(
 				"DeveloperOptionsStore",
-				`{"trace":false,"canary":true,"logGatewayEvents":true,"logOverlayEvents":true,"logAnalyticsEvents":true,"sourceMapsEnabled":false,"axeEnabled":true}`
+				JSON.stringify({
+					trace: false,
+					canary: true,
+					logGatewayEvents: true,
+					logOverlayEvents: true,
+					logAnalyticsEvents: true,
+					sourceMapsEnabled: false,
+					axeEnabled: true,
+					bugReporterEnabled: true,
+					idleStatusIndicatorEnabled: false
+				})
 			);
 
 			setInterval(() => {
