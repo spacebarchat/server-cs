@@ -71,4 +71,20 @@ Static.Config.Security.Register.DefaultRights = defaultRights;
 
 Static.Config.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 Console.WriteLine("Starting web server!");
+if (args.Contains("--exit-on-modified"))
+{
+    Console.WriteLine("[WARN] --exit-on-modified enabled, exiting on source file change!");
+    new FileSystemWatcher()
+    {
+        Path = Environment.CurrentDirectory,
+        Filter = "*.cs",
+        NotifyFilter = NotifyFilters.LastWrite,
+        EnableRaisingEvents = true
+    }.Changed += async (sender, args) =>
+    {
+        Console.WriteLine("Source modified. Exiting...");
+        await app.StopAsync();
+        Environment.Exit(0);
+    };
+}
 app.Run();

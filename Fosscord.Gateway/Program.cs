@@ -1,9 +1,10 @@
+using System.Net.WebSockets;
 using System.Reflection;
 using Fosscord.API;
-using Fosscord.Gateway.Controllers;
 using Fosscord.Gateway.Events;
 using Fosscord.Gateway.Models;
 using Fosscord.Util;
+using Sentry.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -47,7 +48,8 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}");
 });
 
-foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => typeof(IGatewayMessage).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract))
+foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
+             .Where(x => typeof(IGatewayMessage).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract))
 {
     var constructor = type.GetConstructor(Type.EmptyTypes);
     if (constructor == null)
@@ -57,7 +59,7 @@ foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => typeo
     else
     {
         IGatewayMessage message = constructor.Invoke(null) as IGatewayMessage;
-        if (@message == null) 
+        if (@message == null)
             continue;
         WebSocketInfo.GatewayActions.Add(message.OpCode, message);
         Console.WriteLine($"Successfully registered handler for {message.OpCode}");
@@ -65,4 +67,25 @@ foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => typeo
 }
 
 Console.WriteLine("Starting web server!");
+if (args.Contains("--exit-on-modified"))
+{
+    Console.WriteLine("[WARN] --exit-on-modified enabled, exiting on source file change!");
+    new FileSystemWatcher()
+    {
+        Path = Environment.CurrentDirectory,
+        Filter = "*.cs",
+        NotifyFilter = NotifyFilters.LastWrite,
+        EnableRaisingEvents = true
+    }.Changed += async (sender, args) =>
+    {
+        Console.WriteLine("Source modified. Exiting...");
+        foreach (var webSocketInfo in WebSocketInfo.WebSockets)
+        {
+            await webSocketInfo.CloseAsync(WebSocketCloseStatus.NormalClosure, "Exiting...");
+        }
+        await app.StopAsync();
+        Environment.Exit(0);
+    };
+}
+
 app.Run();
