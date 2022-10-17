@@ -30,7 +30,7 @@ public class RequireRightsAttribute : Attribute
     /// <returns>Whether the user has the required rights specified by the attribute</returns>
     public bool HasRights(BitArray rights)
     {
-        Console.WriteLine($"Checking rights: {right}, {allRights}, {anyRights}");
+        //gConsole.WriteLine($"Checking rights: {right}, {allRights}, {anyRights}");
         if (rights.HasFlag(Rights.OPERATOR)) return true;
         if (anyRights is not null && !anyRights.Any(rights.HasFlag)) return false;
         if (allRights is not null && !allRights.All(rights.HasFlag)) return false;

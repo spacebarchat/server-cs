@@ -35,7 +35,7 @@ public class BitLevelTests
             {
                 bits[i] = rnd.Next(0, 2) == 1;
             }
-            output.WriteLine(String.Join("", bits.Cast<bool>().Select(b => b ? "1" : "0")));
+            //output.WriteLine(String.Join("", bits.Cast<bool>().Select(b => b ? "1" : "0")));
 
             foreach (var f in fields)
             {
@@ -52,7 +52,7 @@ public class BitLevelTests
             var s = RandomStringGenerator.Generate(10);
             Assert.DoesNotContain(s, strings);
             strings.Add(s);
-            output.WriteLine(s);
+            //output.WriteLine(s);
         }
         Assert.Equal(1000, strings.Count);
     }
