@@ -22,3 +22,4 @@ event_dump/
 assets/
 Fosscord.Gateway/data.bin
 Fosscord.Gateway/datadec.bin
+*.DotSettings.user
