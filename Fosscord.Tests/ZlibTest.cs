@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using Fosscord.Util;
+using Fosscord.Util.Generic;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Fosscord.API;
+using AngleSharp.Text;
+using Fosscord.ConfigModel;
 using Fosscord.Gateway.Events;
-using Fosscord.Util;
+using Fosscord.Static.Classes;
+using Fosscord.Static.Enums;
+using Fosscord.Util.Rewrites;
 using Ionic.Zlib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -41,9 +42,9 @@ public class WebSocketInfo : IDisposable
 
     public WebSocketInfo(string encoding, int v, string compress = "")
     {
-        this.Encoding = encoding;
+        Encoding = encoding;
         Version = v;
-        this.Compress = compress;
+        Compress = compress;
         _cancellationToken = _cancellationTokenSource.Token;
     }
 
@@ -95,7 +96,7 @@ public class WebSocketInfo : IDisposable
 
             var msgString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
             //Console.WriteLine($"{result.MessageType}\n{msgString}");
-            var message = JsonConvert.DeserializeObject<Payload>(msgString);
+            var message = JsonConvert.DeserializeObject<GatewayPayload>(msgString);
             if (message != null && !string.IsNullOrEmpty(msgString))
             {
                 //dump gateway events
@@ -111,7 +112,7 @@ public class WebSocketInfo : IDisposable
                     {
                         Console.WriteLine($"Failed to execute GatewayAction\n {e}");
                         await CloseAsync(WebSocketCloseStatus.NormalClosure,
-                            ((int) Constants.CloseCodes.Unknown_error).ToString());
+                            ((int) GatewayCloseCodes.UnknownError).ToString());
                         _cancellationTokenSource.Cancel();
                     }
                 }
@@ -151,7 +152,7 @@ public class WebSocketInfo : IDisposable
         if (Encoding != "json" /* && encoding != "etf"*/) //todo etf format
         {
             await CloseAsync(WebSocketCloseStatus.NormalClosure,
-                ((int) Constants.CloseCodes.Decode_error).ToString());
+                ((int) GatewayCloseCodes.DecodeError).ToString());
             _cancellationTokenSource.Cancel();
             return false;
         }
@@ -159,7 +160,7 @@ public class WebSocketInfo : IDisposable
         if (Version != 9)
         {
             await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                ((int) Constants.CloseCodes.Invalid_API_version).ToString(), _cancellationToken);
+                ((int) GatewayCloseCodes.InvalidApiVersion).ToString(), _cancellationToken);
             _cancellationTokenSource.Cancel();
             return false;
         }
@@ -169,7 +170,7 @@ public class WebSocketInfo : IDisposable
             if (Compress != "zlib-stream")
             {
                 await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                    ((int) Constants.CloseCodes.Decode_error).ToString(), _cancellationToken);
+                    ((int) GatewayCloseCodes.DecodeError).ToString(), _cancellationToken);
                 _cancellationTokenSource.Cancel();
                 return false;
             }
@@ -178,7 +179,7 @@ public class WebSocketInfo : IDisposable
         return true;
     }
 
-    public async Task SendAsync(Payload payload)
+    public async Task SendAsync(GatewayPayload payload)
     {
         Console.WriteLine($"[{SessionId}] -> {payload.op} {payload.t}");
         switch (Encoding)
@@ -191,10 +192,10 @@ public class WebSocketInfo : IDisposable
         }
     }
 
-    private async Task SendJsonAsync(Payload payload)
+    private async Task SendJsonAsync(GatewayPayload payload)
     {
         string data = JsonConvert.SerializeObject(payload, JsonSerializerSettings);
-        if (Static.Config.Gateway.Debug.DumpGatewayEventsToFiles)
+        if (Config.Instance.Gateway.Debug.DumpGatewayEventsToFiles)
             await DumpPayloadToFile(payload, true);
 
         var bytes = System.Text.Encoding.UTF8.GetBytes(data);
@@ -227,7 +228,7 @@ public class WebSocketInfo : IDisposable
         await _webSocket.SendAsync(data, WebSocketMessageType.Binary, true, _cancellationToken);
     }
 
-    private async Task DumpPayloadToFile(Payload payload, bool isOut)
+    private async Task DumpPayloadToFile(GatewayPayload payload, bool isOut)
     {
         var dir = $"event_dump/{(isOut ? "out" : "in")}/{payload.op}";
         if (!Directory.Exists(dir))
@@ -236,8 +237,8 @@ public class WebSocketInfo : IDisposable
         await File.WriteAllTextAsync(targetfile,
             JsonConvert.SerializeObject(payload, Formatting.Indented, JsonSerializerSettings), _cancellationToken);
         Console.WriteLine($"Dumped {payload.op} to {targetfile}");
-        if (Static.Config.Gateway.Debug.OpenDumpsAfterWrite && !Static.Config.Gateway.Debug.IgnoredEvents.Contains(payload.op.ToString()))
-            Process.Start(Static.Config.Gateway.Debug.OpenDumpCommand.Command, Static.Config.Gateway.Debug.OpenDumpCommand.Args.Replace("$file", targetfile));
+        if (Config.Instance.Gateway.Debug.OpenDumpsAfterWrite && !Config.Instance.Gateway.Debug.IgnoredEvents.Contains(payload.op.ToString()))
+            Process.Start(Config.Instance.Gateway.Debug.OpenDumpCommand.Command, Config.Instance.Gateway.Debug.OpenDumpCommand.Args.Replace("$file", targetfile));
     }
 
     private async void HandleTimeouts()
@@ -255,16 +256,16 @@ public class WebSocketInfo : IDisposable
         if (!IsReady)
         {
             await CloseAsync(WebSocketCloseStatus.NormalClosure,
-                ((int) Constants.CloseCodes.Unknown_error).ToString());
+                ((int) GatewayCloseCodes.UnknownError).ToString());
         }
 
         //Heartbeat timeout
         while (_webSocket.State == WebSocketState.Open && !_cancellationToken.IsCancellationRequested)
         {
-            await Task.Delay(Static.Config.Gateway.HeartbeatInterval, _cancellationToken);
-            if (Lastheartbeat.AddSeconds(Static.Config.Gateway.HeartbeatInterval + Static.Config.Gateway.HeartbeatIntervalBuffer) < DateTime.UtcNow)
+            await Task.Delay(Config.Instance.Gateway.HeartbeatInterval, _cancellationToken);
+            if (Lastheartbeat.AddSeconds(Config.Instance.Gateway.HeartbeatInterval + Config.Instance.Gateway.HeartbeatIntervalBuffer) < DateTime.UtcNow)
             {
-                await CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Session_timed_out).ToString());
+                await CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) GatewayCloseCodes.SessionTimedOut).ToString());
             }
         }
     }
@@ -290,16 +291,16 @@ public class WebSocketInfo : IDisposable
 
 
     //static variables
-    public static readonly Dictionary<Constants.OpCodes, IGatewayMessage> GatewayActions = new();
+    public static readonly Dictionary<GatewayOpCodes, IGatewayMessage> GatewayActions = new();
     public static readonly List<WebSocketInfo> WebSockets;
 
     //private static variables
-    private static readonly Payload HelloPayload = new()
+    private static readonly GatewayPayload HelloPayload = new()
     {
-        op = Constants.OpCodes.Hello,
+        op = GatewayOpCodes.Hello,
         d = new
         {
-            heartbeat_interval = Static.Config.Gateway.HeartbeatInterval
+            heartbeat_interval = Config.Instance.Gateway.HeartbeatInterval
         }
     };
 

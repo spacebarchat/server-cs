@@ -1,11 +1,8 @@
-using System.ComponentModel;
-using System.Reflection;
 using Fosscord.DbModel;
-using Fosscord.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fosscord.API.Controllers.Tools;
+namespace Fosscord.API.Controllers.Admin;
 
 [Controller]
 [Route("/admin/stats/")]
@@ -31,7 +28,7 @@ public class AdminStatsController : Controller
         //get all fields that are DbSet<T>
         foreach (var fieldInfo in dbFields
                      .Where(x=>x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
-                     .Select(x=>((IQueryable)x.GetValue(_db)))
+                     .Select(x=>(IQueryable)x.GetValue(_db)!)
                      .ToList()
                      .Select(x=>new {x.ElementType.Name, Count = x.Cast<object>().Count()})
                      .OrderByDescending(x=>x.Count)

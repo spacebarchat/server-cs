@@ -1,7 +1,6 @@
 using System.IO.Compression;
-using System.Text;
 
-namespace Fosscord.Util;
+namespace Fosscord.Util.Generic;
 
 public class ZLib
 {
@@ -17,27 +16,10 @@ public class ZLib
 
     public static byte[] Compress(byte[] a)
     {
-        //Console.WriteLine("Source: " + Encoding.UTF8.GetString(a));
-        /*using var ms = new MemoryStream();
-        using var stream = new ZLibStream(ms, CompressionLevel.Optimal);
-        var src = new MemoryStream(a);
-        src.CopyTo(stream);
-        //Console.WriteLine("Before flush: " + ms.Length);
-        stream.Flush();
-        //Console.WriteLine("After flush: " + ms.Length);
-        */
         Ionic.Zlib.ZlibStream zs = new(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Default);
-        //Ionic.Zlib.DeflateStream zs = new(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Default);
         var ms = new MemoryStream();
         zs.CopyTo(ms);
         var data = ms.ToArray();
-        //decompress and log
-        /*var decompressed = Decompress(data);
-        Console.WriteLine("Decompressed: " + Encoding.UTF8.GetString(decompressed));
-        File.WriteAllBytes("data.bin", data);
-        File.WriteAllBytes("datadec.bin", decompressed);
-        Console.WriteLine(BitConverter.ToString(data));*/
-        
         return data;
     }
 }

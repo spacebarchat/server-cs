@@ -10,8 +10,8 @@ public class ToolsIndexController : Controller
     [HttpGet]
     public async Task<ContentResult> ToolsIndex()
     {
-        var classes = this.GetType().Assembly.GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(Controller)) && (t.Namespace?.StartsWith(this.GetType().Namespace) ?? false))
+        var classes = GetType().Assembly.GetTypes()
+            .Where(t => t.IsSubclassOf(typeof(Controller)) && (t.Namespace?.StartsWith(GetType().Namespace!) ?? false))
             .ToArray();
         string html = "";
         foreach (var ctrlClass in classes)

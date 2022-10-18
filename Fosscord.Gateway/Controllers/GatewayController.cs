@@ -1,14 +1,6 @@
-﻿using System.Diagnostics;
-using System.Net.WebSockets;
-using System.Text;
-using Fosscord.API;
-using Fosscord.DbModel;
-using Fosscord.Gateway.Events;
+﻿using Fosscord.DbModel;
 using Fosscord.Gateway.Models;
-using Fosscord.Util;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Fosscord.Gateway.Controllers;
 

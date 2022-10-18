@@ -1,4 +1,5 @@
-﻿namespace Fosscord.Gateway;
+﻿// ReSharper disable InconsistentNaming
+namespace Fosscord.Util.Rewrites;
 
 public enum Intents
 {

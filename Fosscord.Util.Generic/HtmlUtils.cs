@@ -1,7 +1,7 @@
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 
-namespace Fosscord.API.Utilities;
+namespace Fosscord.Util.Generic;
 
 public class HtmlUtils
 {

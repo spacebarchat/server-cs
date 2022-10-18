@@ -1,8 +1,6 @@
 using System.Diagnostics;
-using System.Net;
 using Fosscord.API.Controllers;
-using Fosscord.API.Utilities;
-using Fosscord.DbModel;
+using Fosscord.ConfigModel;
 
 namespace Fosscord.API.Tasks.Startup;
 
@@ -15,34 +13,30 @@ public class PatchClientAssetsTask : ITask
 
     public void Execute()
     {
-        foreach (var file in Directory.GetFiles(Static.Config.Api.AssetCache.DiskCachePath).Where(x => x.EndsWith(".js")))
+        foreach (var file in Directory.GetFiles(Config.Instance.Api.AssetCache.DiskCachePath).Where(x => x.EndsWith(".js")))
         {
             var start = DateTime.Now;
-            if(Static.Config.Logging.LogClientPatching) Console.Write($"[Client Patcher] Patching file {file}...");
+            if(Config.Instance.Logging.LogClientPatching) Console.Write($"[Client Patcher] Patching file {file}...");
             var contents = File.ReadAllText(file);
             contents = AssetsController.PatchClient(contents);
             File.WriteAllText(file, contents);
-            if(Static.Config.Logging.LogClientPatching) Console.WriteLine($" Done in {DateTime.Now - start}!");
+            if(Config.Instance.Logging.LogClientPatching) Console.WriteLine($" Done in {DateTime.Now - start}!");
         }
 
-        if (Static.Config.Api.Debug.ReformatAssets)
+        if (Config.Instance.Api.Debug.ReformatAssets)
         {
             Console.WriteLine("[Client Patcher] Reformatting assets...");
-            int baseprocs = Process.GetProcessesByName("node").Length;
-            foreach (var file in Directory.GetFiles(Static.Config.Api.AssetCache.DiskCachePath))
+            foreach (var file in Directory.GetFiles(Config.Instance.Api.AssetCache.DiskCachePath))
             {
-                var target = file.Replace(Static.Config.Api.AssetCache.DiskCachePath, Static.Config.Api.Debug.FormattedAssetPath);
+                var target = file.Replace(Config.Instance.Api.AssetCache.DiskCachePath, Config.Instance.Api.Debug.FormattedAssetPath);
                 if(!File.Exists(target))
                     File.Copy(file, target, false);
-                //var proc = Process.Start("npx", "prettier -w " + target);//.WaitForExit(1000);
-                //proc.WaitForExit(500);
-                //if (Process.GetProcessesByName("node").Length > baseprocs + 10) proc.WaitForExit();  //Thread.Sleep(1000);
             }
 
-            Process.Start("npx", "prettier -w " + Static.Config.Api.Debug.FormattedAssetPath).WaitForExit();
+            Process.Start("npx", "prettier -w " + Config.Instance.Api.Debug.FormattedAssetPath).WaitForExit();
             Console.WriteLine("[Client Patcher] Done!");
-            if (Static.Config.Api.Debug.OpenFormattedDirAfterReformat)
-                Process.Start(Static.Config.Api.Debug.OpenFormattedDirCommand.Command, Static.Config.Api.Debug.OpenFormattedDirCommand.Args.Replace("$dir", Static.Config.Api.Debug.FormattedAssetPath));
+            if (Config.Instance.Api.Debug.OpenFormattedDirAfterReformat)
+                Process.Start(Config.Instance.Api.Debug.OpenFormattedDirCommand.Command, Config.Instance.Api.Debug.OpenFormattedDirCommand.Args.Replace("$dir", Config.Instance.Api.Debug.FormattedAssetPath));
         }
     }
 }

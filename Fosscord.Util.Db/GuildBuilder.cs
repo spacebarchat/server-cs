@@ -1,4 +1,4 @@
-﻿using Fosscord.DbModel.Scaffold;
+﻿using Fosscord.DbModel.Entities;
 using IdGen;
 
 namespace Fosscord.Util.Db;
@@ -33,7 +33,7 @@ public class GuildBuilder
         db ??= DbModel.Db.GetNewPostgres();
         var channel = new Channel()
         {
-            Id = new IdGen.IdGenerator(Environment.CurrentManagedThreadId).CreateId() + "",
+            Id = new IdGenerator(Environment.CurrentManagedThreadId).CreateId() + "",
             Name = name ?? "unnamed",
             Guild = guild
         };

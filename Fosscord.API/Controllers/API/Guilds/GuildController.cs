@@ -1,7 +1,7 @@
-using Fosscord.API.Classes;
 using Fosscord.API.Schemas;
 using Fosscord.DbModel;
-using Fosscord.DbModel.Scaffold;
+using Fosscord.DbModel.Entities;
+using Fosscord.Util;
 using IdGen;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,7 +12,6 @@ namespace Fosscord.API.Controllers.API.Guilds;
 [Route("/")]
 public class GuildController : Controller
 {
-    private static readonly Random Rnd = new();
     private readonly JwtAuthenticationManager _auth;
     private readonly Db _db;
 

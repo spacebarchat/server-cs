@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using ArcaneLibs.Logging;
 using ArcaneLibs.Logging.LogEndpoints;
-using Fosscord.DbModel.Scaffold;
+using Fosscord.ConfigModel;
+using Fosscord.DbModel.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -102,8 +103,7 @@ public class Db : DbContext
 
     public static Db GetNewDb()
     {
-        var cfg = DbConfig.Read();
-        cfg.Save();
+        var cfg = Config.Instance.DbConfig;
         return cfg.Driver.ToLower() switch
         {
             "postgres" => GetNewPostgres(),
@@ -118,8 +118,7 @@ public class Db : DbContext
     public static Db GetNewMysql()
     {
         GetDbModelLogger().Log("Instantiating new DB context: MariDB");
-        var cfg = DbConfig.Read();
-        cfg.Save();
+        var cfg = Config.Instance.DbConfig;
         string ds =
             $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
         var db = new Db(new DbContextOptionsBuilder<Db>().UseMySql(ds, ServerVersion.AutoDetect(ds)
@@ -139,8 +138,7 @@ public class Db : DbContext
     public static Db GetNewPostgres()
     {
         GetDbModelLogger().Log("Instantiating new DB context: Postgres");
-        var cfg = DbConfig.Read();
-        cfg.Save();
+        var cfg = Config.Instance.DbConfig;
         var db = new Db(new DbContextOptionsBuilder<Db>()
             .UseNpgsql(
                 $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true"
@@ -164,8 +162,7 @@ public class Db : DbContext
     public static Db GetSqlite()
     {
         GetDbModelLogger().Log("Instantiating new DB context: Sqlite");
-        var cfg = DbConfig.Read();
-        cfg.Save();
+        var cfg = Config.Instance.DbConfig;
         return new Db(new DbContextOptionsBuilder<Db>()
             .UseSqlite($"Data Source={cfg.Database}.db;Version=3;",
                 x =>
@@ -178,8 +175,6 @@ public class Db : DbContext
     public static Db GetInMemoryDb()
     {
         GetDbModelLogger().Log("Instantiating new DB context: InMemory");
-        var cfg = DbConfig.Read();
-        cfg.Save();
         return new Db(new DbContextOptionsBuilder<Db>().UseInMemoryDatabase("InMemoryDb")
             .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging().Options);
     }

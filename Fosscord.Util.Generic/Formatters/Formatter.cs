@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 using ArcaneLibs.Logging;
 using ArcaneLibs.Logging.LogEndpoints;
 
-namespace Fosscord.Util.Formatters;
+namespace Fosscord.Util.Generic.Formatters;
 
 public class Formatter
 {

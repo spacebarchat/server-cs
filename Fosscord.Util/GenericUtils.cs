@@ -1,6 +1,6 @@
-﻿using Fosscord.API;
+﻿using Fosscord.ConfigModel;
 
-namespace Fosscord.Dependencies;
+namespace Fosscord.Util;
 
 public class GenericUtils
 {
@@ -13,7 +13,7 @@ public class GenericUtils
 
     public static string GetSentryEnvironment()
     {
-        var envname = Static.Config.Sentry.Environment;
+        var envname = Config.Instance.Sentry.Environment;
         if (envname == Environment.MachineName)
         {
             Console.WriteLine("Environment name not set! Using hostname, to change this, set in Config.json!");

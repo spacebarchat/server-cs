@@ -1,17 +1,17 @@
 ﻿using Fosscord.DbModel;
-using Fosscord.Util;
+using Fosscord.Util.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fosscord.Gateway.Controllers;
 
 public class DumpController : Controller
 {
-    private readonly ILogger<DumpController> _Logger;
+    private readonly ILogger<DumpController> _logger;
     private readonly Db _db;
 
     public DumpController(ILogger<DumpController> logger, Db db)
     {
-        _Logger = logger;
+        _logger = logger;
         _db = db;
     }
 

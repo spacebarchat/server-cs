@@ -1,15 +1,12 @@
 ﻿using System.Net.WebSockets;
-using Fosscord.API.Classes;
-using Fosscord.API.Utilities;
 using Fosscord.DbModel;
-using Fosscord.DbModel.Scaffold;
-using Fosscord.Gateway.Controllers;
+using Fosscord.DbModel.Entities;
 using Fosscord.Gateway.EventDataBuilders;
 using Fosscord.Gateway.Models;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Fosscord.Static.Classes;
+using Fosscord.Static.Enums;
+using Fosscord.Util;
 using Newtonsoft.Json.Linq;
-using Constants = Fosscord.Gateway.Models.Constants;
 
 namespace Fosscord.Gateway.Events;
 
@@ -22,9 +19,9 @@ public class Identify : IGatewayMessage
         _auth = new JwtAuthenticationManager();
     }
 
-    public Constants.OpCodes OpCode { get; } = Constants.OpCodes.Identify;
+    public GatewayOpCodes OpCode { get; } = GatewayOpCodes.Identify;
 
-    public async Task Invoke(Payload payload, WebSocketInfo client)
+    public async Task Invoke(GatewayPayload payload, WebSocketInfo client)
     {
         if (payload.d is JObject jObject)
         {
@@ -33,29 +30,29 @@ public class Identify : IGatewayMessage
             User? user;
             try
             {
-                user = _auth.GetUserFromToken(identify.token);
+                user = _auth.GetUserFromToken(identify.Token);
                 var settings = db.UserSettings.FirstOrDefault(x => x.Id == user.Id);
                 user.Settings = settings;
             }
             catch (Exception e)
             {
-                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString());
+                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) GatewayCloseCodes.AuthenticationFailed).ToString());
                 return;
             }
 
             if (user is null)
             {
-                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) Constants.CloseCodes.Authentication_failed).ToString());
+                await client.CloseAsync(WebSocketCloseStatus.NormalClosure, ((int) GatewayCloseCodes.AuthenticationFailed).ToString());
                 return;
             }
 
             var readyEvent = ReadyEventDataBuilder.Build(db, user);
-            client.SessionId = readyEvent.session_id;
+            client.SessionId = readyEvent.SessionId;
             
             await client.SendAsync(new()
             {
                 d = readyEvent,
-                op = Constants.OpCodes.Dispatch,
+                op = GatewayOpCodes.Dispatch,
                 t = "READY",
                 s = client.Sequence++
             });

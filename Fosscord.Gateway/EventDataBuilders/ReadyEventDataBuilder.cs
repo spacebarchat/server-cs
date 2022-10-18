@@ -1,9 +1,8 @@
-using Fosscord.API.Utilities;
 using Fosscord.DbModel;
-using Fosscord.DbModel.Scaffold;
+using Fosscord.DbModel.Entities;
 using Fosscord.Gateway.Models;
+using Fosscord.Static.Utilities;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace Fosscord.Gateway.EventDataBuilders;
 
@@ -13,65 +12,65 @@ public class ReadyEventDataBuilder
     {
         var readyEventData = new ReadyEvent.ReadyEventData
         {
-            v = 9,
-            application = getApplication(db, user),
-            user = getPrivateUser(db, user),
-            user_settings = getSettings(db, user),
-            guilds = getGuilds(db, user),
-            relationships = getRelationships(db, user),
-            read_state = getReadStates(db, user),
-            user_guild_settings = getUserGuildSettings(db, user),
-            private_channels = getDms(db, user),
-            session_id = RandomStringGenerator.Generate(32),
-            analytics_token = "",
-            connected_accounts = getConnectedAccounts(db, user),
-            consents = new ReadyEvent.Consents
+            Version = 9,
+            Application = GetApplication(db, user),
+            User = GetPrivateUser(db, user),
+            UserSettings = GetSettings(db, user),
+            Guilds = GetGuilds(db, user),
+            Relationships = GetRelationships(db, user),
+            ReadState = GetReadStates(db, user),
+            UserGuildSettings = GetUserGuildSettings(db, user),
+            PrivateChannels = GetDms(db, user),
+            SessionId = RandomStringGenerator.Generate(32),
+            AnalyticsToken = "",
+            ConnectedAccounts = GetConnectedAccounts(db, user),
+            Consents = new ReadyEvent.Consents
             {
-                personalization = new ReadyEvent.PersonalizationConsents
+                Personalization = new ReadyEvent.PersonalizationConsents
                 {
-                    consented = false
+                    Consented = false
                 }
             },
-            country_code = user.Settings.Locale ?? "en-us",
-            friend_suggestions = 0,
-            experiments = new List<object>(),
-            guild_join_requests = new List<object>(),
-            users = getUsers(db,user),
-            merged_members = getMergeMembers(db, user)
+            CountryCode = user.Settings.Locale ?? "en-us",
+            FriendSuggestions = 0,
+            Experiments = new List<object>(),
+            GuildJoinRequests = new List<object>(),
+            Users = GetUsers(db,user),
+            MergedMembers = GetMergeMembers(db, user)
         };
 
         return readyEventData;
     }
 
-    private static List<ReadyEvent.PublicUser> getUsers(Db db, User user)
+    private static List<ReadyEvent.PublicUser> GetUsers(Db db, User user)
     {
         return new List<ReadyEvent.PublicUser>();
     }
 
-    private static List<ConnectedAccount> getConnectedAccounts(Db db, User user)
+    private static List<ConnectedAccount> GetConnectedAccounts(Db db, User user)
     {
         return new List<ConnectedAccount>();
         //return db.ConnectedAccounts.Where(s => s.User.Id == user.Id).ToList();
     }
 
-    private static List<Member> getMergeMembers(Db db, User user)
+    private static List<Member> GetMergeMembers(Db db, User user)
     {
         return new List<Member>();
         //return db.Members.Where(s => s.Id == user.Id).ToList();
     }
 
-    private static UserSetting? getSettings(Db db, User user)
+    private static UserSetting? GetSettings(Db db, User user)
     {
         return user.Settings;
     }
 
-    private static List<Channel> getDms(Db db, User user)
+    private static List<Channel> GetDms(Db db, User user)
     {
         return db.Channels
             .Where(s => (s.Type == 1 || s.Type == 3) && s.Recipients.Any(s => s.Id == user.Id)).ToList();
     }
 
-    private static List<Guild> getGuilds(Db db, User user)
+    private static List<Guild> GetGuilds(Db db, User user)
     {
         var guilds = db.Members.Where(s => s.Id == user.Id).Select(s => s.GuildId).ToList();
         return db.Guilds.Include(x=>x.Channels)
@@ -80,85 +79,85 @@ public class ReadyEventDataBuilder
                         .ToList();
     }
 
-    private static ReadyEvent.GuildMemberSettings getUserGuildSettings(Db db, User user)
+    private static ReadyEvent.GuildMemberSettings GetUserGuildSettings(Db db, User user)
     {
         return new ReadyEvent.GuildMemberSettings
         {
             //entries = db.Members.Where(s => s.Id == user.Id).Select(s => s.Settings).ToList(),
-            entries = new List<UserChannelSettings>(),
-            partial = false,
-            version = 642
+            Entries = new List<UserChannelSettings>(),
+            Partial = false,
+            Version = 642
         };
     }
 
-    private static ReadyEvent.ReadState getReadStates(Db db, User user)
+    private static ReadyEvent.ReadState GetReadStates(Db db, User user)
     {
         return new ReadyEvent.ReadState
         {
             //entries = db.ReadStates.Where(s => s.User.Id == user.Id).ToList(),
-            entries = new List<ReadState>(),
-            partial = false,
-            version = 304128
+            Entries = new List<ReadState>(),
+            Partial = false,
+            Version = 304128
         };
     }
 
-    private static List<ReadyEvent.PublicRelationShip> getRelationships(Db db, User user)
+    private static List<ReadyEvent.PublicRelationShip> GetRelationships(Db db, User user)
     {
         return db.Relationships.Include(s => s.To).Where(s => s.FromId == user.Id).Select(x => new ReadyEvent.PublicRelationShip
         {
-            id = x.Id,
-            type = x.Type,
-            nickname = x.Nickname,
-            user = getPublicUser(db, user)
+            Id = x.Id,
+            Type = x.Type,
+            Nickname = x.Nickname,
+            User = GetPublicUser(db, user)
         }).ToList();
     }
 
-    private static ReadyEvent.PublicUser getPublicUser(Db db, User user)
+    private static ReadyEvent.PublicUser GetPublicUser(Db db, User user)
     {
         return new ReadyEvent.PublicUser
         {
-            accent_color = user.AccentColor,
-            avatar = user.Avatar,
-            banner = user.Banner,
-            bio = user.Bio,
-            bot = user.Bot,
-            discriminator = user.Discriminator,
-            id = user.Id,
-            premium_since = new DateTime(),
-            public_flags = user.PublicFlags,
-            username = user.Username
+            AccentColor = user.AccentColor,
+            Avatar = user.Avatar,
+            Banner = user.Banner,
+            Bio = user.Bio,
+            Bot = user.Bot,
+            Discriminator = user.Discriminator,
+            Id = user.Id,
+            PremiumSince = new DateTime(),
+            PublicFlags = user.PublicFlags,
+            Username = user.Username
         };
     }
 
-    private static Application getApplication(Db db, User user)
+    private static Application GetApplication(Db db, User user)
     {
         return db.Applications.FirstOrDefault(s => s.Id == user.Id);
     }
 
-    private static ReadyEvent.PrivateUser getPrivateUser(Db db, User user)
+    private static ReadyEvent.PrivateUser GetPrivateUser(Db db, User user)
     {
         return new ReadyEvent.PrivateUser
         {
-            accent_color = user.AccentColor,
-            avatar = user.Avatar,
-            banner = user.Banner,
-            bio = user.Bio,
-            bot = user.Bot,
-            desktop = user.Desktop,
-            discriminator = user.Discriminator,
-            email = user.Email,
-            flags = user.Flags,
-            id = user.Id,
-            username = user.Username,
-            mobile = user.Mobile,
-            phone = user.Phone,
-            premium = user.Premium,
-            premium_type = user.PremiumType,
-            nsfw_allowed = user.NsfwAllowed,
-            mfa_enabled = user.MfaEnabled ?? false,
-            verified = user.Verified,
-            public_flags = user.PublicFlags,
-            premium_since = user.PremiumSince ?? DateTime.Now
+            AccentColor = user.AccentColor,
+            Avatar = user.Avatar,
+            Banner = user.Banner,
+            Bio = user.Bio,
+            Bot = user.Bot,
+            Desktop = user.Desktop,
+            Discriminator = user.Discriminator,
+            Email = user.Email,
+            Flags = user.Flags,
+            Id = user.Id,
+            Username = user.Username,
+            Mobile = user.Mobile,
+            Phone = user.Phone,
+            Premium = user.Premium,
+            PremiumType = user.PremiumType,
+            NsfwAllowed = user.NsfwAllowed,
+            MfaEnabled = user.MfaEnabled ?? false,
+            Verified = user.Verified,
+            PublicFlags = user.PublicFlags,
+            PremiumSince = user.PremiumSince ?? DateTime.Now
         };
     }
 }

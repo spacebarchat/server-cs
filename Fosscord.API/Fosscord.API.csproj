@@ -7,8 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Fosscord.ConfigModel\Fosscord.ConfigModel.csproj" />
+      <ProjectReference Include="..\Fosscord.Config\Fosscord.Config.csproj" />
       <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj" />
-      <ProjectReference Include="..\Fosscord.Shared\Fosscord.Shared.csproj" />
+      <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj" />
       <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
     </ItemGroup>
 

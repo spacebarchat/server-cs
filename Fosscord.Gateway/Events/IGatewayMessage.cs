@@ -1,9 +1,11 @@
 ﻿using Fosscord.Gateway.Models;
+using Fosscord.Static.Classes;
+using Fosscord.Static.Enums;
 
 namespace Fosscord.Gateway.Events;
 
 public interface IGatewayMessage
 {
-    Constants.OpCodes OpCode { get; }
-    Task Invoke(Payload payload, WebSocketInfo client);
+    GatewayOpCodes OpCode { get; }
+    Task Invoke(GatewayPayload payload, WebSocketInfo client);
 }

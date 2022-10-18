@@ -1,4 +1,4 @@
-﻿using Fosscord.DbModel.Scaffold;
+﻿using Fosscord.DbModel.Entities;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Migration = Microsoft.EntityFrameworkCore.Migrations.Migration;
 

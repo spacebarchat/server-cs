@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Fosscord.API.PostData;
+namespace Fosscord.DbModel.Classes;
 
 public class RegisterData
 {

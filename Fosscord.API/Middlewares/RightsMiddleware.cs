@@ -1,6 +1,6 @@
 using System.Text;
-using Fosscord.API.Classes;
-using Fosscord.Shared.Attributes;
+using Fosscord.Static.Attributes;
+using Fosscord.Util;
 
 namespace Fosscord.API.Middlewares;
 

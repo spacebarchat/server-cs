@@ -1,18 +1,20 @@
-﻿namespace Fosscord.Gateway.Models;
+﻿using Fosscord.Util.Rewrites;
+
+namespace Fosscord.Gateway.Models;
 
 public class Identify
 {
-    public string token;
-    public IdentifyProperties properties;
-    public Intents intents;
+    public string Token;
+    public IdentifyProperties Properties;
+    public Intents Intents;
     //todo activity
-    public bool compress;
-    public int large_threshold;
-    public long shard;
-    public bool guild_subscriptions;
-    public int capabilities;
-    public IdentifyClientState client_state;
-    public int v;
+    public bool Compress;
+    public int LargeThreshold;
+    public long Shard;
+    public bool GuildSubscriptions;
+    public int Capabilities;
+    public IdentifyClientState ClientState;
+    public int V;
 }
 
 public class IdentifyClientState
@@ -22,20 +24,20 @@ public class IdentifyClientState
 
 public class IdentifyProperties
 {
-    public string os;
-    public string os_atch;
-    public string browser;
-    public string device;
-    public string browser_user_agent;
-    public string browser_version;
-    public string os_version;
-    public string referrer;
-    public string referring_domain;
-    public string referrer_current;
-    public string referring_domain_current;
-    public string release_channel;
-    public int client_build_number;
-    public object client_event_source;
-    public string client_version;
-    public string system_locale;
+    public string? Os;
+    public string? OsAtch;
+    public string? Browser;
+    public string? Device;
+    public string? BrowserUserAgent;
+    public string? BrowserVersion;
+    public string? OsVersion;
+    public string? Referrer;
+    public string? ReferringDomain;
+    public string? ReferrerCurrent;
+    public string? ReferringDomainCurrent;
+    public string? ReleaseChannel;
+    public int? ClientBuildNumber;
+    public object? ClientEventSource;
+    public string? ClientVersion;
+    public string? SystemLocale;
 }

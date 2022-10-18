@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Fosscord.API.Utilities;
-using Fosscord.Shared.Attributes;
-using Fosscord.Shared.Enums;
-using Fosscord.Util.Generic.Extensions;
+using Fosscord.Static.Attributes;
+using Fosscord.Static.Enums;
+using Fosscord.Static.Extensions;
+using Fosscord.Static.Utilities;
 using Xunit;
 using Xunit.Abstractions;
 

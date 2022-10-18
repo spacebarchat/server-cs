@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Reflection;
-using Fosscord.Shared.Enums;
+using Fosscord.Static.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fosscord.API.Controllers.Tools;

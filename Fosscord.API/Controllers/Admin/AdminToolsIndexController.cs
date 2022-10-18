@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fosscord.API.Controllers.Tools;
+namespace Fosscord.API.Controllers.Admin;
 
 [Controller]
 [Route("/admin/")]
@@ -10,8 +10,8 @@ public class AdminToolsIndexController : Controller
     [HttpGet]
     public async Task<ContentResult> ToolsIndex()
     {
-        var classes = this.GetType().Assembly.GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(Controller)) && (t.Namespace?.StartsWith(this.GetType().Namespace) ?? false))
+        var classes = GetType().Assembly.GetTypes()
+            .Where(t => t.IsSubclassOf(typeof(Controller)) && (t.Namespace?.StartsWith(GetType().Namespace!) ?? false))
             .ToArray();
         string html = "";
         foreach (var ctrlClass in classes)

@@ -1,5 +1,5 @@
-﻿using Fosscord.DbModel.Scaffold;
-using Fosscord.Gateway.EventDataBuilders;
+﻿using Fosscord.DbModel.Entities;
+using Newtonsoft.Json;
 
 namespace Fosscord.Gateway.Models;
 
@@ -7,98 +7,99 @@ public class ReadyEvent
 {
     public class PublicRelationShip
     {
-        public string id { get; set; }
-        public int type { get; set; }
-        public string nickname { get; set; }
-        public PublicUser user { get; set; }
+        public string Id { get; set; }
+        public int Type { get; set; }
+        public string Nickname { get; set; }
+        public PublicUser User { get; set; }
     }
     
     public class PublicUser
     {
-        public string id { get; set; } = null!;
-        public string username { get; set; } = null!;
-        public string discriminator { get; set; } = null!;
-        public string? avatar { get; set; }
-        public int? accent_color { get; set; }
-        public string? banner { get; set; }
-        public bool bot { get; set; }
-        public string bio { get; set; } = null!;
-        public int public_flags { get; set; }
-        public DateTime premium_since { get; set; } = new();
+        public string Id { get; set; } = null!;
+        public string Username { get; set; } = null!;
+        public string Discriminator { get; set; } = null!;
+        public string? Avatar { get; set; }
+        public int? AccentColor { get; set; }
+        public string? Banner { get; set; }
+        public bool Bot { get; set; }
+        public string Bio { get; set; } = null!;
+        public int PublicFlags { get; set; }
+        public DateTime PremiumSince { get; set; } = new();
     }
     
     public class PrivateUser
     {
-        public string id { get; set; } = null!;
-        public string username { get; set; } = null!;
-        public string discriminator { get; set; } = null!;
-        public string? avatar { get; set; }
-        public int? accent_color { get; set; }
-        public string? banner { get; set; }
-        public string? phone { get; set; }
-        public bool desktop { get; set; }
-        public bool mobile { get; set; }
-        public bool premium { get; set; }
-        public int premium_type { get; set; }
-        public bool bot { get; set; }
-        public string bio { get; set; } = null!;
-        public bool nsfw_allowed { get; set; }
-        public bool mfa_enabled { get; set; }
-        public bool verified { get; set; }
-        public string? email { get; set; }
-        public string flags { get; set; } = null!;
-        public int public_flags { get; set; }
-        public DateTime premium_since { get; set; } = new();
+        public string Id { get; set; } = null!;
+        public string Username { get; set; } = null!;
+        public string Discriminator { get; set; } = null!;
+        public string? Avatar { get; set; }
+        public int? AccentColor { get; set; }
+        public string? Banner { get; set; }
+        public string? Phone { get; set; }
+        public bool Desktop { get; set; }
+        public bool Mobile { get; set; }
+        public bool Premium { get; set; }
+        public int PremiumType { get; set; }
+        public bool Bot { get; set; }
+        public string Bio { get; set; } = null!;
+        public bool NsfwAllowed { get; set; }
+        public bool MfaEnabled { get; set; }
+        public bool Verified { get; set; }
+        public string? Email { get; set; }
+        public string Flags { get; set; } = null!;
+        public int PublicFlags { get; set; }
+        public DateTime PremiumSince { get; set; } = new();
     }
 
     public class ReadyEventData
     {
-        public int v { get; set; }
-        public Application application { get; set; }
+        [JsonProperty("v")]
+        public int Version { get; set; }
+        public Application Application { get; set; }
         
         
-        public PrivateUser user { get; set; }
-        public UserSetting user_settings { get; set; }
-        public List<Guild> guilds { get; set; }
-        public List<object> guild_experiments { get; set; } //todo
-        public List<object> geo_ordered_rtc_regions { get; set; } //todo
-        public List<PublicRelationShip> relationships { get; set; }
-        public ReadState read_state { get; set; }
-        public GuildMemberSettings user_guild_settings { get; set; }
-        public List<Channel> private_channels { get; set; }
-        public string session_id { get; set; }
-        public string analytics_token { get; set; }
-        public List<ConnectedAccount> connected_accounts { get; set; }
-        public Consents consents { get; set; }
-        public string country_code { get; set; }
-        public int friend_suggestions { get; set; }
-        public List<object> experiments { get; set; }
-        public List<object> guild_join_requests { get; set; }
-        public List<PublicUser> users { get; set; }
-        public List<Member> merged_members { get; set; }
+        public PrivateUser User { get; set; }
+        public UserSetting UserSettings { get; set; }
+        public List<Guild> Guilds { get; set; }
+        public List<object> GuildExperiments { get; set; } //todo
+        public List<object> GeoOrderedRtcRegions { get; set; } //todo
+        public List<PublicRelationShip> Relationships { get; set; }
+        public ReadState ReadState { get; set; }
+        public GuildMemberSettings UserGuildSettings { get; set; }
+        public List<Channel> PrivateChannels { get; set; }
+        public string SessionId { get; set; }
+        public string AnalyticsToken { get; set; }
+        public List<ConnectedAccount> ConnectedAccounts { get; set; }
+        public Consents Consents { get; set; }
+        public string CountryCode { get; set; }
+        public int FriendSuggestions { get; set; }
+        public List<object> Experiments { get; set; }
+        public List<object> GuildJoinRequests { get; set; }
+        public List<PublicUser> Users { get; set; }
+        public List<Member> MergedMembers { get; set; }
     }
 
     public class Consents
     {
-        public PersonalizationConsents personalization { get; set; }
+        public PersonalizationConsents Personalization { get; set; }
     }
 
     public class PersonalizationConsents
     {
-        public bool consented { get; set; }
+        public bool Consented { get; set; }
     }
 
     public class ReadState
     {
-        public List<DbModel.Scaffold.ReadState> entries { get; set; }
-        public bool partial { get; set; }
-        public int version { get; set; }
+        public List<DbModel.Entities.ReadState> Entries { get; set; }
+        public bool Partial { get; set; }
+        public int Version { get; set; }
     }
     
     public class GuildMemberSettings
     {
-        public List<UserChannelSettings> entries { get; set; }
-        public bool partial { get; set; }
-        public int version { get; set; }
+        public List<UserChannelSettings> Entries { get; set; }
+        public bool Partial { get; set; }
+        public int Version { get; set; }
     }
 }

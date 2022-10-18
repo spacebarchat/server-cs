@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using Fosscord.DbModel;
-using Fosscord.DbModel.Scaffold;
+using Fosscord.DbModel.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;

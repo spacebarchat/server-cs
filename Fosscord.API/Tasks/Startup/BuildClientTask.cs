@@ -1,5 +1,6 @@
 using System.Net;
-using Fosscord.API.Utilities;
+using Fosscord.ConfigModel;
+using Fosscord.Util.Generic;
 
 namespace Fosscord.API.Tasks.Startup;
 
@@ -12,13 +13,13 @@ public class BuildClientTask : ITask
 
     public void Execute()
     {
-        if (Static.Config.Api.AssetCache.WipeOnStartup)
+        if (Config.Instance.Api.AssetCache.WipeOnStartup)
         {
-            Directory.Delete(Static.Config.Api.AssetCache.DiskCachePath, true);
-            Directory.CreateDirectory(Static.Config.Api.AssetCache.DiskCachePath);
+            Directory.Delete(Config.Instance.Api.AssetCache.DiskCachePath, true);
+            Directory.CreateDirectory(Config.Instance.Api.AssetCache.DiskCachePath);
         }
-        if (!Static.Config.TestClient.Enabled ||
-            !Static.Config.TestClient.UseLatest)
+        if (!Config.Instance.TestClient.Enabled ||
+            !Config.Instance.TestClient.UseLatest)
         {
             Console.WriteLine("[Client Updater] Test client is disabled or not set to use latest version, skipping!");
             return;

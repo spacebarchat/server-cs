@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Fosscord.Util.Formatters;
+namespace Fosscord.Util.Generic.Formatters;
 
 public class JsFormatter : Formatter
 {

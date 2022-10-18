@@ -1,7 +1,7 @@
-using Fosscord.API.Classes;
-using Fosscord.API.PostData;
 using Fosscord.DbModel;
-using Fosscord.DbModel.Scaffold;
+using Fosscord.DbModel.Classes;
+using Fosscord.DbModel.Entities;
+using Fosscord.Util;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

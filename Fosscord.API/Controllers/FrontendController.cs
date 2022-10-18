@@ -1,5 +1,6 @@
 using System.Text;
 using Fosscord.API.Helpers;
+using Fosscord.ConfigModel;
 using Fosscord.DbModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,12 +24,12 @@ public class FrontendController : Controller
     [HttpGet("/channels/@me")]
     public async Task<object> Home()
     {
-        if (!Static.Config.TestClient.Enabled) 
+        if (!Config.Instance.TestClient.Enabled) 
             return NotFound("Test client is disabled");
-        var html = await System.IO.File.ReadAllTextAsync(Static.Config.TestClient.UseLatest ? "Resources/Pages/index-updated.html" : "Resources/Pages/index.html");
+        var html = await System.IO.File.ReadAllTextAsync(Config.Instance.TestClient.UseLatest ? "Resources/Pages/index-updated.html" : "Resources/Pages/index.html");
 
         //inject debug utilities
-        var debugOptions = Static.Config.TestClient.DebugOptions;
+        var debugOptions = Config.Instance.TestClient.DebugOptions;
         if(debugOptions.DumpWebsocketTrafficToBrowserConsole)
             html = html.Replace("<!-- preload plugin marker -->", await System.IO.File.ReadAllTextAsync("Resources/Private/Injections/WebSocketDataLog.html")+"\n<!-- preload plugin marker -->");
         if(debugOptions.DumpWebsocketTraffic)
@@ -40,7 +41,7 @@ public class FrontendController : Controller
     [HttpGet("/developers")]
     public async Task<object> Developers()
     {
-        if (Static.Config.TestClient.Enabled)
+        if (Config.Instance.TestClient.Enabled)
             return Resolvers.ReturnFileWithVars("Resources/Pages/developers.html", _db);
         return NotFound("Test client is disabled");
     }
