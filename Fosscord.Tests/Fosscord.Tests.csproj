@@ -5,13 +5,18 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DebugSymbols>False</DebugSymbols>
+        <DebugType>None</DebugType>
+        <Optimize>True</Optimize>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
-        <PackageReference Include="FosscordSharp" Version="0.0.0.1-preview1603996795.56cdb09" />
-        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
+        <PackageReference Include="FosscordSharp" Version="0.0.0.1-preview1603996795.56cdb09"/>
+        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -23,8 +28,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Fosscord.Util.Generic\Fosscord.Util.Generic.csproj" />
-      <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
+        <ProjectReference Include="..\Fosscord.Util.Generic\Fosscord.Util.Generic.csproj"/>
+        <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj"/>
     </ItemGroup>
 
 </Project>

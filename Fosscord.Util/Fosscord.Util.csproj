@@ -5,12 +5,18 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DebugSymbols>False</DebugSymbols>
+        <DebugType>None</DebugType>
+        <Optimize>True</Optimize>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3"/>
+        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
         <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj" />
-        <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj" />
     </ItemGroup>
 
 </Project>

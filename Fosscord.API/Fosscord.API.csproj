@@ -4,38 +4,52 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DebugSymbols>False</DebugSymbols>
+        <DebugType>None</DebugType>
+        <Optimize>True</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Fosscord.ConfigModel\Fosscord.ConfigModel.csproj" />
-      <ProjectReference Include="..\Fosscord.Config\Fosscord.Config.csproj" />
-      <ProjectReference Include="..\Fosscord.Dependencies\Fosscord.Dependencies.csproj" />
-      <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj" />
-      <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
+        <ProjectReference Include="..\Fosscord.ConfigModel\Fosscord.ConfigModel.csproj"/>
+        <ProjectReference Include="..\Fosscord.Config\Fosscord.Config.csproj"/>
+        <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj"/>
+        <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Middlewares" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
+        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
+        <PackageReference Include="IdGen" Version="3.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0"/>
+        <PackageReference Include="Sentry.AspNetCore" Version="3.15.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Resources\Pages\developers.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Pages\index.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Pages\index-template.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <Compile Remove="cache\**"/>
+        <Compile Remove="cache_formatted\**"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+        <EmbeddedResource Remove="cache\**"/>
+        <EmbeddedResource Remove="cache_formatted\**"/>
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="cache\version.stable.json" />
+        <None Remove="cache\**"/>
+        <None Remove="cache_formatted\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="cache\**"/>
+        <Content Remove="cache_formatted\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Resources\**" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 
 </Project>
