@@ -13,42 +13,42 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Fosscord.ConfigModel\Fosscord.ConfigModel.csproj"/>
-        <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj"/>
-        <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj"/>
+        <ProjectReference Include="..\Fosscord.ConfigModel\Fosscord.ConfigModel.csproj" />
+        <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj" />
+        <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
-        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
-        <PackageReference Include="IdGen" Version="3.0.2"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0"/>
-        <PackageReference Include="Sentry.AspNetCore" Version="3.15.0"/>
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+        <PackageReference Include="IdGen" Version="3.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0" />
+        <PackageReference Include="Sentry.AspNetCore" Version="3.15.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="cache\**"/>
-        <Compile Remove="cache_formatted\**"/>
+        <Compile Remove="cache\**" />
+        <Compile Remove="cache_formatted\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="cache\**"/>
-        <EmbeddedResource Remove="cache_formatted\**"/>
+        <EmbeddedResource Remove="cache\**" />
+        <EmbeddedResource Remove="cache_formatted\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="cache\**"/>
-        <None Remove="cache_formatted\**"/>
+        <None Remove="cache\**" />
+        <None Remove="cache_formatted\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="cache\**"/>
-        <Content Remove="cache_formatted\**"/>
+        <Content Remove="cache\**" />
+        <Content Remove="cache_formatted\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Resources\**" CopyToOutputDirectory="Always"/>
+        <Content Include="Resources\**" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>

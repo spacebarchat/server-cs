@@ -1,6 +1,4 @@
-﻿using Fosscord.Util.Rewrites;
-
-namespace Fosscord.Gateway.Models;
+﻿namespace Fosscord.Gateway.Models;
 
 public class Identify
 {

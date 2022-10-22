@@ -1,14 +1,13 @@
-﻿using System.Net.WebSockets;
+﻿
+using System.Net.WebSockets;
+using Fosscord.API.Classes;
 using Fosscord.DbModel;
-using Fosscord.DbModel.Entities;
-using Fosscord.Gateway.EventDataBuilders;
+using Fosscord.Gateway.Events;
 using Fosscord.Gateway.Models;
 using Fosscord.Static.Classes;
 using Fosscord.Static.Enums;
 using Fosscord.Util;
 using Newtonsoft.Json.Linq;
-
-namespace Fosscord.Gateway.Events;
 
 public class Identify : IGatewayMessage
 {

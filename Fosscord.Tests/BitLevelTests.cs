@@ -57,7 +57,7 @@ public class BitLevelTests
     }
 
     [Fact]
-    public void RequireRightsAttributeTest()
+    public void RequireSingleRightTest()
     {
         Random rnd = new Random();
         var t = typeof(Rights);
@@ -82,4 +82,78 @@ public class BitLevelTests
             }
         }
     }
+    [Fact]
+    public void RequireAnyRightTest()
+    {
+        Random rnd = new Random();
+        var t = typeof(Rights);
+        var fields = t.GetFields();
+        for (int test = 0; test < 1000; test++)
+        {
+            var bits = new BitArray(fields.Length, false);
+            var bits2 = new BitArray(fields.Length, false);
+            
+            for (var i = 0; i < bits.Count; i++)
+            {
+                bits[i] = rnd.Next(0, 2) == 1;
+                bits2[i] = rnd.Next(0, 2) == 1;
+            }
+
+            foreach (var f in fields)
+            {
+                var right = (int) f.GetValue(null);
+                List<int> _bits2 = new List<int>();
+                for (int i = 0; i < bits2.Count; i++)
+                {
+                    if(bits2[i]) _bits2.Add(i);
+                }
+                var rra = new RequireRightsAttribute(anyRights: _bits2.ToArray());
+                var expected = _bits2.Any(x=>bits[x]) || bits[Rights.OPERATOR];
+                if(expected != rra.HasRights(bits)) 
+                    output.WriteLine($"Expected {expected} but got {rra.HasRights(bits)} for {f.Name} in {String.Join("", bits.Cast<bool>().Select(b => b ? "1" : "0"))}");
+                Assert.Equal(expected, rra.HasRights(bits));
+            }
+        }
+    }
+
+    public void RequireAllRightsTest()
+    {
+        Random rnd = new Random();
+        var t = typeof(Rights);
+        var fields = t.GetFields();
+        for (int test = 0; test < 1000; test++)
+        {
+            var bits = new BitArray(fields.Length, false);
+            var bits2 = new BitArray(fields.Length, false);
+            
+            for (var i = 0; i < bits.Count; i++)
+            {
+                bits[i] = rnd.Next(0, 2) == 1;
+                bits2[i] = rnd.Next(0, 2) == 1;
+            }
+
+            foreach (var f in fields)
+            {
+                var right = (int) f.GetValue(null);
+                List<int> _bits2 = new List<int>();
+                for (int i = 0; i < bits2.Count; i++)
+                {
+                    if(bits2[i]) _bits2.Add(i);
+                }
+                var rra = new RequireRightsAttribute(allRights: _bits2.ToArray());
+                var expected = _bits2.All(x=>bits[x]) || bits[Rights.OPERATOR];
+                if(expected != rra.HasRights(bits)) 
+                    output.WriteLine($"Expected {expected} but got {rra.HasRights(bits)} for {f.Name} in {String.Join("", bits.Cast<bool>().Select(b => b ? "1" : "0"))}");
+                Assert.Equal(expected, rra.HasRights(bits));
+            }
+        }
+    }
+
+    [Fact]
+    public void NullRightsCheck()
+    {
+        var rra = new RequireRightsAttribute();
+        rra.HasRights(new BitArray(32, false));
+    }
+
 }

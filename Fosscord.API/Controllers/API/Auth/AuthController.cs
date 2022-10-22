@@ -27,10 +27,8 @@ public class AuthController : Controller
     /// </summary>
     /// <returns>Json object with token</returns>
     [HttpPost("/api/auth/register")]
-    public async Task<object> Register()
+    public async Task<object> Register([FromBody] RegisterData data)
     {
-        var data = JsonConvert.DeserializeObject<RegisterData>(await new StreamReader(Request.Body).ReadToEndAsync());
-        Console.WriteLine(JsonConvert.SerializeObject(data));
         string discrim = Rnd.Next(10000).ToString().PadLeft(4, '0');
         if (_db.Users.Any(x => x.Email == data.Email)) return new StatusCodeResult(403);
         var user = new User()
@@ -59,11 +57,8 @@ public class AuthController : Controller
     /// </summary>
     /// <returns>Json object with token</returns>
     [HttpPost("/api/auth/login")]
-    public async Task<object> Login()
+    public async Task<object> Login([FromBody] LoginData data)
     {
-        var data = JsonConvert.DeserializeObject<LoginData>(await new StreamReader(Request.Body).ReadToEndAsync());
-        Console.WriteLine(JsonConvert.SerializeObject(data));
-        
         var token = _auth.Authenticate(data.Login, data.Password);
         if (token == null) return StatusCode(403, "Invalid username or password!");
         return new {token};

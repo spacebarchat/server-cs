@@ -86,6 +86,6 @@ namespace Fosscord.DbModel.Entities
     {
         //{"scopes":["applications.commands","bot"],"permissions":"8"}
         public string Permissions { get; set; } = "0";
-        public string[] Scopes { get; set; } = Array.Empty<string>();
+        public ICollection<string> Scopes { get; set; } = Array.Empty<string>();
     }
 }
