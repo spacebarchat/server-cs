@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Util.Db", "Fosscor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.ConfigModel", "Fosscord.ConfigModel\Fosscord.ConfigModel.csproj", "{D6C74B34-5842-46D6-B96F-C0FA96FCEB03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestGenerator", "DevUtils\UnitTestGenerator\UnitTestGenerator.csproj", "{C8C1BADA-8263-41DF-8D3F-5E812972A80C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,7 +64,12 @@ Global
 		{D6C74B34-5842-46D6-B96F-C0FA96FCEB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6C74B34-5842-46D6-B96F-C0FA96FCEB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6C74B34-5842-46D6-B96F-C0FA96FCEB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8C1BADA-8263-41DF-8D3F-5E812972A80C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8C1BADA-8263-41DF-8D3F-5E812972A80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8C1BADA-8263-41DF-8D3F-5E812972A80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8C1BADA-8263-41DF-8D3F-5E812972A80C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C8C1BADA-8263-41DF-8D3F-5E812972A80C} = {276B9829-08F2-4738-9AFB-BC16E0020CFF}
 	EndGlobalSection
 EndGlobal

@@ -11,7 +11,7 @@ public class GuildBuilder
     }
     public static async Task<Guild> CreateGuildAsync(DbModel.Db? db = null, string? name = null, User? owner = null, string? region = null)
     {
-        db ??= DbModel.Db.GetNewPostgres();
+        db ??= DbModel.Db.GetNewDb();
         var guild = new Guild
         {
             Id = GenerateId(),

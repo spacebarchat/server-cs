@@ -1,0 +1,17 @@
+//IMPORTS
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Fosscord.Tests;
+
+public class $NAME
+{
+    private readonly ITestOutputHelper output;
+
+    public $NAME(ITestOutputHelper output)
+    {
+        this.output = output;
+    }
+    
+$CONTENT
+}

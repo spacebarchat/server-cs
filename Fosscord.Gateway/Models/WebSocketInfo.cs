@@ -6,6 +6,7 @@ using Fosscord.ConfigModel;
 using Fosscord.Gateway.Events;
 using Fosscord.Static.Classes;
 using Fosscord.Static.Enums;
+using Fosscord.Util.Rewrites;
 using Ionic.Zlib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

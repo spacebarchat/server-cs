@@ -19,37 +19,37 @@ public class Db : DbContext
     {
     }
 
-    public virtual DbSet<Application> Applications { get; set; } = null!;
-    public virtual DbSet<Attachment> Attachments { get; set; } = null!;
-    public virtual DbSet<AuditLog> AuditLogs { get; set; } = null!;
-    public virtual DbSet<BackupCode> BackupCodes { get; set; } = null!;
-    public virtual DbSet<Ban> Bans { get; set; } = null!;
-    public virtual DbSet<Category> Categories { get; set; } = null!;
-    public virtual DbSet<Channel> Channels { get; set; } = null!;
-    public virtual DbSet<ClientRelease> ClientReleases { get; set; } = null!;
-    public virtual DbSet<ConnectedAccount> ConnectedAccounts { get; set; } = null!;
-    public virtual DbSet<Emoji> Emojis { get; set; } = null!;
-    public virtual DbSet<Guild> Guilds { get; set; } = null!;
-    public virtual DbSet<Invite> Invites { get; set; } = null!;
-    public virtual DbSet<Member> Members { get; set; } = null!;
-    public virtual DbSet<Message> Messages { get; set; } = null!;
-    public virtual DbSet<Note> Notes { get; set; } = null!;
-    public virtual DbSet<RateLimit> RateLimits { get; set; } = null!;
-    public virtual DbSet<ReadState> ReadStates { get; set; } = null!;
-    public virtual DbSet<Recipient> Recipients { get; set; } = null!;
-    public virtual DbSet<Relationship> Relationships { get; set; } = null!;
-    public virtual DbSet<Role> Roles { get; set; } = null!;
-    public virtual DbSet<Session> Sessions { get; set; } = null!;
-    public virtual DbSet<Sticker> Stickers { get; set; } = null!;
-    public virtual DbSet<StickerPack> StickerPacks { get; set; } = null!;
-    public virtual DbSet<Team> Teams { get; set; } = null!;
-    public virtual DbSet<TeamMember> TeamMembers { get; set; } = null!;
-    public virtual DbSet<Template> Templates { get; set; } = null!;
-    public virtual DbSet<User> Users { get; set; } = null!;
-    public virtual DbSet<UserSetting> UserSettings { get; set; } = null!;
-    public virtual DbSet<ValidRegistrationToken> ValidRegistrationTokens { get; set; } = null!;
-    public virtual DbSet<VoiceState> VoiceStates { get; set; } = null!;
-    public virtual DbSet<Webhook> Webhooks { get; set; } = null!;
+    public virtual DbSet<Application> Applications { get; }
+    public virtual DbSet<Attachment> Attachments { get; }
+    public virtual DbSet<AuditLog> AuditLogs { get; }
+    public virtual DbSet<BackupCode> BackupCodes { get; }
+    public virtual DbSet<Ban> Bans { get; }
+    public virtual DbSet<Category> Categories { get; }
+    public virtual DbSet<Channel> Channels { get; }
+    public virtual DbSet<ClientRelease> ClientReleases { get; }
+    public virtual DbSet<ConnectedAccount> ConnectedAccounts { get; }
+    public virtual DbSet<Emoji> Emojis { get; }
+    public virtual DbSet<Guild> Guilds { get; }
+    public virtual DbSet<Invite> Invites { get; }
+    public virtual DbSet<Member> Members { get; }
+    public virtual DbSet<Message> Messages { get; }
+    public virtual DbSet<Note> Notes { get; }
+    public virtual DbSet<RateLimit> RateLimits { get; }
+    public virtual DbSet<ReadState> ReadStates { get; }
+    public virtual DbSet<Recipient> Recipients { get; }
+    public virtual DbSet<Relationship> Relationships { get; }
+    public virtual DbSet<Role> Roles { get; }
+    public virtual DbSet<Session> Sessions { get; }
+    public virtual DbSet<Sticker> Stickers { get; }
+    public virtual DbSet<StickerPack> StickerPacks { get; }
+    public virtual DbSet<Team> Teams { get; }
+    public virtual DbSet<TeamMember> TeamMembers { get; }
+    public virtual DbSet<Template> Templates { get; }
+    public virtual DbSet<User> Users { get; }
+    public virtual DbSet<UserSetting> UserSettings { get; }
+    public virtual DbSet<ValidRegistrationToken> ValidRegistrationTokens { get; }
+    public virtual DbSet<VoiceState> VoiceStates { get; }
+    public virtual DbSet<Webhook> Webhooks { get; }
 
 //         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //         {
@@ -101,68 +101,50 @@ public class Db : DbContext
         return db;
     }
 
-    public static Db GetNewDb()
+    public static Db GetNewDb(DbConfig? cfg = null)
     {
-        var cfg = Config.Instance.DbConfig;
-        return cfg.Driver.ToLower() switch
+        cfg ??= Config.Instance.DbConfig;
+        var db = cfg.Driver.ToLower() switch
         {
-            "postgres" => GetNewPostgres(),
-            "mysql" => GetNewMysql(),
-            "mariadb" => GetNewMysql(),
-            "sqlite" => GetSqlite(),
-            "inmemory" => GetInMemoryDb(),
-            _ => LogFailAndExit($"No such database engine supported: {cfg.Driver}")
+            "postgres" => GetNewPostgres(cfg),
+            "mysql" => GetNewMysql(cfg),
+            "mariadb" => GetNewMysql(cfg),
+            "sqlite" => GetSqlite(cfg),
+            "inmemory" => GetInMemoryDb(cfg),
+            _ => throw new Exception($"Invalid database driver: {cfg.Driver}")
         };
+
+        db.Database.Migrate();
+        db.SaveChanges();
+        contexts.Add(db);
+        return db;
     }
 
-    public static Db GetNewMysql()
+    public static Db GetNewMysql(DbConfig cfg)
     {
-        GetDbModelLogger().Log("Instantiating new DB context: MariDB");
-        var cfg = Config.Instance.DbConfig;
+        GetDbModelLogger().Log("Instantiating new DB context: MySQL/MariaDB");
         string ds =
             $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
         var db = new Db(new DbContextOptionsBuilder<Db>().UseMySql(ds, ServerVersion.AutoDetect(ds)
-                // ,
-                // x =>
-                // {
-                //     if (MigrationsExist(cfg.Driver)) x.MigrationsAssembly(GetMigAsm(cfg.Driver));
-                // }
             )
             .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
-        contexts.Add(db);
-        db.Database.Migrate();
-        db.SaveChanges();
         return db;
     }
 
-    public static Db GetNewPostgres()
+    public static Db GetNewPostgres(DbConfig cfg)
     {
         GetDbModelLogger().Log("Instantiating new DB context: Postgres");
-        var cfg = Config.Instance.DbConfig;
         var db = new Db(new DbContextOptionsBuilder<Db>()
             .UseNpgsql(
                 $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true"
-                // ,
-                // x =>
-                // {
-                //     if (MigrationsExist(cfg.Driver)) x.MigrationsAssembly(GetMigAsm(cfg.Driver));
-                // }
             )
             .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
-        contexts.Add(db);
-        // if (MigrationsExist(cfg.Driver))
-        // {
-        db.Database.Migrate();
-        db.SaveChanges();
-        // }
-
         return db;
     }
 
-    public static Db GetSqlite()
+    public static Db GetSqlite(DbConfig cfg)
     {
         GetDbModelLogger().Log("Instantiating new DB context: Sqlite");
-        var cfg = Config.Instance.DbConfig;
         return new Db(new DbContextOptionsBuilder<Db>()
             .UseSqlite($"Data Source={cfg.Database}.db;Version=3;",
                 x =>
@@ -172,18 +154,12 @@ public class Db : DbContext
             .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging().Options);
     }
 
-    public static Db GetInMemoryDb()
+    public static Db GetInMemoryDb(DbConfig? cfg = null)
     {
+        cfg ??= new DbConfig() {Database = "FosscordInMemory", Driver = "InMemory"};
         GetDbModelLogger().Log("Instantiating new DB context: InMemory");
-        return new Db(new DbContextOptionsBuilder<Db>().UseInMemoryDatabase("InMemoryDb")
+        return new Db(new DbContextOptionsBuilder<Db>().UseInMemoryDatabase(cfg.Database)
             .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging().Options);
-    }
-
-    public static Db LogFailAndExit(string error = "")
-    {
-        log(error);
-        Environment.Exit(1);
-        return null;
     }
 
     private static void log(string text)
@@ -201,7 +177,7 @@ public class Db : DbContext
         return res;
     }
 
-    private static string GetMigAsm(string provider) => "Fosscord.DbModel.Migrations." + provider switch
+    public static string GetMigAsm(string provider) => "Fosscord.DbModel.Migrations." + provider switch
     {
         "postgres" => "Postgres",
         "mysql" => "Mysql",

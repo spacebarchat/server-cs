@@ -2,6 +2,7 @@ using Fosscord.DbModel;
 using Fosscord.DbModel.Entities;
 using Fosscord.Gateway.Models;
 using Fosscord.Static.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 public class ReadyEventDataBuilder
 {
