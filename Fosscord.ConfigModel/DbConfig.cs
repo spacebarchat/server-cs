@@ -20,10 +20,10 @@ public class DbConfig
         return cfg;
     }
 
-    public string Driver { get; set; } = EnvUtils.GetEnvironmentVariableOrDefault("PG_DRIVER", "postgres");
-    public string Host { get; set; } = EnvUtils.GetEnvironmentVariableOrDefault("PG_HOST", "localhost");
-    public string Username { get; set; } = EnvUtils.GetEnvironmentVariableOrDefault("PG_USER", "postgres");
-    public string Password { get; set; } = EnvUtils.GetEnvironmentVariableOrDefault("PG_PASS", "postgres");
-    public string Database { get; set; } = EnvUtils.GetEnvironmentVariableOrDefault("PG_DB_FOSSCORD_CS", "fosscord_cs");
-    public short Port { get; set; } = short.Parse(EnvUtils.GetEnvironmentVariableOrDefault("PG_PORT", "5432"));
+    public string Driver { get; set; } = "postgres";
+    public string Host { get; set; } = "localhost";
+    public string Username { get; set; } = "postgres";
+    public string Password { get; set; } = "postgres";
+    public string Database { get; set; } = "fosscord_cs";
+    public short Port { get; set; } = 5432;
 }
