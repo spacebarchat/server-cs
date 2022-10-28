@@ -30,7 +30,7 @@ public class GuildBuilder
 
     public static async Task<Channel> CreateChannelAsync(DbModel.Db? db = null, string? name = null, Guild? guild = null)
     {
-        db ??= DbModel.Db.GetNewPostgres();
+        db ??= DbModel.Db.GetDb();
         var channel = new Channel()
         {
             Id = new IdGenerator(Environment.CurrentManagedThreadId).CreateId() + "",

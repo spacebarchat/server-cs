@@ -1,7 +1,7 @@
 ﻿
 using System.Net.WebSockets;
-using Fosscord.API.Classes;
 using Fosscord.DbModel;
+using Fosscord.DbModel.Entities;
 using Fosscord.Gateway.Events;
 using Fosscord.Gateway.Models;
 using Fosscord.Static.Classes;
@@ -25,7 +25,7 @@ public class Identify : IGatewayMessage
         if (payload.d is JObject jObject)
         {
             Db db = Db.GetNewDb();
-            var identify = jObject.ToObject<Models.Identify>();
+            var identify = jObject.ToObject<Fosscord.Gateway.Models.Identify>();
             User? user;
             try
             {
