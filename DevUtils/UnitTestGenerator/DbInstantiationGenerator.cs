@@ -28,7 +28,7 @@ public class DbInstantiationGenerator
             File.ReadAllText("Templates/TestClass.txt")
                 .Replace("$NAME", "DbInstantiationTests")
                 .Replace("$CONTENT", File.ReadAllText(OutputPath))
-                .Replace("//IMPORTS", "using Fosscord.DbModel;")
+                .Replace("//IMPORTS", "using Fosscord.DbModel;\nusing System.Net.Sockets;")
         );
     }
 }
