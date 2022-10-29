@@ -15,6 +15,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Fosscord.ConfigModel\Fosscord.ConfigModel.csproj" />
         <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj" />
+        <ProjectReference Include="..\Fosscord.Util.Db\Fosscord.Util.Db.csproj" />
         <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
     </ItemGroup>
 

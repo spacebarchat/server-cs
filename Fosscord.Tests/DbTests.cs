@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Reflection;
-using AngleSharp.Text;
 using Fosscord.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -38,7 +34,7 @@ public class DbTests
     [Fact]
     public void MigAsmDetectionFinder()
     {
-        var tests = "postgres,mysql,mariadb,sqlite,inmemory,test".SplitCommas();
+        var tests = "postgres,mysql,mariadb,sqlite,inmemory,test".Split(',');
         foreach (var test in tests)
         {
             output.WriteLine($"{test} -> {Db.GetMigAsm(test)}");

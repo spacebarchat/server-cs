@@ -1,5 +1,5 @@
 ﻿using Fosscord.DbModel;
-using Fosscord.Util.Generic;
+using Fosscord.Util;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fosscord.Gateway.Controllers;

@@ -10,11 +10,11 @@ namespace Fosscord.Util;
 
 public class JwtAuthenticationManager
 {
-    private readonly Db _db = Db.GetNewDb();
+    private readonly DbModel.Db _db = DbModel.Db.GetNewDb();
  
     private readonly string _tokenKey = Config.Instance.Security.JwtSecret;
 
-    public User GetUserFromToken(string token, Db? db = null)
+    public User GetUserFromToken(string token, DbModel.Db? db = null)
     {
         db ??= _db;
         var tokenHandler = new JwtSecurityTokenHandler();

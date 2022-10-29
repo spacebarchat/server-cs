@@ -1,4 +1,4 @@
-namespace Fosscord.Util.Generic;
+namespace Fosscord.Util;
 
 public class EnvUtils
 {

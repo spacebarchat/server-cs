@@ -12,11 +12,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj"/>
+        <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="IdGen" Version="3.0.2"/>
+        <PackageReference Include="IdGen" Version="3.0.2" />
     </ItemGroup>
 
 </Project>

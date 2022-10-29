@@ -23,6 +23,10 @@ public class Config : SaveableObject<Config>
             if (_instance == null)
             {
                 _instance = Read(Path);
+                if (Instance.Sentry.Environment == Environment.MachineName)
+                {
+                    Console.WriteLine("Sentry environment name not set! Using hostname, to change this, set in Config.json!");
+                }
             }
             return _instance;
         }

@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj" />
+        <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
     </ItemGroup>
 
     <ItemGroup>

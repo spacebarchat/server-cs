@@ -35,7 +35,7 @@ builder.Services.AddControllers();
                     p.AttachStacktrace = true;
                     p.MaxQueueItems = int.MaxValue;
                     p.StackTraceMode = StackTraceMode.Original;
-                    p.Environment = GenericUtils.GetSentryEnvironment();
+                    p.Environment = Config.Instance.Sentry.Environment;
                     p.Release = GenericUtils.GetVersion();
                 });
         });
@@ -49,7 +49,7 @@ builder.Services.AddControllers();
                 o.AttachStacktrace = true;
                 o.MaxQueueItems = int.MaxValue;
                 o.StackTraceMode = StackTraceMode.Original;
-                o.Environment = GenericUtils.GetSentryEnvironment();
+                o.Environment = Config.Instance.Sentry.Environment;
                 o.Release = GenericUtils.GetVersion();
             });
         }

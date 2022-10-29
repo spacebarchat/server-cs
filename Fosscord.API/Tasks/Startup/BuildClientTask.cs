@@ -1,6 +1,6 @@
 using System.Net;
 using Fosscord.ConfigModel;
-using Fosscord.Util.Generic;
+using Fosscord.Util;
 
 namespace Fosscord.API.Tasks.Startup;
 

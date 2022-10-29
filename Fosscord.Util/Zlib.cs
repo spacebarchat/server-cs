@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace Fosscord.Util.Generic;
+namespace Fosscord.Util;
 
 public class ZLib
 {

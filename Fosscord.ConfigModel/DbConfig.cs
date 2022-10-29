@@ -1,4 +1,4 @@
-using Fosscord.Util.Generic;
+using Fosscord.Util;
 using Newtonsoft.Json;
 
 namespace Fosscord.DbModel; 

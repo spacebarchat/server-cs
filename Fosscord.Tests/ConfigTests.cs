@@ -3,7 +3,6 @@ using System.Collections;
 using System.IO;
 using Fosscord.ConfigModel;
 using Fosscord.Static.Enums;
-using Fosscord.Static.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
