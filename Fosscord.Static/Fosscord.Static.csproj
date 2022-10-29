@@ -12,11 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Fosscord.Util.Generic\Fosscord.Util.Generic.csproj"/>
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
     </ItemGroup>
 
 </Project>

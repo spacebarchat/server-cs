@@ -1,3 +1,4 @@
+#if false
 using System;
 using FosscordSharp;
 using FosscordSharp.Entities;
@@ -54,3 +55,4 @@ public class UnitTest1
         return GetGuildlist()[0].GetChannels().Result;
     }
 }
+#endif

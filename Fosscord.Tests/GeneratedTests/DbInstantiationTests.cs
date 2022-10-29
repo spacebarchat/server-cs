@@ -1,5 +1,6 @@
 using Fosscord.DbModel;
-using System.Net.Sockets;
+using System;
+using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -15,15 +16,32 @@ public class DbInstantiationTests
     }
     
     [Fact]
+    public void GetNewDbTest()
+    {
+        try {
+            var db = Db.GetNewDb(DbConfig.FromEnv("GetNewDb".Replace("GetNew","Get").Replace("Get","FC_CS_UNIT_TEST_").ToUpper()));
+        }
+        catch (Exception e)
+        {
+            output.WriteLine("GetNewDb: Could not connect...");
+            if (new[] {"MySqlException", "NpgsqlException"}.Contains(e.GetType().Name)) return;
+            if (e.Message.Contains("does not exist")) return;
+            throw;
+        }
+    }
+    
+    [Fact]
     public void GetNewMysqlTest()
     {
         try {
             var db = Db.GetNewMysql(DbConfig.FromEnv("GetNewMysql".Replace("GetNew","Get").Replace("Get","FC_CS_UNIT_TEST_").ToUpper()));
-            output.WriteLine(db.GetType().ToString());
         }
-        catch (SocketException e)
+        catch (Exception e)
         {
             output.WriteLine("GetNewMysql: Could not connect...");
+            if (new[] {"MySqlException", "NpgsqlException"}.Contains(e.GetType().Name)) return;
+            if (e.Message.Contains("does not exist")) return;
+            throw;
         }
     }
     
@@ -32,11 +50,43 @@ public class DbInstantiationTests
     {
         try {
             var db = Db.GetNewPostgres(DbConfig.FromEnv("GetNewPostgres".Replace("GetNew","Get").Replace("Get","FC_CS_UNIT_TEST_").ToUpper()));
-            output.WriteLine(db.GetType().ToString());
         }
-        catch (SocketException e)
+        catch (Exception e)
         {
             output.WriteLine("GetNewPostgres: Could not connect...");
+            if (new[] {"MySqlException", "NpgsqlException"}.Contains(e.GetType().Name)) return;
+            if (e.Message.Contains("does not exist")) return;
+            throw;
+        }
+    }
+    
+    [Fact]
+    public void GetSqliteTest()
+    {
+        try {
+            var db = Db.GetSqlite(DbConfig.FromEnv("GetSqlite".Replace("GetNew","Get").Replace("Get","FC_CS_UNIT_TEST_").ToUpper()));
+        }
+        catch (Exception e)
+        {
+            output.WriteLine("GetSqlite: Could not connect...");
+            if (new[] {"MySqlException", "NpgsqlException"}.Contains(e.GetType().Name)) return;
+            if (e.Message.Contains("does not exist")) return;
+            throw;
+        }
+    }
+    
+    [Fact]
+    public void GetInMemoryDbTest()
+    {
+        try {
+            var db = Db.GetInMemoryDb(DbConfig.FromEnv("GetInMemoryDb".Replace("GetNew","Get").Replace("Get","FC_CS_UNIT_TEST_").ToUpper()));
+        }
+        catch (Exception e)
+        {
+            output.WriteLine("GetInMemoryDb: Could not connect...");
+            if (new[] {"MySqlException", "NpgsqlException"}.Contains(e.GetType().Name)) return;
+            if (e.Message.Contains("does not exist")) return;
+            throw;
         }
     }
     

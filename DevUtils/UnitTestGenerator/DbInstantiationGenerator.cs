@@ -20,7 +20,7 @@ public class DbInstantiationGenerator
         foreach (var methodInfo in methods)
         {
             if (methodInfo.Name == "GetDb") continue;
-            if (methodInfo.Name.ContainsAnyOf(new []{"MySQL","Postgres"}))
+            //if (methodInfo.Name.ContainsAnyOf(new[] {"MySQL", "Postgres"})) continue;
             File.AppendAllText(OutputPath, template.Replace("$NAME", methodInfo.Name));
         }
 
@@ -28,7 +28,7 @@ public class DbInstantiationGenerator
             File.ReadAllText("Templates/TestClass.txt")
                 .Replace("$NAME", "DbInstantiationTests")
                 .Replace("$CONTENT", File.ReadAllText(OutputPath))
-                .Replace("//IMPORTS", "using Fosscord.DbModel;\nusing System.Net.Sockets;")
+                .Replace("//IMPORTS", "using Fosscord.DbModel;\nusing System;\nusing System.Linq;")
         );
     }
 }

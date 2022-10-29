@@ -29,12 +29,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Fosscord.API\Fosscord.API.csproj" />
-        <ProjectReference Include="..\Fosscord.Util.Generic\Fosscord.Util.Generic.csproj" />
         <ProjectReference Include="..\Fosscord.Util\Fosscord.Util.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="GeneratedTests" />
-    </ItemGroup>
-
+    
 </Project>

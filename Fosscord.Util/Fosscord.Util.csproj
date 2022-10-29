@@ -13,10 +13,17 @@
 
     <ItemGroup>
         <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3"/>
-        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
         <ProjectReference Include="..\Fosscord.DbModel\Fosscord.DbModel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="AngleSharp">
+        <HintPath>..\..\..\.nuget\packages\anglesharp\0.17.1\lib\netstandard2.0\AngleSharp.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

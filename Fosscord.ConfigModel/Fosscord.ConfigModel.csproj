@@ -12,10 +12,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj"/>
+        <ProjectReference Include="..\Fosscord.Static\Fosscord.Static.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Fosscord.Util.Generic">
+        <HintPath>..\Fosscord.API\bin\Debug\net6.0\Fosscord.Util.Generic.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>

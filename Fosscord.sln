@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevUtils", "DevUtils", "{27
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Static", "Fosscord.Static\Fosscord.Static.csproj", "{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Util.Generic", "Fosscord.Util.Generic\Fosscord.Util.Generic.csproj", "{94B1DA41-081A-4F5F-956F-F7DC72146827}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.Util.Db", "Fosscord.Util.Db\Fosscord.Util.Db.csproj", "{2053C064-246F-452D-8287-B6208E8C17D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosscord.ConfigModel", "Fosscord.ConfigModel\Fosscord.ConfigModel.csproj", "{D6C74B34-5842-46D6-B96F-C0FA96FCEB03}"
@@ -52,10 +50,6 @@ Global
 		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6416484-9796-4DA8-9A5B-3CDEBC3D5EB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94B1DA41-081A-4F5F-956F-F7DC72146827}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2053C064-246F-452D-8287-B6208E8C17D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2053C064-246F-452D-8287-B6208E8C17D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2053C064-246F-452D-8287-B6208E8C17D3}.Release|Any CPU.ActiveCfg = Release|Any CPU

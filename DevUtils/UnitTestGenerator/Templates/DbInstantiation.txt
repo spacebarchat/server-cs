@@ -3,11 +3,13 @@
     {
         try {
             var db = Db.$NAME(DbConfig.FromEnv("$NAME".Replace("GetNew","Get").Replace("Get","FC_CS_UNIT_TEST_").ToUpper()));
-            output.WriteLine(db.GetType().ToString());
         }
-        catch (SocketException e)
+        catch (Exception e)
         {
             output.WriteLine("$NAME: Could not connect...");
+            if (new[] {"MySqlException", "NpgsqlException"}.Contains(e.GetType().Name)) return;
+            if (e.Message.Contains("does not exist")) return;
+            throw;
         }
     }
     

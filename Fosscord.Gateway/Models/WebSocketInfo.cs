@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Reflection;
-using AngleSharp.Text;
 using Fosscord.ConfigModel;
 using Fosscord.Gateway.Events;
 using Fosscord.Static.Classes;

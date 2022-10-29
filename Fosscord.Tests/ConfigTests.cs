@@ -60,6 +60,8 @@ public class ConfigTests
         var cfg = Config.Read("config.json");
         cfg.Save("config.json");
         var cfg2 = Config.Read("config.json");
-        Assert.Equal(cfg, cfg2);
+        cfg2.Save("config.json.new");
+        
+        Assert.Equal(File.ReadAllText("config.json"), File.ReadAllText("config.json.new"));
     }
 }
