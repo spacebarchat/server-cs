@@ -15,35 +15,19 @@
 		<script>
 			window.__OVERLAY__ = /overlay/.test(location.pathname);
 			window.__BILLING_STANDALONE__ = /^\/billing/.test(location.pathname);
-			window.GLOBAL_ENV = {
-				API_ENDPOINT: "/api",
-				API_VERSION: 9,
-				GATEWAY_ENDPOINT: `${location.protocol === "https:" ? "wss://" : "ws://"}${location.hostname}:2001`,
-				WEBAPP_ENDPOINT: "",
-				CDN_HOST: `${location.hostname}:3003`,
-				ASSET_ENDPOINT: "",
-				MEDIA_PROXY_ENDPOINT: "https://media.discordapp.net",
-				WIDGET_ENDPOINT: `//${location.host}/widget`,
-				INVITE_HOST: `${location.host}/invite`,
-				GUILD_TEMPLATE_HOST: "discord.new",
-				GIFT_CODE_HOST: "discord.gift",
-				RELEASE_CHANNEL: "staging",
-				DISCORD_TEST: true,
-				PROJECT_ENV: "staging",
-				MARKETING_ENDPOINT: "//discord.com",
-				BRAINTREE_KEY: "production_5st77rrc_49pp2rp4phym7387",
-				STRIPE_KEY: "pk_live_CUQtlpQUF0vufWpnpUmQvcdi",
-				NETWORKING_ENDPOINT: "//router.discordapp.net",
-				RTC_LATENCY_ENDPOINT: "//latency.discord.media/rtc",
-				ACTIVITY_APPLICATION_HOST: 'discordsays.com',
-				REMOTE_AUTH_ENDPOINT: "//localhost:3020",
-				SENTRY_TAGS: { buildId: "75e36d9", buildType: "normal" },
-				MIGRATION_SOURCE_ORIGIN: "https://discordapp.com",
-				MIGRATION_DESTINATION_ORIGIN: "https://discord.com",
-				HTML_TIMESTAMP: Date.now(),
-				ALGOLIA_KEY: "aca0d7082e4e63af5ba5917d5e96bed0"
-			};
-			GLOBAL_ENV.MEDIA_PROXY_ENDPOINT = location.protocol + "//" + GLOBAL_ENV.CDN_HOST;
+			
+			var xmlhttp = new XMLHttpRequest();
+            var url = "/api/_fosscord/v1/global_env";
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    window.GLOBAL_ENV = JSON.parse(this.responseText);
+                };
+            }
+           
+            xmlhttp.open("GET", url, false);
+            xmlhttp.send();
+            
+            
 			const localStorage = window.localStorage;
 			// TODO: remote auth
 			// window.GLOBAL_ENV.REMOTE_AUTH_ENDPOINT = window.GLOBAL_ENV.GATEWAY_ENDPOINT.replace(/wss?:/, "");

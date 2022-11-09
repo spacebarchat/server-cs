@@ -30,12 +30,15 @@ public class Config : SaveableObject<Config>
             }
             return _instance;
         }
+        set => throw new NotImplementedException();
     }
-    public DbConfig DbConfig { get; } = new();
-    public TestClientConfig TestClient { get; } = new();
-    public SentryConfig Sentry { get; } = new();
-    public SecurityConfig Security { get; } = new();
-    public LoggingConfig Logging { get; } = new();
-    public ApiConfig Api { get; } = new();
-    public GatewayConfig Gateway { get; } = new();
+
+    public DbConfig DbConfig { get; set; } = new();
+    public TestClientConfig TestClient { get; set; } = new();
+    public SentryConfig Sentry { get; set; } = new();
+    public SecurityConfig Security { get; set; } = new();
+    public LoggingConfig Logging { get; set; } = new();
+    public ApiConfig Api { get; set; } = new();
+    public GatewayConfig Gateway { get; set; } = new();
+    public EndpointConfig Endpoints { get; set; }
 }

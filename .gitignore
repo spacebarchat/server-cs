@@ -3,7 +3,7 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-Config.json
+[Cc]onfig.json
 DbConfig.json
 **/Scaffold/fosscordContext.cs
 .vs/

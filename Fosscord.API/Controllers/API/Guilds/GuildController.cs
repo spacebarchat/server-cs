@@ -1,7 +1,8 @@
-using Fosscord.API.Schemas;
 using Fosscord.DbModel;
 using Fosscord.DbModel.Entities;
 using Fosscord.Util;
+using Fosscord.Util.Db.ObjectBuilders;
+using Fosscord.Util.Schemas;
 using IdGen;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -25,9 +26,10 @@ public class GuildController : Controller
     public async Task<object> CreateGuildAsync()
     {
         var request =
-            JsonConvert.DeserializeObject<GuildCreateSchema>(await new StreamReader(Request.Body).ReadToEndAsync());
+            JsonConvert.DeserializeObject<GuildCreateRequestSchema>(await new StreamReader(Request.Body).ReadToEndAsync());
         var user = _auth.GetUserFromToken(Request.Headers["Authorization"].ToString().Split(" ").Last(), _db);
-        var guildId = new IdGenerator(0).CreateId() + "";
+        var guild = new GuildBuilder(_db).CreateAsync(request);
+        /*var guildId = new IdGenerator(0).CreateId() + "";
         var guild = new Guild
         {
             Id = new IdGenerator(0).CreateId() + "",
@@ -80,6 +82,7 @@ public class GuildController : Controller
         member.Roles.Add(everyoneRole);
         _db.Guilds.Add(guild);
         await _db.SaveChangesAsync();
+        */
         return new {id = Convert.ToUInt64(guild.Id)};
     }
 }

@@ -52,4 +52,8 @@
         <Content Include="Resources\**" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\API\v1" />
+    </ItemGroup>
+
 </Project>

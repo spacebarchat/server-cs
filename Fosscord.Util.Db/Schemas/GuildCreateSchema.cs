@@ -1,6 +1,8 @@
-namespace Fosscord.API.Schemas;
+using Fosscord.DbModel.Entities;
 
-public class GuildCreateSchema
+namespace Fosscord.Util.Schemas;
+
+public class GuildCreateRequestSchema : IRequestSchema
 {
         public string Name;
         public string? Region;
@@ -9,4 +11,5 @@ public class GuildCreateSchema
         public string? GuildTemplateCode;
         public string? SystemChannelId;
         public string? RulesChannelId;
+        public User User { get; set; }
 }

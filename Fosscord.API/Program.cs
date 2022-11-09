@@ -32,75 +32,75 @@ Tasks.RunStartup();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
-        builder.Services.AddLogging(o =>
-        {
-            if (SystemdHelpers.IsSystemdService())
-            {
-                o.AddSystemdConsole();
-            }
-            else o.AddConsole();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
+builder.Services.AddLogging(o =>
+{
+    if (SystemdHelpers.IsSystemdService())
+    {
+        o.AddSystemdConsole();
+    }
+    else o.AddConsole();
 
-            if (Config.Instance.Sentry.Enabled)
-                o.AddSentry(p =>
-                {
-                    p.Dsn = Config.Instance.Sentry.Dsn;
-                    p.TracesSampleRate = 1.0;
-                    p.AttachStacktrace = true;
-                    p.MaxQueueItems = int.MaxValue;
-                    p.StackTraceMode = StackTraceMode.Original;
-                    p.Environment = Config.Instance.Sentry.Environment;
-                    p.Release = GenericUtils.GetVersion();
-                });
+    if (Config.Instance.Sentry.Enabled)
+        o.AddSentry(p =>
+        {
+            p.Dsn = Config.Instance.Sentry.Dsn;
+            p.TracesSampleRate = 1.0;
+            p.AttachStacktrace = true;
+            p.MaxQueueItems = int.MaxValue;
+            p.StackTraceMode = StackTraceMode.Original;
+            p.Environment = Config.Instance.Sentry.Environment;
+            p.Release = GenericUtils.GetVersion();
         });
-        if (Config.Instance.Sentry.Enabled)
+});
+if (Config.Instance.Sentry.Enabled)
+{
+    Console.WriteLine("Sentry enabled!");
+    builder.WebHost.UseSentry(o =>
+    {
+        o.Dsn = Config.Instance.Sentry.Dsn;
+        o.TracesSampleRate = 1.0;
+        o.AttachStacktrace = true;
+        o.MaxQueueItems = int.MaxValue;
+        o.StackTraceMode = StackTraceMode.Original;
+        o.Environment = Config.Instance.Sentry.Environment;
+        o.Release = GenericUtils.GetVersion();
+    });
+}
+
+builder.Services.AddDbContext<Db>(optionsBuilder =>
+{
+    var cfg = Config.Instance.DbConfig;
+    optionsBuilder
+        .UseNpgsql(
+            $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+        //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
+        ;
+});
+builder.Services.AddSingleton(new JwtAuthenticationManager());
+
+var tokenKey = Config.Instance.Security.JwtSecret;
+var key = Encoding.UTF8.GetBytes(tokenKey);
+
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
         {
-            Console.WriteLine("Sentry enabled!");
-            builder.WebHost.UseSentry(o =>
-            {
-                o.Dsn = Config.Instance.Sentry.Dsn;
-                o.TracesSampleRate = 1.0;
-                o.AttachStacktrace = true;
-                o.MaxQueueItems = int.MaxValue;
-                o.StackTraceMode = StackTraceMode.Original;
-                o.Environment = Config.Instance.Sentry.Environment;
-                o.Release = GenericUtils.GetVersion();
-            });
-        }
-
-        builder.Services.AddDbContext<Db>(optionsBuilder =>
-        {
-            var cfg = Config.Instance.DbConfig;
-            optionsBuilder
-                .UseNpgsql(
-                    $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
-                //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
-                ;
-        });
-        builder.Services.AddSingleton(new JwtAuthenticationManager());
-
-        var tokenKey = Config.Instance.Security.JwtSecret;
-        var key = Encoding.UTF8.GetBytes(tokenKey);
-
-        builder.Services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 var app = builder.Build();
 
@@ -163,4 +163,5 @@ if (args.Contains("--exit-on-modified"))
         Environment.Exit(0);
     };
 }
+
 app.Run();
