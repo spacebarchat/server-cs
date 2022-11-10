@@ -12,7 +12,7 @@ public class Config : SaveableObject<Config>
     {
         //deduplicate 
         Gateway.Debug.IgnoredEvents = Gateway.Debug.IgnoredEvents.Distinct().ToArray();
-        base.Save(filename);
+        base.Save(Path);
     }
     public static string Path = "../config.json";
     private static Config _instance;
@@ -30,7 +30,8 @@ public class Config : SaveableObject<Config>
             }
             return _instance;
         }
-        set => throw new NotImplementedException();
+        [Obsolete("Don't overwrite the running config, you will shoot yourself in the foot!")]
+        set => _instance = value;
     }
 
     public DbConfig DbConfig { get; set; } = new();
