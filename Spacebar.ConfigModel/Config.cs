@@ -1,6 +1,4 @@
 using ArcaneLibs;
-using Spacebar.ConfigModel.Api;
-using Spacebar.ConfigModel.Api.TestClient;
 using Spacebar.ConfigModel.Gateway;
 using Spacebar.DbModel;
 
@@ -35,11 +33,9 @@ public class Config : SaveableObject<Config>
     }
 
     public DbConfig DbConfig { get; set; } = new();
-    public TestClientConfig TestClient { get; set; } = new();
     public SentryConfig Sentry { get; set; } = new();
     public SecurityConfig Security { get; set; } = new();
     public LoggingConfig Logging { get; set; } = new();
-    public ApiConfig Api { get; set; } = new();
     public GatewayConfig Gateway { get; set; } = new();
     public EndpointConfig Endpoints { get; set; }
 }

@@ -1,5 +1,3 @@
-using Spacebar.API.Tasks.Startup;
-
 namespace Spacebar.API.Tasks;
 
 public class Tasks
@@ -9,8 +7,6 @@ public class Tasks
         var defaultColor = Console.ForegroundColor;
         List<ITask> tasks = new()
         {
-            new BuildClientTask(),
-            new PatchClientAssetsTask()
         };
         foreach (var task in tasks)
         {

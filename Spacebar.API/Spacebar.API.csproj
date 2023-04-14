@@ -54,6 +54,8 @@
 
     <ItemGroup>
       <Folder Include="Controllers\API\v1" />
+      <Folder Include="Resources\Private" />
+      <Folder Include="Tasks\Startup" />
     </ItemGroup>
 
 </Project>

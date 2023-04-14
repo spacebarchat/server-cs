@@ -8,7 +8,7 @@ namespace Spacebar.API.Controllers.API.Auth;
 
 //[Authorize]
 [Controller]
-[Route("/api/_fosscord/v1/")]
+[Route("/api/_spacebar/v1/")]
 public class InfoController : Controller
 {
     private readonly Db _db;

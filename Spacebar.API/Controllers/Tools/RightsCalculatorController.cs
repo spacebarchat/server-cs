@@ -23,7 +23,7 @@ public class RightsCalculatorController : Controller
                     $"<p>({description?.Description ?? "No description!"})</p>\n";
         }
         html += "</div>\n" +
-                "<p id=\"legacyRights\">Legacy rights (fosscord-server-ts): </p>\n" +
+                "<p id=\"legacyRights\">Legacy rights (Spacebar server-ts): </p>\n" +
                 "<p id=\"modernRights\">User rights: </p>\n" +
                 "<p>Config rights:</p>\n" +
                 "<textarea id=\"configRights\" cols=\"50\" rows=\"10\"></textarea>" +
