@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Fosscord.DbModel\Fosscord.DbModel.csproj" />
+        <ProjectReference Include="..\..\Spacebar.DbModel\Spacebar.DbModel.csproj" />
     </ItemGroup>
 
     <ItemGroup>

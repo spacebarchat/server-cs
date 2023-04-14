@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DebugSymbols>False</DebugSymbols>
+        <DebugType>None</DebugType>
+        <Optimize>True</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Spacebar.Static\Spacebar.Static.csproj" />
+        <ProjectReference Include="..\Spacebar.Util\Spacebar.Util.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Spacebar.Util.Generic">
+        <HintPath>..\Spacebar.API\bin\Debug\net6.0\Spacebar.Util.Generic.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+</Project>

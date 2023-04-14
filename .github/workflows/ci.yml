@@ -1,4 +1,4 @@
-name: FosscordSharp CI
+name: Spacebar Server-CS CI
 
 on:
   push:

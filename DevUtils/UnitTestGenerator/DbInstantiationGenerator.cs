@@ -1,13 +1,13 @@
 using System.Reflection;
 using ArcaneLibs.Extensions;
-using Fosscord.ConfigModel;
-using Fosscord.DbModel;
+using Spacebar.ConfigModel;
+using Spacebar.DbModel;
 
 namespace UnitTestGenerator;
 
 public class DbInstantiationGenerator
 {
-    private static readonly string OutputPath = "../../../../../Fosscord.Tests/GeneratedTests/DbInstantiationTests.cs";
+    private static readonly string OutputPath = "../../../../../Spacebar.Tests/GeneratedTests/DbInstantiationTests.cs";
 
     public static void GenerateTests()
     {
@@ -28,7 +28,7 @@ public class DbInstantiationGenerator
             File.ReadAllText("Templates/TestClass.txt")
                 .Replace("$NAME", "DbInstantiationTests")
                 .Replace("$CONTENT", File.ReadAllText(OutputPath))
-                .Replace("//IMPORTS", "using Fosscord.DbModel;\nusing System;\nusing System.Linq;")
+                .Replace("//IMPORTS", "using Spacebar.DbModel;\nusing System;\nusing System.Linq;")
         );
     }
 }

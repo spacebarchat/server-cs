@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Fosscord.Tests;
+namespace Spacebar.Tests;
 
 public class $NAME
 {
