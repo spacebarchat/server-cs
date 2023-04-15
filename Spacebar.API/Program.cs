@@ -38,9 +38,7 @@ builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; 
 builder.Services.AddLogging(o =>
 {
     if (SystemdHelpers.IsSystemdService())
-    {
         o.AddSystemdConsole();
-    }
     else o.AddConsole();
 
     if (Config.Instance.Sentry.Enabled)
@@ -77,6 +75,7 @@ builder.Services.AddDbContext<Db>(optionsBuilder =>
         .UseNpgsql(
             $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
         //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
+        .LogTo(str => Console.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
         ;
 });
 builder.Services.AddSingleton(new JwtAuthenticationManager());
@@ -102,7 +101,21 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
+builder.Services.AddW3CLogging(logging =>
+{
+    // Log all W3C fields
+    logging.LoggingFields = W3CLoggingFields.All;
+
+    //logging.AdditionalRequestHeaders.Add("x-forwarded-for");
+    //logging.AdditionalRequestHeaders.Add("x-client-ssl-protocol");
+    logging.FileSizeLimit = 5 * 1024 * 1024;
+    logging.RetainedFileCountLimit = 2;
+    logging.FileName = "MyLogFile";
+    logging.LogDirectory = @"C:\logs";
+    logging.FlushInterval = TimeSpan.FromSeconds(2);
+});
 var app = builder.Build();
+app.UseOptions();
 
 //
 if (app.Environment.IsDevelopment())
@@ -137,7 +150,10 @@ app.MapControllers();
 app.UseDeveloperExceptionPage();
 
 //
-app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}"); });
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}");
+});
 
 
 Console.WriteLine("[DEBUG] Calling getter on config default rights");

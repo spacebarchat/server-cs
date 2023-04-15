@@ -2,314 +2,313 @@
 
 #nullable disable
 
-namespace Spacebar.DbModel.Migrations.Postgres
+namespace Spacebar.DbModel.Migrations.Postgres;
+
+public partial class TimestampTz : Migration
 {
-    public partial class TimestampTz : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "request_to_speak_timestamp",
-                table: "voice_states",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "request_to_speak_timestamp",
+            "voice_states",
+            "timestamp with time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "expires_at",
-                table: "valid_registration_tokens",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "expires_at",
+            "valid_registration_tokens",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "valid_registration_tokens",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "valid_registration_tokens",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "premium_since",
-                table: "users",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "premium_since",
+            "users",
+            "timestamp with time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "users",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "users",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "updated_at",
-                table: "templates",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "updated_at",
+            "templates",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "templates",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "templates",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "last_pin_timestamp",
-                table: "read_states",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "last_pin_timestamp",
+            "read_states",
+            "timestamp with time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "expires_at",
-                table: "rate_limits",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "expires_at",
+            "rate_limits",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "timestamp",
-                table: "messages",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "timestamp",
+            "messages",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "edited_timestamp",
-                table: "messages",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "edited_timestamp",
+            "messages",
+            "timestamp with time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "premium_since",
-                table: "members",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "premium_since",
+            "members",
+            "timestamp with time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "joined_at",
-                table: "members",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "joined_at",
+            "members",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "communication_disabled_until",
-                table: "members",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "communication_disabled_until",
+            "members",
+            "timestamp with time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "expires_at",
-                table: "invites",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "expires_at",
+            "invites",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "invites",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "invites",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "guilds",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "guilds",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "channels",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
-        }
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "channels",
+            "timestamp with time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp without time zone");
+    }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "request_to_speak_timestamp",
-                table: "voice_states",
-                type: "timestamp without time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.AlterColumn<DateTime>(
+            "request_to_speak_timestamp",
+            "voice_states",
+            "timestamp without time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "expires_at",
-                table: "valid_registration_tokens",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "expires_at",
+            "valid_registration_tokens",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "valid_registration_tokens",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "valid_registration_tokens",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "premium_since",
-                table: "users",
-                type: "timestamp without time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "premium_since",
+            "users",
+            "timestamp without time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "users",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "users",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "updated_at",
-                table: "templates",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "updated_at",
+            "templates",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "templates",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "templates",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "last_pin_timestamp",
-                table: "read_states",
-                type: "timestamp without time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "last_pin_timestamp",
+            "read_states",
+            "timestamp without time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "expires_at",
-                table: "rate_limits",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "expires_at",
+            "rate_limits",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "timestamp",
-                table: "messages",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "timestamp",
+            "messages",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "edited_timestamp",
-                table: "messages",
-                type: "timestamp without time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "edited_timestamp",
+            "messages",
+            "timestamp without time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "premium_since",
-                table: "members",
-                type: "timestamp without time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "premium_since",
+            "members",
+            "timestamp without time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "joined_at",
-                table: "members",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "joined_at",
+            "members",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "communication_disabled_until",
-                table: "members",
-                type: "timestamp without time zone",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<DateTime>(
+            "communication_disabled_until",
+            "members",
+            "timestamp without time zone",
+            nullable: true,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "expires_at",
-                table: "invites",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "expires_at",
+            "invites",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "invites",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "invites",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "guilds",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "guilds",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "created_at",
-                table: "channels",
-                type: "timestamp without time zone",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
-        }
+        migrationBuilder.AlterColumn<DateTime>(
+            "created_at",
+            "channels",
+            "timestamp without time zone",
+            nullable: false,
+            oldClrType: typeof(DateTime),
+            oldType: "timestamp with time zone");
     }
 }

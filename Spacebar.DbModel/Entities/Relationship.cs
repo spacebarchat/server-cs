@@ -2,29 +2,32 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Spacebar.DbModel.Entities
-{
-    [Table("relationships")]
-    [Index("FromId", "ToId", Name = "IDX_a0b2ff0a598df0b0d055934a17", IsUnique = true)]
-    public class Relationship
-    {
-        [Key]
-        [Column("id", TypeName = "character varying")]
-        public string Id { get; set; } = null!;
-        [Column("from_id", TypeName = "character varying")]
-        public string FromId { get; set; } = null!;
-        [Column("to_id", TypeName = "character varying")]
-        public string ToId { get; set; } = null!;
-        [Column("nickname", TypeName = "character varying")]
-        public string? Nickname { get; set; }
-        [Column("type")]
-        public int Type { get; set; }
+namespace Spacebar.DbModel.Entities;
 
-        [ForeignKey("FromId")]
-        [InverseProperty("RelationshipFroms")]
-        public virtual User From { get; set; } = null!;
-        [ForeignKey("ToId")]
-        [InverseProperty("RelationshipTos")]
-        public virtual User To { get; set; } = null!;
-    }
+[Table("relationships")]
+[Index("FromId", "ToId", Name = "IDX_a0b2ff0a598df0b0d055934a17", IsUnique = true)]
+public class Relationship
+{
+    [Key]
+    [Column("id", TypeName = "character varying")]
+    public string Id { get; set; } = null!;
+
+    [Column("from_id", TypeName = "character varying")]
+    public string FromId { get; set; } = null!;
+
+    [Column("to_id", TypeName = "character varying")]
+    public string ToId { get; set; } = null!;
+
+    [Column("nickname", TypeName = "character varying")]
+    public string? Nickname { get; set; }
+
+    [Column("type")] public int Type { get; set; }
+
+    [ForeignKey("FromId")]
+    [InverseProperty("RelationshipFroms")]
+    public virtual User From { get; set; } = null!;
+
+    [ForeignKey("ToId")]
+    [InverseProperty("RelationshipTos")]
+    public virtual User To { get; set; } = null!;
 }

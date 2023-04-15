@@ -9,4 +9,3 @@ Directory.CreateDirectory("output");
 
 //run generators
 DbInstantiationGenerator.GenerateTests();
-

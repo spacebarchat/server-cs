@@ -11,10 +11,12 @@ public class GenericObjectBuilder<T1> where T1 : class, new()
     {
         this.db = db;
     }
+
     public string GenerateId()
     {
         return _idGenerator.CreateId() + "";
     }
+
     /// <summary>
     /// Creates an object and saves to database
     /// </summary>

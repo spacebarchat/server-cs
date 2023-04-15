@@ -14,12 +14,13 @@ public class MembershipBuilder : GenericObjectBuilder<Member>
         {
             GuildId = mcs.Guild.Id,
             Id = mcs.User.Id,
-            Roles = new[]{mcs.Guild.Roles.First(r => r.Id == mcs.Guild.Id)},
+            Roles = new[] { mcs.Guild.Roles.First(r => r.Id == mcs.Guild.Id) },
             JoinedAt = DateTime.Now,
             PremiumSince = DateTime.Now,
             Deaf = false,
             Mute = false,
             Pending = false,
+            Settings = new()
         };
 
         await db.Members.AddAsync(member);

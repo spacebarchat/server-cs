@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Spacebar.DbModel\Spacebar.DbModel.csproj" />
+        <ProjectReference Include="..\..\Spacebar.DbModel\Spacebar.DbModel.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="Templates/**" CopyToOutputDirectory="Always" />
+        <None Include="Templates/**" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 
 </Project>

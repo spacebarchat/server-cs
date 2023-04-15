@@ -14,15 +14,16 @@ public class GatewayController : Controller
         _Logger = logger;
         _db = db;
     }
-    
+
     [HttpGet("/")]
     public async Task GetWS([FromQuery] string encoding, [FromQuery] int v, [FromQuery] string compress = "")
     {
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
-            _Logger.LogInformation("Gateway connection attempt: {ConnectionRemoteIpAddress}", HttpContext.Connection.RemoteIpAddress);
-            WebSocketInfo clientSocketInfo = new WebSocketInfo(encoding, v, compress);
-            clientSocketInfo.AcceptWebSocketAsync(HttpContext.WebSockets);
+            _Logger.LogInformation("Gateway connection attempt: {ConnectionRemoteIpAddress}",
+                HttpContext.Connection.RemoteIpAddress);
+            var clientSocketInfo = new WebSocketInfo(encoding, v, compress);
+            await clientSocketInfo.AcceptWebSocketAsync(HttpContext.WebSockets);
         }
         else
         {

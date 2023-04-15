@@ -7,8 +7,7 @@ namespace Spacebar.ConfigModel;
 public class RegisterSecurityConfig
 {
     // ReSharper disable once InconsistentNaming - Required for JSON serialization:
-    [JsonProperty("DefaultRights")]
-    public Dictionary<string, bool> _defaultRights = new();
+    [JsonProperty("DefaultRights")] public Dictionary<string, bool> _defaultRights = new();
 
     [JsonIgnore]
     public BitArray DefaultRights
@@ -29,8 +28,9 @@ public class RegisterSecurityConfig
                     continue;
                 }
 
-                if (Config.Instance.Logging.DefaultRightsDebug) Console.WriteLine($"[DEBUG] Setting default right '{key}' to '{value}'");
-                rights[(int) field.GetValue(null)] = value;
+                if (Config.Instance.Logging.DefaultRightsDebug)
+                    Console.WriteLine($"[DEBUG] Setting default right '{key}' to '{value}'");
+                rights[(int)field.GetValue(null)] = value;
             }
 
             return rights;
@@ -42,7 +42,8 @@ public class RegisterSecurityConfig
             for (var i = 0; i < value.Length; i++)
             {
                 var field = _rightsDef.GetFields()[i];
-                if (Config.Instance.Logging.DefaultRightsDebug) Console.WriteLine($"[DEBUG] Setting default right '{field.Name}' to '{value[i]}'");
+                if (Config.Instance.Logging.DefaultRightsDebug)
+                    Console.WriteLine($"[DEBUG] Setting default right '{field.Name}' to '{value[i]}'");
                 _defaultRights.Add(field.Name, value[i]);
             }
         }

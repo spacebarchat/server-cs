@@ -1,7 +1,7 @@
 using Spacebar.Util;
 using Newtonsoft.Json;
 
-namespace Spacebar.DbModel; 
+namespace Spacebar.DbModel;
 
 public class DbConfig
 {

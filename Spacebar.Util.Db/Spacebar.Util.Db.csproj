@@ -12,11 +12,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Spacebar.DbModel\Spacebar.DbModel.csproj" />
+        <ProjectReference Include="..\Spacebar.DbModel\Spacebar.DbModel.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="IdGen" Version="3.0.2" />
+        <PackageReference Include="IdGen" Version="3.0.2"/>
     </ItemGroup>
 
 </Project>

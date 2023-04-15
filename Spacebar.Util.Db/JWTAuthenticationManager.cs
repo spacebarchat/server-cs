@@ -11,7 +11,7 @@ namespace Spacebar.Util;
 public class JwtAuthenticationManager
 {
     private readonly DbModel.Db _db = DbModel.Db.GetNewDb();
- 
+
     private readonly string _tokenKey = Config.Instance.Security.JwtSecret;
 
     public User GetUserFromToken(string token, DbModel.Db? db = null)
@@ -25,21 +25,21 @@ public class JwtAuthenticationManager
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidateAudience = false,
-            ValidateIssuer = false,
+            ValidateIssuer = false
         };
-        var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken tokenValidated);
+        var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out var tokenValidated);
         return db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
     }
- 
+
     public string? Authenticate(string username, string password)
     {
         var user = _db.Users.FirstOrDefault(x => x.Email == username);
         if (user == null) return null;
         if (!BCrypt.Net.BCrypt.Verify(password, user.Data.Hash)) return null;
-        
+
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenKey);
-        
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]

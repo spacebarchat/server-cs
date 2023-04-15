@@ -38,9 +38,10 @@ public enum Permissions : ulong
     ManageEmojisAndStickers = 1ul << 30,
     UseApplicationCommands = 1ul << 31,
     RequestToSpeak = 1ul << 32,
+
     // 1ul << 33 is missing, unknown permission?
     ManageThreads = 1ul << 34,
     UsePublicThreads = 1ul << 35,
     UsePrivateThreads = 1ul << 36,
-    UseExternalStickers = 1ul << 37,
+    UseExternalStickers = 1ul << 37
 }

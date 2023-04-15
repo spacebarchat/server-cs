@@ -29,27 +29,27 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="dump\**" />
-      <Compile Remove="event_dump\**" />
-      <Compile Remove="unknown_events\**" />
+        <Compile Remove="dump\**" />
+        <Compile Remove="event_dump\**" />
+        <Compile Remove="unknown_events\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="dump\**" />
-      <EmbeddedResource Remove="event_dump\**" />
-      <EmbeddedResource Remove="unknown_events\**" />
+        <EmbeddedResource Remove="dump\**" />
+        <EmbeddedResource Remove="event_dump\**" />
+        <EmbeddedResource Remove="unknown_events\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="dump\**" />
-      <None Remove="event_dump\**" />
-      <None Remove="unknown_events\**" />
+        <None Remove="dump\**" />
+        <None Remove="event_dump\**" />
+        <None Remove="unknown_events\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="dump\**" />
-      <Content Remove="event_dump\**" />
-      <Content Remove="unknown_events\**" />
+        <Content Remove="dump\**" />
+        <Content Remove="event_dump\**" />
+        <Content Remove="unknown_events\**" />
     </ItemGroup>
 
 </Project>

@@ -19,10 +19,10 @@ public class DumpController : Controller
     public async Task Dump(string dir)
     {
         Console.WriteLine("Got data");
-        string outdir = "dump/"+dir;
+        var outdir = "dump/" + dir;
         if (!Directory.Exists("dump")) Directory.CreateDirectory("dump");
         if (!Directory.Exists(outdir)) Directory.CreateDirectory(outdir);
-        string outfile = outdir + "/" + Directory.GetFiles(outdir).Count(x => x.EndsWith(".bin"))+".bin";
+        var outfile = outdir + "/" + Directory.GetFiles(outdir).Count(x => x.EndsWith(".bin")) + ".bin";
         var file = System.IO.File.OpenWrite(outfile);
         await Request.Body.CopyToAsync(file);
         file.Flush();
@@ -30,8 +30,9 @@ public class DumpController : Controller
         Console.WriteLine(outfile);
         try
         {
-            System.IO.File.WriteAllBytes(outfile+".decompressed", ZLib.Decompress(System.IO.File.ReadAllBytes(outfile)));
-            Console.WriteLine("Decompressed: " + outfile+".decompressed");
+            System.IO.File.WriteAllBytes(outfile + ".decompressed",
+                ZLib.Decompress(System.IO.File.ReadAllBytes(outfile)));
+            Console.WriteLine("Decompressed: " + outfile + ".decompressed");
         }
         catch (Exception e)
         {

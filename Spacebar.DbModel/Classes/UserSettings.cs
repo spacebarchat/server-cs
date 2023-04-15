@@ -15,7 +15,7 @@ public class UserSettings
     public bool DisableGamesTab = true;
     public bool EnableTtsCommand = false;
     public bool ExplicitContentFilter = false;
-    public object FriendSourceFlags = new {all = true};
+    public object FriendSourceFlags = new { all = true };
     public bool GatewayConnected = false;
     public bool GifAutoPlay = true;
     public object GuildFolders = null;

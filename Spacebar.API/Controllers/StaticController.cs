@@ -6,13 +6,15 @@ namespace Spacebar.API.Controllers;
 
 [Controller]
 [Route("/")]
-public class StaticController : Controller {
+public class StaticController : Controller
+{
     private readonly Db _db;
 
-    public StaticController(Db db) {
+    public StaticController(Db db)
+    {
         _db = db;
     }
-    
+
     [HttpGet("/resources/{*res:required}")]
     public object Resource(string res)
     {

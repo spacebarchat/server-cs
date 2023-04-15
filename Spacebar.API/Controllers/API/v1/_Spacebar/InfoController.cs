@@ -55,12 +55,12 @@ public class InfoController : Controller
             DISCORD_TEST = true,
             PROJECT_ENV = "staging",
 
-            SENTRY_TAGS = new {buildId = "75e36d9", buildType = "normal"},
+            SENTRY_TAGS = new { buildId = "75e36d9", buildType = "normal" },
             HTML_TIMESTAMP = DateTime.Now.Ticks,
             //keys
             ALGOLIA_KEY = "aca0d7082e4e63af5ba5917d5e96bed0",
             BRAINTREE_KEY = "production_5st77rrc_49pp2rp4phym7387",
-            STRIPE_KEY = "pk_live_CUQtlpQUF0vufWpnpUmQvcdi",
+            STRIPE_KEY = "pk_live_CUQtlpQUF0vufWpnpUmQvcdi"
         }, new JsonSerializerOptions()
         {
             PropertyNamingPolicy = new OriginalNamingPolicy()
@@ -70,5 +70,8 @@ public class InfoController : Controller
 
 public class OriginalNamingPolicy : JsonNamingPolicy
 {
-    public override string ConvertName(string name) => name;
+    public override string ConvertName(string name)
+    {
+        return name;
+    }
 }

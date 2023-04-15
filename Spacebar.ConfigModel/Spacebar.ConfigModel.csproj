@@ -12,17 +12,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Spacebar.Static\Spacebar.Static.csproj" />
-        <ProjectReference Include="..\Spacebar.Util\Spacebar.Util.csproj" />
+        <ProjectReference Include="..\Spacebar.Static\Spacebar.Static.csproj"/>
+        <ProjectReference Include="..\Spacebar.Util\Spacebar.Util.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Spacebar.Util.Generic">
-        <HintPath>..\Spacebar.API\bin\Debug\net6.0\Spacebar.Util.Generic.dll</HintPath>
-      </Reference>
+        <Reference Include="Spacebar.Util.Generic">
+            <HintPath>..\Spacebar.API\bin\Debug\net6.0\Spacebar.Util.Generic.dll</HintPath>
+        </Reference>
     </ItemGroup>
 </Project>

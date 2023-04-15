@@ -14,7 +14,9 @@ public enum ChannelType
     Transactional = 9, // event chain style transactional channel
     GuildNewsThread = 10, // a temporary sub-channel within a GUILD_NEWS channel
     GuildPublicThread = 11, // a temporary sub-channel within a GUILD_TEXT channel
-    GuildPrivateThread = 12, // a temporary sub-channel within a GUILD_TEXT channel that is only viewable by those invited and those with the MANAGE_THREADS permission
+
+    GuildPrivateThread =
+        12, // a temporary sub-channel within a GUILD_TEXT channel that is only viewable by those invited and those with the MANAGE_THREADS permission
     GuildStageVoice = 13, // a voice channel for hosting events with an audience
     Directory = 14, // guild directory listing channel
     GuildForum = 15, // forum composed of IM threads

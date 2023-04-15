@@ -1,6 +1,7 @@
 ﻿using Spacebar.Static.Enums;
 
 namespace Spacebar.Static.Classes;
+
 public class GatewayPayload
 {
     public GatewayOpCodes op { get; set; }

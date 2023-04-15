@@ -3,6 +3,7 @@ using Spacebar.DbModel.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Spacebar.API.Controllers.API.Guilds;
+
 [Controller]
 [Route("/")]
 public class TemplatesController : Controller
@@ -13,6 +14,7 @@ public class TemplatesController : Controller
     {
         _db = db;
     }
+
     [HttpGet("guilds/templates/{code}")]
     public Template GetGuildTemplates(string code)
     {

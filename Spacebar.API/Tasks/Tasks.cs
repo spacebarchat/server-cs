@@ -13,13 +13,13 @@ public class Tasks
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.Write("==> ");
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"Running task {tasks.IndexOf(task)+1}/{tasks.Count}: {task.GetName()} (Type<{task.GetType().Name}>)");
+            Console.WriteLine(
+                $"Running task {tasks.IndexOf(task) + 1}/{tasks.Count}: {task.GetName()} (Type<{task.GetType().Name}>)");
             Console.ForegroundColor = defaultColor;
             task.Execute();
         }
     }
 }
-
 
 public interface ITask
 {

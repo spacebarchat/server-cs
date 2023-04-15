@@ -16,5 +16,5 @@ public enum GatewayCloseCodes
     ShardingRequired,
     InvalidApiVersion,
     InvalidIntent,
-    DisallowedIntent,
+    DisallowedIntent
 }

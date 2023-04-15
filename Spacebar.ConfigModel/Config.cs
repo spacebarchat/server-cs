@@ -12,8 +12,10 @@ public class Config : SaveableObject<Config>
         Gateway.Debug.IgnoredEvents = Gateway.Debug.IgnoredEvents.Distinct().ToArray();
         base.Save(Path);
     }
+
     public static string Path = "../config.json";
     private static Config _instance;
+
     public static Config Instance
     {
         get
@@ -22,10 +24,10 @@ public class Config : SaveableObject<Config>
             {
                 _instance = Read(Path);
                 if (Instance.Sentry.Environment == Environment.MachineName)
-                {
-                    Console.WriteLine("Sentry environment name not set! Using hostname, to change this, set in Config.json!");
-                }
+                    Console.WriteLine(
+                        "Sentry environment name not set! Using hostname, to change this, set in Config.json!");
             }
+
             return _instance;
         }
         [Obsolete("Don't overwrite the running config, you will shoot yourself in the foot!")]

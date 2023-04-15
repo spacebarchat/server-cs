@@ -10,9 +10,9 @@ public class ReadyEvent
         public string Id { get; set; }
         public int Type { get; set; }
         public string Nickname { get; set; }
-        public PublicUser User { get; set; }
+        public DbModel.Entities.PublicUser User { get; set; }
     }
-    
+
     public class PublicUser
     {
         public string Id { get; set; } = null!;
@@ -26,38 +26,13 @@ public class ReadyEvent
         public int PublicFlags { get; set; }
         public DateTime PremiumSince { get; set; } = new();
     }
-    
-    public class PrivateUser
-    {
-        public string Id { get; set; } = null!;
-        public string Username { get; set; } = null!;
-        public string Discriminator { get; set; } = null!;
-        public string? Avatar { get; set; }
-        public int? AccentColor { get; set; }
-        public string? Banner { get; set; }
-        public string? Phone { get; set; }
-        public bool Desktop { get; set; }
-        public bool Mobile { get; set; }
-        public bool Premium { get; set; }
-        public int PremiumType { get; set; }
-        public bool Bot { get; set; }
-        public string Bio { get; set; } = null!;
-        public bool NsfwAllowed { get; set; }
-        public bool MfaEnabled { get; set; }
-        public bool Verified { get; set; }
-        public string? Email { get; set; }
-        public string Flags { get; set; } = null!;
-        public int PublicFlags { get; set; }
-        public DateTime PremiumSince { get; set; } = new();
-    }
 
     public class ReadyEventData
     {
-        [JsonProperty("v")]
-        public int Version { get; set; }
+        [JsonProperty("v")] public int Version { get; set; }
         public Application Application { get; set; }
-        
-        
+
+
         public PrivateUser User { get; set; }
         public UserSetting UserSettings { get; set; }
         public List<Guild> Guilds { get; set; }
@@ -95,7 +70,7 @@ public class ReadyEvent
         public bool Partial { get; set; }
         public int Version { get; set; }
     }
-    
+
     public class GuildMemberSettings
     {
         public List<UserChannelSettings> Entries { get; set; }

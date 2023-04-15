@@ -1,4 +1,5 @@
 ﻿using Spacebar.DbModel.Entities;
+using Spacebar.Util.Db.Schemas;
 using Spacebar.Util.Schemas;
 
 namespace Spacebar.Util.Db.ObjectBuilders;
@@ -29,21 +30,29 @@ public class GuildBuilder : GenericObjectBuilder<Guild>
             Name = gcrs.Name ?? "Unnamed guild",
             Region = gcrs.Region ?? "",
             Icon = "",
-            WelcomeScreen = new()
+            WelcomeScreen = new WelcomeScreen()
         };
 
         await db.SaveChangesAsync();
         //create channels
         var channelBuilder = new ChannelBuilder(db);
-        guild.RulesChannel = await channelBuilder.CreateAsync(new() {Guild = guild, Name = "rules", Type = ChannelType.GuildText});
-        guild.SystemChannel = await channelBuilder.CreateAsync(new() {Guild = guild, Name = "general", Type = ChannelType.GuildText});
-        guild.PublicUpdatesChannel = await channelBuilder.CreateAsync(new() {Guild = guild, Name = "announcements", Type = ChannelType.GuildText});
+        guild.RulesChannel = await channelBuilder.CreateAsync(new ChannelCreateSchema
+            { Guild = guild, Name = "rules", Type = ChannelType.GuildText });
+        guild.SystemChannel = await channelBuilder.CreateAsync(new ChannelCreateSchema
+            { Guild = guild, Name = "general", Type = ChannelType.GuildText });
+        guild.PublicUpdatesChannel = await channelBuilder.CreateAsync(new ChannelCreateSchema
+            { Guild = guild, Name = "announcements", Type = ChannelType.GuildText });
         //create @everyone role
         var roleBuilder = new RoleBuilder(db);
-        guild.Roles.Add(await roleBuilder.CreateAsync(new() {GuildId = guild.Id, Name = "@everyone", Color = 0, Permissions = (ulong?) DEFAULT_EVERYONE_PERMISSIONS, Position = 0, Hoist = true, Mentionable = true, Id = guild.Id}));
+        guild.Roles.Add(await roleBuilder.CreateAsync(new RoleCreateSchema
+        {
+            GuildId = guild.Id, Name = "@everyone", Color = 0, Permissions = (ulong?)DEFAULT_EVERYONE_PERMISSIONS,
+            Position = 0, Hoist = true, Mentionable = true, Id = guild.Id
+        }));
         //create membership
         var membershipBuilder = new MembershipBuilder(db);
-        guild.Members.Add(await membershipBuilder.CreateAsync(new() {Guild = guild, User = gcrs.User}));
+        guild.Members.Add(
+            await membershipBuilder.CreateAsync(new MemberCreateSchema { Guild = guild, User = gcrs.User }));
 
         await db.SaveChangesAsync();
         return guild;

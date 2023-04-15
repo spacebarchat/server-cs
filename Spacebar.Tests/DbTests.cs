@@ -35,10 +35,7 @@ public class DbTests
     public void MigAsmDetectionFinder()
     {
         var tests = "postgres,mysql,mariadb,sqlite,inmemory,test".Split(',');
-        foreach (var test in tests)
-        {
-            output.WriteLine($"{test} -> {Db.GetMigAsm(test)}");
-        }
+        foreach (var test in tests) output.WriteLine($"{test} -> {Db.GetMigAsm(test)}");
     }
 
     /*[Fact]

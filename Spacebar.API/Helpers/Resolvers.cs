@@ -4,13 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Spacebar.API.Helpers;
 
-public static class Resolvers {
-    private static readonly string Navbar = File.Exists("Resources/Parts/Navbar.html") ? File.ReadAllText("Resources/Parts/Navbar.html") : "Navbar not found!";
+public static class Resolvers
+{
+    private static readonly string Navbar = File.Exists("Resources/Parts/Navbar.html")
+        ? File.ReadAllText("Resources/Parts/Navbar.html")
+        : "Navbar not found!";
 
-    public static object ReturnFile(string path) {
+    public static object ReturnFile(string path)
+    {
         if (!File.Exists(path)) return new NotFoundObjectResult("File doesn't exist!");
         var ext = path.Split(".").Last();
-        var contentType = ext switch {
+        var contentType = ext switch
+        {
             //text types
             "html" => "text/html",
             "js" => "text/javascript",
@@ -27,7 +32,8 @@ public static class Resolvers {
             "ico" => "image/x-icon",
             _ => "application/octet-stream"
         };
-        switch (ext) {
+        switch (ext)
+        {
             case "html":
                 return new ContentResult
                 {
@@ -66,16 +72,19 @@ public static class Resolvers {
         }
     }
 
-    public static object ReturnFileWithVars(string path, Db db, Dictionary<string, object>? customVars = null) {
-        if (!File.Exists(path)) return new NotFoundObjectResult(Debugger.IsAttached ? $"File {path} doesn't exist!" : "File doesn't exist!");
+    public static object ReturnFileWithVars(string path, Db db, Dictionary<string, object>? customVars = null)
+    {
+        if (!File.Exists(path))
+            return new NotFoundObjectResult(Debugger.IsAttached
+                ? $"File {path} doesn't exist!"
+                : "File doesn't exist!");
         var result = ReturnFile(path);
         if (result.GetType() != typeof(ContentResult)) return result;
         var contentResult = (ContentResult)result;
         contentResult.Content = contentResult.Content?.Replace("$NAVBAR", Navbar);
         if (customVars != null)
-            foreach (var (key, value) in customVars) {
+            foreach (var (key, value) in customVars)
                 contentResult.Content = contentResult.Content?.Replace(key, value.ToString());
-            }
 
         result = contentResult;
 

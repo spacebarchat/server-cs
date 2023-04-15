@@ -10,6 +10,6 @@ public class GatewayDebugConfig
     public string[] IgnoredEvents { get; set; } =
     {
         "Heartbeat",
-        "Heartbeat_ACK",
+        "Heartbeat_ACK"
     };
 }

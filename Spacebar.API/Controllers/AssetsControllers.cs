@@ -46,10 +46,10 @@ public class AssetsController : Controller
 
         if (System.IO.File.Exists("./Resources/Assets/" + res))
             cache.TryAdd(res, await System.IO.File.ReadAllBytesAsync("./Resources/Assets/" + res));
-        
+
         return NotFound();
     }
-    
+
     [HttpGet("/robots.txt")]
     public object Robots()
     {

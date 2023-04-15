@@ -6,7 +6,9 @@ public class Identify
 {
     public string Token;
     public IdentifyProperties Properties;
+
     public Intents Intents;
+
     //todo activity
     public bool Compress;
     public int LargeThreshold;

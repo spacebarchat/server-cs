@@ -1,4 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
+
 namespace Spacebar.Util.Rewrites;
 
 public enum Intents
@@ -17,5 +18,5 @@ public enum Intents
     GUILD_MESSAGE_TYPING = 1 << 11,
     DIRECT_MESSAGES = 1 << 12,
     DIRECT_MESSAGE_REACTIONS = 1 << 13,
-    DIRECT_MESSAGE_TYPING = 1 << 14,
+    DIRECT_MESSAGE_TYPING = 1 << 14
 }

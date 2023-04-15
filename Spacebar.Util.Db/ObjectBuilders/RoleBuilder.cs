@@ -12,8 +12,7 @@ public class RoleBuilder : GenericObjectBuilder<Role>
             Color = ccsc.Color,
             GuildId = ccsc.GuildId.ToString(),
             Hoist = ccsc.Hoist,
-            Id = ccsc.Id ?? GenerateId(),
-
+            Id = ccsc.Id ?? GenerateId()
         };
         await db.SaveChangesAsync();
         return role;

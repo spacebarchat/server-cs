@@ -11,10 +11,12 @@ public class EndpointConfig
     {
         return Api;
     }
+
     public string GetGatewayInternal()
     {
         return Gateway;
     }
+
     public string GetCdnInternal()
     {
         return Cdn;

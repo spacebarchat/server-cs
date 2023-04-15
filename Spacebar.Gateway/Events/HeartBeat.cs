@@ -4,7 +4,7 @@ using Spacebar.Static.Enums;
 
 namespace Spacebar.Gateway.Events;
 
-public class HeartBeat: IGatewayMessage
+public class HeartBeat : IGatewayMessage
 {
     public GatewayOpCodes OpCode { get; } = GatewayOpCodes.Heartbeat;
 
@@ -12,9 +12,9 @@ public class HeartBeat: IGatewayMessage
     {
         client.Lastheartbeat = DateTime.UtcNow;
         Console.WriteLine("Heartbeat");
-        await client.SendAsync(new()
+        await client.SendAsync(new GatewayPayload
         {
-            op = GatewayOpCodes.HeartbeatAck,
+            op = GatewayOpCodes.HeartbeatAck
         });
     }
 }
