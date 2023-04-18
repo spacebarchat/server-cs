@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using Spacebar.DbModel.Entities;
+﻿using Spacebar.DbModel.Entities;
 using Newtonsoft.Json;
 
 namespace Spacebar.Gateway.Models;
 
-public class ReadyEvent
+public class LegacyReadyEvent
 {
     public class PublicRelationShip
     {
@@ -34,7 +33,7 @@ public class ReadyEvent
         public Application Application { get; set; }
         public PrivateUser User { get; set; }
         public UserSetting UserSettings { get; set; }
-        public ArrayList Guilds { get; set; } = new();
+        public List<Guild> Guilds { get; set; }
         public List<object> GuildExperiments { get; set; } //todo
         public List<object> GeoOrderedRtcRegions { get; set; } //todo
         public List<PublicRelationShip> Relationships { get; set; }

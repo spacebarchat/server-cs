@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using Spacebar.API.Middlewares;
 using Spacebar.API.Tasks;
@@ -34,12 +35,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
+//builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
 builder.Services.AddLogging(o =>
 {
     if (SystemdHelpers.IsSystemdService())
         o.AddSystemdConsole();
-    else o.AddConsole();
+    else if(Debugger.IsAttached)
+        o.AddConsole();
+    // else
+    //     o.AddSimpleConsole(o =>
+    //     {
+    //         o.IncludeScopes = true;
+    //         o.SingleLine = true;
+    //         o.TimestampFormat = "HH:mm:ss ";
+    //         
+    //     });
 
     if (Config.Instance.Sentry.Enabled)
         o.AddSentry(p =>
@@ -73,12 +83,13 @@ builder.Services.AddDbContext<Db>(optionsBuilder =>
     var cfg = Config.Instance.DbConfig;
     optionsBuilder
         .UseNpgsql(
-            $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+            $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true");
         //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
-        .LogTo(str => Console.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
-        ;
+        if (Debugger.IsAttached)
+            optionsBuilder.LogTo(str => Console.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
 });
-builder.Services.AddSingleton(new JwtAuthenticationManager());
+builder.Services.AddScoped(typeof(JwtAuthenticationManager));
 
 var tokenKey = Config.Instance.Security.JwtSecret;
 var key = Encoding.UTF8.GetBytes(tokenKey);
@@ -101,30 +112,17 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
-builder.Services.AddW3CLogging(logging =>
-{
-    // Log all W3C fields
-    logging.LoggingFields = W3CLoggingFields.All;
-
-    //logging.AdditionalRequestHeaders.Add("x-forwarded-for");
-    //logging.AdditionalRequestHeaders.Add("x-client-ssl-protocol");
-    logging.FileSizeLimit = 5 * 1024 * 1024;
-    logging.RetainedFileCountLimit = 2;
-    logging.FileName = "MyLogFile";
-    logging.LogDirectory = @"C:\logs";
-    logging.FlushInterval = TimeSpan.FromSeconds(2);
-});
 var app = builder.Build();
 app.UseOptions();
 
 //
-if (app.Environment.IsDevelopment())
+if (true || app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpLogging();
+if(Debugger.IsAttached) app.UseHttpLogging();
 app.UseRouting();
 app.UseSentryTracing();
 

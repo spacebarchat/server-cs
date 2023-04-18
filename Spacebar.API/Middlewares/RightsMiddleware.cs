@@ -28,7 +28,7 @@ public class RightsMiddleware
 
             var jwtam =
                 context.RequestServices.GetService(typeof(JwtAuthenticationManager)) as JwtAuthenticationManager;
-            var user = jwtam.GetUserFromToken(context.Request.Headers["Authorization"].ToString().Replace("Bot ", ""));
+            var user = await jwtam.GetUserFromToken(context.Request.Headers["Authorization"].ToString().Replace("Bot ", ""));
             if (!attribute.HasRights(user.Rights))
                 throw new UnauthorizedAccessException("You don't have the rights to do this.");
         }

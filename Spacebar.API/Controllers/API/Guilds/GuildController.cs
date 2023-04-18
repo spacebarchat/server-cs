@@ -28,9 +28,9 @@ public class GuildController : Controller
         var request =
             JsonConvert.DeserializeObject<GuildCreateRequestSchema>(
                 await new StreamReader(Request.Body).ReadToEndAsync());
-        var user = _auth.GetUserFromToken(Request.Headers["Authorization"].ToString().Split(" ").Last(), _db);
+        var user = await _auth.GetUserFromToken(Request.Headers["Authorization"].ToString().Split(" ").Last(), _db);
         request.User = user;
-        var guild = new GuildBuilder(_db).CreateAsync(request);
+        var guild = await new GuildBuilder(_db).CreateAsync(request);
         /*var guildId = new IdGenerator(0).CreateId() + "";
         var guild = new Guild
         {

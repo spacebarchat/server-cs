@@ -32,6 +32,7 @@ public class GuildBuilder : GenericObjectBuilder<Guild>
             Icon = "",
             WelcomeScreen = new WelcomeScreen()
         };
+        db.Guilds.Add(guild);
 
         await db.SaveChangesAsync();
         //create channels
@@ -46,9 +47,16 @@ public class GuildBuilder : GenericObjectBuilder<Guild>
         var roleBuilder = new RoleBuilder(db);
         guild.Roles.Add(await roleBuilder.CreateAsync(new RoleCreateSchema
         {
-            GuildId = guild.Id, Name = "@everyone", Color = 0, Permissions = (ulong?)DEFAULT_EVERYONE_PERMISSIONS,
-            Position = 0, Hoist = true, Mentionable = true, Id = guild.Id
+            GuildId = guild.Id,
+            Name = "@everyone", 
+            Color = 0, 
+            Permissions = (ulong?)DEFAULT_EVERYONE_PERMISSIONS,
+            Position = 0,
+            Hoist = true,
+            Mentionable = true, 
+            Id = guild.Id
         }));
+        //await db.SaveChangesAsync();
         //create membership
         var membershipBuilder = new MembershipBuilder(db);
         guild.Members.Add(

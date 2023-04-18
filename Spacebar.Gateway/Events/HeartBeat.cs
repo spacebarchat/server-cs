@@ -11,7 +11,6 @@ public class HeartBeat : IGatewayMessage
     public async Task Invoke(GatewayPayload payload, WebSocketInfo client)
     {
         client.Lastheartbeat = DateTime.UtcNow;
-        Console.WriteLine("Heartbeat");
         await client.SendAsync(new GatewayPayload
         {
             op = GatewayOpCodes.HeartbeatAck

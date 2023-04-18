@@ -1,12 +1,14 @@
 ﻿using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Reflection;
+using ArcaneLibs;
 using Spacebar.ConfigModel;
 using Spacebar.Gateway.Events;
 using Spacebar.Static.Classes;
 using Spacebar.Static.Enums;
 using Spacebar.Util.Rewrites;
 using Ionic.Zlib;
+using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Spacebar.Static.Utilities;
@@ -56,7 +58,7 @@ public class WebSocketInfo : IDisposable
         {
             Console.WriteLine($"Accepted WS connection: {SessionId}");
             await SendAsync(HelloPayload);
-            
+
             Task.Run(HandleTimeouts, _cancellationToken);
             Console.WriteLine($"Starting receive loop for {SessionId}");
             try
@@ -83,10 +85,10 @@ public class WebSocketInfo : IDisposable
 
     public async Task RunReceiveLoop()
     {
+        var messageBuffer = WebSocket.CreateClientBuffer(65535, 65535);
         while (_webSocket.State == WebSocketState.Open && !_cancellationToken.IsCancellationRequested)
         {
             using var ms = new MemoryStream();
-            var messageBuffer = WebSocket.CreateClientBuffer(65535, 65535);
             WebSocketReceiveResult result;
             do
             {
@@ -99,9 +101,8 @@ public class WebSocketInfo : IDisposable
             var message = JsonConvert.DeserializeObject<GatewayPayload>(msgString);
             if (message != null && !string.IsNullOrEmpty(msgString))
             {
-                //dump gateway events
                 await DumpPayloadToFile(message, false);
-                Console.WriteLine($"[{SessionId}] <- {message.op} {message.t}");
+                Console.WriteLine($"[{SessionId}:JSON] <- {message.op} {message.t} ({ArcaneLibs.Util.BytesToString(ms.Length)})");
                 if (GatewayActions.ContainsKey(message.op))
                 {
                     try
@@ -186,7 +187,6 @@ public class WebSocketInfo : IDisposable
 
     public async Task SendAsync(GatewayPayload payload)
     {
-        Console.WriteLine($"[{SessionId}] -> {payload.op} {payload.t}");
         switch (Encoding)
         {
             case "json":
@@ -204,6 +204,7 @@ public class WebSocketInfo : IDisposable
             await DumpPayloadToFile(payload, true);
 
         var bytes = System.Text.Encoding.UTF8.GetBytes(data);
+        Console.WriteLine($"[{SessionId}:JSON] -> {payload.op} {payload.t} ({ArcaneLibs.Util.BytesToString(bytes.Length)})");
         if (Compress == "zlib-stream")
         {
             await SendZlibStreamContinuationAsync(bytes);
@@ -242,17 +243,19 @@ public class WebSocketInfo : IDisposable
 
     private async Task DumpPayloadToFile(GatewayPayload payload, bool isOut)
     {
-        var dir = $"event_dump/{SessionId}/{(isOut ? "out" : "in")}/{payload.op}";
-        if (!Directory.Exists(dir))
-            Directory.CreateDirectory(dir);
-        var targetfile = $"{dir}/{Directory.GetFiles(dir).Count(x => x.EndsWith(".json"))}.json";
-        await File.WriteAllTextAsync(targetfile,
-            JsonConvert.SerializeObject(payload, Formatting.Indented, JsonSerializerSettings), _cancellationToken);
-        Console.WriteLine($"Dumped {payload.op} to {targetfile}");
-        if (Config.Instance.Gateway.Debug.OpenDumpsAfterWrite &&
-            !Config.Instance.Gateway.Debug.IgnoredEvents.Contains(payload.op.ToString()))
-            Process.Start(Config.Instance.Gateway.Debug.OpenDumpCommand.Command,
-                Config.Instance.Gateway.Debug.OpenDumpCommand.Args.Replace("$file", targetfile));
+        if (!Config.Instance.Gateway.Debug.DumpGatewayEventsToFiles) return;
+        await WriteObjectToFile(payload, $"event_dump/{SessionId}/{(isOut ? "out" : "in")}/{payload.op}", "#.json");
+        await WriteObjectToFile(payload, $"event_dump/{SessionId}/all", $"#-{(isOut ? "out" : "in")}.json");
+    }
+
+    private async Task WriteObjectToFile(object obj, string dir, string filenamefmt)
+    {
+        //check if parent dirs exist
+        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+        var fileCount = Directory.GetFiles(dir).Count(x => x.EndsWith(".json"));
+        await File.WriteAllTextAsync(
+            $"{dir}/{filenamefmt.Replace("#", fileCount.ToString())}",
+            JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializerSettings), _cancellationToken);
     }
 
     private async void HandleTimeouts()
@@ -280,7 +283,7 @@ public class WebSocketInfo : IDisposable
             }
             catch (TaskCanceledException e)
             {
-                Console.WriteLine($"[{SessionId}] Stopping heartbeat timeout task: {e.Message}");
+                //Console.WriteLine($"[{SessionId}] Stopping heartbeat timeout task: {e.Message}");
             }
             catch (Exception e)
             {
@@ -311,7 +314,7 @@ public class WebSocketInfo : IDisposable
                     ((IDisposable)value).Dispose();
             }
     }
-    
+
     //static variables
     public static readonly Dictionary<GatewayOpCodes, IGatewayMessage> GatewayActions = new();
     public static readonly List<WebSocketInfo> WebSockets;

@@ -61,7 +61,7 @@ builder.Services.AddDbContext<Db>(optionsBuilder =>
         //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
         ;
 });
-builder.Services.AddSingleton(new JwtAuthenticationManager());
+builder.Services.AddScoped(typeof(JwtAuthenticationManager));
 
 var tokenKey = Config.Instance.Security.JwtSecret;
 var key = Encoding.UTF8.GetBytes(tokenKey);
@@ -86,6 +86,28 @@ builder.Services.AddAuthentication(x =>
 
 Config.Instance.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 if (Config.Instance.Gateway.Debug.WipeOnStartup && Directory.Exists("event_dump")) Directory.Delete("event_dump", true);
+
+
+foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
+             .Where(x => typeof(IGatewayMessage).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract))
+{
+    var constructor = type.GetConstructor(Type.EmptyTypes);
+    if (constructor == null)
+    {
+        continue;
+    }
+    else
+    {
+        builder.Services.AddScoped(type);
+        // var message = constructor.Invoke(null) as IGatewayMessage;
+        // if (@message == null)
+        //     continue;
+        // WebSocketInfo.GatewayActions.Add(message.OpCode, message);
+        
+        //Console.WriteLine($"Successfully registered handler for {message.OpCode}");
+    }
+}
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -118,24 +140,6 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}");
 });
-
-foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
-             .Where(x => typeof(IGatewayMessage).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract))
-{
-    var constructor = type.GetConstructor(Type.EmptyTypes);
-    if (constructor == null)
-    {
-        continue;
-    }
-    else
-    {
-        var message = constructor.Invoke(null) as IGatewayMessage;
-        if (@message == null)
-            continue;
-        WebSocketInfo.GatewayActions.Add(message.OpCode, message);
-        Console.WriteLine($"Successfully registered handler for {message.OpCode}");
-    }
-}
 
 Console.WriteLine("Starting web server!");
 if (args.Contains("--exit-on-modified"))

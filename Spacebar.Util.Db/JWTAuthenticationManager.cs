@@ -1,6 +1,8 @@
+using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Spacebar.ConfigModel;
 using Spacebar.DbModel;
 using Spacebar.DbModel.Entities;
@@ -10,11 +12,16 @@ namespace Spacebar.Util;
 
 public class JwtAuthenticationManager
 {
-    private readonly DbModel.Db _db = DbModel.Db.GetNewDb();
+    private static readonly ConcurrentDictionary<string, User> _users = new();
+    private readonly DbModel.Db _db;
 
     private readonly string _tokenKey = Config.Instance.Security.JwtSecret;
 
-    public User GetUserFromToken(string token, DbModel.Db? db = null)
+    public JwtAuthenticationManager(DbModel.Db db)
+    {
+        _db = db;
+    }
+    public async Task<User> GetUserFromToken(string token, DbModel.Db? db = null)
     {
         db ??= _db;
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -28,7 +35,29 @@ public class JwtAuthenticationManager
             ValidateIssuer = false
         };
         var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out var tokenValidated);
-        return db.Users.FirstOrDefault(x => x.Id == tokenClaim.Identity.Name);
+        User? user;
+        if (_users.ContainsKey(tokenClaim.Identity.Name))
+        {
+            user = _users[tokenClaim.Identity.Name];
+            Console.WriteLine($"User {user.Id} found in cache!");   
+        }
+        else
+        {
+            user = await db.Users.FirstOrDefaultAsync(x => x.Id == tokenClaim.Identity.Name);
+            Console.WriteLine($"User {user?.Id} not found in cache, fetching from db");
+            _users.TryAdd(user.Id, user);
+        }
+
+        
+        if (_users.Count > Config.Instance.Gateway.AuthCacheSize)
+        {
+            Console.WriteLine("Auth cache full, removing oldest user");
+            _users.TryRemove(user.Id, out _);
+        }
+
+        if (user == null) throw new Exception("User not found");
+        
+        return user;
     }
 
     public string? Authenticate(string username, string password)

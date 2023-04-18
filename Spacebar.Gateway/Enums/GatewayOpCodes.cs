@@ -25,5 +25,6 @@ public enum GatewayOpCodes
     StreamWatch = 20,
     StreamPing = 21,
     StreamSetPaused = 22,
-    RequestApplicationCommands = 24
+    RequestApplicationCommands = 24,
+    LegacyIdentify = 100,
 }

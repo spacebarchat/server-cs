@@ -52,4 +52,8 @@
         <Content Remove="unknown_events\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Extensions" />
+    </ItemGroup>
+
 </Project>
