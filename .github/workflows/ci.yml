@@ -17,7 +17,7 @@ jobs:
           dotnet-version: '6.0.x'
       - name: Discord webhook
         run: |
-          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:fox_wave_duckmaster:900151686616715306> New commit by $GITHUB_ACTOR: [commit]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA), [run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>)\"}" ${{ secrets.DISCORD_WEBHOOK }}
+          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:SBneutral:1091024656670142655> New commit by $GITHUB_ACTOR: [commit]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA), [run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>)\"}" ${{ secrets.DISCORD_WEBHOOK }}
       #- name: Sentry Release
       #  uses: getsentry/action-release@v1.1.6
       #  env:
@@ -42,10 +42,10 @@ jobs:
       #  if: ${{ success() }}
       - name: Publish success
         run: |
-          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:foxSip:899416354728329217> Build and test successful! ([See run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>))\"}" ${{ secrets.DISCORD_WEBHOOK }}
+          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:SBhappy:1091024654853996584> Build and test successful! ([See run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>))\"}" ${{ secrets.DISCORD_WEBHOOK }}
         if: ${{ success() }}
       - name: Publish failure
         run: |
-          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:fox_cry_storfus:900093667405070396> Build, test or publish failed! ([See run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>))\"}" ${{ secrets.DISCORD_WEBHOOK }}
+          curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:SBangry:1091024647052603442> Build, test or publish failed! ([See run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>))\"}" ${{ secrets.DISCORD_WEBHOOK }}
         if: ${{ failure() }}
         
