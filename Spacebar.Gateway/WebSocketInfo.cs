@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Reflection.Metadata;
 using ArcaneLibs;
 using Spacebar.ConfigModel;
 using Spacebar.Gateway.Events;
@@ -17,6 +18,7 @@ namespace Spacebar.Gateway.Models;
 
 public class WebSocketInfo : IDisposable
 {
+    private readonly GatewayMessageTypeService _gatewayMessageTypeService;
     private bool _disposed = false;
     public int Version;
     public string UserId;
@@ -42,12 +44,18 @@ public class WebSocketInfo : IDisposable
     private ZlibStream? _zlibStream;
     private MemoryStream? _zlibInputStream;
 
-    public WebSocketInfo(string encoding, int v, string compress = "")
+    public WebSocketInfo(GatewayMessageTypeService gatewayMessageTypeService)
+    {
+        _gatewayMessageTypeService = gatewayMessageTypeService;
+        _cancellationToken = _cancellationTokenSource.Token;
+    }
+
+    public WebSocketInfo WithSettings(string encoding, int v, string compress = "")
     {
         Encoding = encoding;
         Version = v;
         Compress = compress;
-        _cancellationToken = _cancellationTokenSource.Token;
+        return this;
     }
 
     public async Task AcceptWebSocketAsync(WebSocketManager manager)
@@ -59,11 +67,11 @@ public class WebSocketInfo : IDisposable
             Console.WriteLine($"Accepted WS connection: {SessionId}");
             await SendAsync(HelloPayload);
 
-            Task.Run(HandleTimeouts, _cancellationToken);
             Console.WriteLine($"Starting receive loop for {SessionId}");
             try
             {
-                await RunReceiveLoop();
+                await Task.WhenAll(HandleTimeouts(), RunReceiveLoop());
+                //await RunReceiveLoop();
             }
             catch (WebSocketException e)
             {
@@ -89,12 +97,13 @@ public class WebSocketInfo : IDisposable
         while (_webSocket.State == WebSocketState.Open && !_cancellationToken.IsCancellationRequested)
         {
             using var ms = new MemoryStream();
-            WebSocketReceiveResult result;
-            do
-            {
-                result = await _webSocket.ReceiveAsync(messageBuffer, CancellationToken.None);
-                ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
-            } while (!result.EndOfMessage);
+            
+            // WebSocketReceiveResult result;
+            // do
+            // {
+            //     result = await _webSocket.ReceiveAsync(messageBuffer, CancellationToken.None);
+            //     ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
+            // } while (!result.EndOfMessage);
 
             var msgString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
             //Console.WriteLine($"{result.MessageType}\n{msgString}");
@@ -102,12 +111,13 @@ public class WebSocketInfo : IDisposable
             if (message != null && !string.IsNullOrEmpty(msgString))
             {
                 await DumpPayloadToFile(message, false);
-                Console.WriteLine($"[{SessionId}:JSON] <- {message.op} {message.t} ({ArcaneLibs.Util.BytesToString(ms.Length)})");
-                if (GatewayActions.ContainsKey(message.op))
+                Console.WriteLine(
+                    $"[{SessionId}:JSON] <- {message.op} {message.t} ({ArcaneLibs.Util.BytesToString(ms.Length)})");
+                if (_gatewayMessageTypeService.GatewayActions.ContainsKey(message.op))
                 {
                     try
                     {
-                        await GatewayActions[message.op].Invoke(message, this);
+                        await _gatewayMessageTypeService.GatewayActions[message.op].Invoke(message, this);
                     }
                     catch (Exception e) //safely disconnect
                     {
@@ -204,7 +214,8 @@ public class WebSocketInfo : IDisposable
             await DumpPayloadToFile(payload, true);
 
         var bytes = System.Text.Encoding.UTF8.GetBytes(data);
-        Console.WriteLine($"[{SessionId}:JSON] -> {payload.op} {payload.t} ({ArcaneLibs.Util.BytesToString(bytes.Length)})");
+        Console.WriteLine(
+            $"[{SessionId}:JSON] -> {payload.op} {payload.t} ({ArcaneLibs.Util.BytesToString(bytes.Length)})");
         if (Compress == "zlib-stream")
         {
             await SendZlibStreamContinuationAsync(bytes);
@@ -258,7 +269,7 @@ public class WebSocketInfo : IDisposable
             JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializerSettings), _cancellationToken);
     }
 
-    private async void HandleTimeouts()
+    private async Task HandleTimeouts()
     {
         //READY timeout
         try
@@ -316,7 +327,6 @@ public class WebSocketInfo : IDisposable
     }
 
     //static variables
-    public static readonly Dictionary<GatewayOpCodes, IGatewayMessage> GatewayActions = new();
     public static readonly List<WebSocketInfo> WebSockets;
 
     //private static variables

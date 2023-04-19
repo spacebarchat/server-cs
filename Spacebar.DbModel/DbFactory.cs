@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore.Design;
+/*using Microsoft.EntityFrameworkCore.Design;
 
 namespace Spacebar.DbModel;
 
@@ -14,4 +14,4 @@ public class DbFactory : IDesignTimeDbContextFactory<Db>
         //optionsBuilder.UseMySql(ds, ServerVersion.AutoDetect(ds)).LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
         // return new Db(optionsBuilder.Options);
     }
-}
+}*/

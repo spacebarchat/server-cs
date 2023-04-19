@@ -8,11 +8,13 @@ public class GatewayController : Controller
 {
     private readonly ILogger<GatewayController> _Logger;
     private readonly Db _db;
+    private readonly WebSocketInfo _webSocketInfo;
 
-    public GatewayController(ILogger<GatewayController> logger, Db db)
+    public GatewayController(ILogger<GatewayController> logger, Db db, WebSocketInfo webSocketInfo)
     {
         _Logger = logger;
         _db = db;
+        _webSocketInfo = webSocketInfo;
     }
 
     [HttpGet("/")]
@@ -22,8 +24,7 @@ public class GatewayController : Controller
         {
             _Logger.LogInformation("Gateway connection attempt: {ConnectionRemoteIpAddress}",
                 HttpContext.Connection.RemoteIpAddress);
-            var clientSocketInfo = new WebSocketInfo(encoding, v, compress);
-            await clientSocketInfo.AcceptWebSocketAsync(HttpContext.WebSockets);
+            await _webSocketInfo.WithSettings(encoding, v, compress).AcceptWebSocketAsync(HttpContext.WebSockets);
         }
         else
         {

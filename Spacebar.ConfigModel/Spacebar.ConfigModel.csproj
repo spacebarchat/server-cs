@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -18,11 +18,5 @@
 
     <ItemGroup>
         <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="Spacebar.Util.Generic">
-            <HintPath>..\Spacebar.API\bin\Debug\net6.0\Spacebar.Util.Generic.dll</HintPath>
-        </Reference>
     </ItemGroup>
 </Project>

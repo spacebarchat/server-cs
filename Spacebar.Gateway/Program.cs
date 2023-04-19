@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Systemd;
 using Microsoft.IdentityModel.Tokens;
 using Sentry;
+using Spacebar.Gateway;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -57,11 +58,13 @@ builder.Services.AddDbContext<Db>(optionsBuilder =>
     var cfg = Config.Instance.DbConfig;
     optionsBuilder
         .UseNpgsql(
-            $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true")
+            $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000")
         //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
         ;
 });
 builder.Services.AddScoped(typeof(JwtAuthenticationManager));
+builder.Services.AddScoped(typeof(GatewayMessageTypeService));
+builder.Services.AddScoped(typeof(WebSocketInfo));
 
 var tokenKey = Config.Instance.Security.JwtSecret;
 var key = Encoding.UTF8.GetBytes(tokenKey);
@@ -88,25 +91,25 @@ Config.Instance.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 if (Config.Instance.Gateway.Debug.WipeOnStartup && Directory.Exists("event_dump")) Directory.Delete("event_dump", true);
 
 
-foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
-             .Where(x => typeof(IGatewayMessage).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract))
-{
-    var constructor = type.GetConstructor(Type.EmptyTypes);
-    if (constructor == null)
-    {
-        continue;
-    }
-    else
-    {
-        builder.Services.AddScoped(type);
-        // var message = constructor.Invoke(null) as IGatewayMessage;
-        // if (@message == null)
-        //     continue;
-        // WebSocketInfo.GatewayActions.Add(message.OpCode, message);
-        
-        //Console.WriteLine($"Successfully registered handler for {message.OpCode}");
-    }
-}
+// foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
+//              .Where(x => typeof(IGatewayMessage).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract))
+// {
+//     var constructor = type.GetConstructor(Type.EmptyTypes);
+//     if (constructor == null)
+//     {
+//         continue;
+//     }
+//     else
+//     {
+//         builder.Services.AddScoped(type);
+//         // var message = constructor.Invoke(null) as IGatewayMessage;
+//         // if (@message == null)
+//         //     continue;
+//         // WebSocketInfo.GatewayActions.Add(message.OpCode, message);
+//         
+//         //Console.WriteLine($"Successfully registered handler for {message.OpCode}");
+//     }
+// }
 
 var app = builder.Build();
 

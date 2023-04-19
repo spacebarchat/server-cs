@@ -17,15 +17,16 @@ using User = Spacebar.DbModel.Entities.User;
 
 public class Identify : IGatewayMessage
 {
+    private readonly Db _db;
     private readonly JwtAuthenticationManager _auth;
 
-    public Identify()
+    public Identify(Db _db, JwtAuthenticationManager _auth)
     {
-        _auth = new JwtAuthenticationManager(db);
+        this._db = _db;
+        this._auth = _auth;
     }
 
     public GatewayOpCodes OpCode { get; } = GatewayOpCodes.Identify;
-    private Db db = Db.GetNewDb();
 
     public async Task Invoke(GatewayPayload payload, WebSocketInfo client)
     {
@@ -54,8 +55,8 @@ public class Identify : IGatewayMessage
                 return;
             }
 
-            user.Settings = await db.UserSettings.FirstOrDefaultAsync(x => x.Id == user.Id);
-            var guilds = await db.Members.Where(s => s.Id == user.Id).Select(s => s.GuildId).ToListAsync();
+            user.Settings = await _db.UserSettings.FirstOrDefaultAsync(x => x.Id == user.Id);
+            var guilds = await _db.Members.Where(s => s.Id == user.Id).Select(s => s.GuildId).ToListAsync();
             var readyEvent = new ReadyEvent.ReadyEventData
             {
                 Version = 9,
@@ -85,7 +86,7 @@ public class Identify : IGatewayMessage
                 }
                 //return db.Members.Where(s => s.Id == user.Id).ToList();
             };
-            readyEvent.Application = db.Applications.FirstOrDefault(s => s.Id == user.Id);
+            readyEvent.Application = _db.Applications.FirstOrDefault(s => s.Id == user.Id);
             readyEvent.User = user.GetPrivateUser();
 
             #region Complex Queries
@@ -98,11 +99,11 @@ public class Identify : IGatewayMessage
                 }
             };
 
-            readyEvent.PrivateChannels = db.Channels
+            readyEvent.PrivateChannels = _db.Channels
                 .AsNoTracking()
                 .Where(s => (s.Type == 1 || s.Type == 3) && s.Recipients.Any(s => s.Id == user.Id)).ToList();
 
-            readyEvent.Relationships = db.Relationships
+            readyEvent.Relationships = _db.Relationships
                 .AsNoTracking()
                 .Include(s => s.To)
                 .Where(s => s.FromId == user.Id)
@@ -124,7 +125,7 @@ public class Identify : IGatewayMessage
                     .ToList()
             };*/
 
-            readyEvent.Guilds = new ArrayList(db.Guilds
+            readyEvent.Guilds = new ArrayList(_db.Guilds
                 .AsNoTracking()
                 .IgnoreAutoIncludes()
                 .Include(x => x.Channels)

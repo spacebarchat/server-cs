@@ -31,7 +31,7 @@ public class ReadyEvent
     public class ReadyEventData
     {
         [JsonProperty("v")] public int Version { get; set; }
-        public Application Application { get; set; }
+        public Application? Application { get; set; }
         public PrivateUser User { get; set; }
         public UserSetting UserSettings { get; set; }
         public ArrayList Guilds { get; set; } = new();
