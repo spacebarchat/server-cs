@@ -70,8 +70,9 @@ public class WebSocketInfo : IDisposable
             Console.WriteLine($"Starting receive loop for {SessionId}");
             try
             {
-                await Task.WhenAll(HandleTimeouts(), RunReceiveLoop());
-                //await RunReceiveLoop();
+                //RunReceiveLoop();
+                HandleTimeouts();
+                await RunReceiveLoop();
             }
             catch (WebSocketException e)
             {
@@ -94,17 +95,17 @@ public class WebSocketInfo : IDisposable
     public async Task RunReceiveLoop()
     {
         var messageBuffer = WebSocket.CreateClientBuffer(65535, 65535);
+        WebSocketReceiveResult result;
         while (_webSocket.State == WebSocketState.Open && !_cancellationToken.IsCancellationRequested)
         {
             using var ms = new MemoryStream();
             
-            // WebSocketReceiveResult result;
-            // do
-            // {
-            //     result = await _webSocket.ReceiveAsync(messageBuffer, CancellationToken.None);
-            //     ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
-            // } while (!result.EndOfMessage);
-
+            do
+            {
+                result = await _webSocket.ReceiveAsync(messageBuffer, CancellationToken.None);
+                ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
+            } while (!result.EndOfMessage && !_cancellationToken.IsCancellationRequested && !_webSocket.CloseStatus.HasValue);
+            
             var msgString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
             //Console.WriteLine($"{result.MessageType}\n{msgString}");
             var message = JsonConvert.DeserializeObject<GatewayPayload>(msgString);
@@ -135,15 +136,16 @@ public class WebSocketInfo : IDisposable
                 }
                 else
                 {
+                    Console.WriteLine("Unknown OP code!");
                     Console.WriteLine($"Client called for missing OP code {message.op}");
                     //write to file
                     if (!Directory.Exists("unknown_events")) Directory.CreateDirectory("unknown_events");
                     if (!Directory.Exists($"unknown_events/{message.op}"))
                         Directory.CreateDirectory($"unknown_events/{message.op}");
-                    File.WriteAllText(
+                    await File.WriteAllTextAsync(
                         $"unknown_events/{message.op}/{Directory.GetFiles($"unknown_events/{message.op}").Length}.json",
-                        JsonConvert.SerializeObject(JsonConvert.DeserializeObject<dynamic>(msgString),
-                            Formatting.Indented));
+                        JsonConvert.SerializeObject((object)JsonConvert.DeserializeObject<dynamic>(msgString),
+                            Formatting.Indented), _cancellationToken);
                     //add disconnect once done
                 }
             }
@@ -183,14 +185,13 @@ public class WebSocketInfo : IDisposable
             return false;
         }
 
-        if (!string.IsNullOrEmpty(Compress))
-            if (Compress != "zlib-stream")
-            {
-                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                    ((int)GatewayCloseCodes.DecodeError).ToString(), _cancellationToken);
-                _cancellationTokenSource.Cancel();
-                return false;
-            }
+        if (!string.IsNullOrEmpty(Compress) && Compress != "zlib-stream")
+        {
+            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                ((int)GatewayCloseCodes.DecodeError).ToString(), _cancellationToken);
+            _cancellationTokenSource.Cancel();
+            return false;
+        }
 
         return true;
     }

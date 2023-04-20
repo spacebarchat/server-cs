@@ -36,14 +36,15 @@ public class JwtAuthenticationManager
         };
         var tokenClaim = tokenHandler.ValidateToken(token, validationParameters, out var tokenValidated);
         User? user;
-        if (_users.ContainsKey(tokenClaim.Identity.Name))
+        var userId = tokenClaim.Identity?.Name ?? (tokenValidated as JwtSecurityToken)?.Claims.Where(x=>x.Type == "name").Select(x=>x.Value).FirstOrDefault();
+        if (_users.ContainsKey(userId))
         {
-            user = _users[tokenClaim.Identity.Name];
+            user = _users[userId];
             Console.WriteLine($"User {user.Id} found in cache!");   
         }
         else
         {
-            user = await db.Users.FirstOrDefaultAsync(x => x.Id == tokenClaim.Identity.Name);
+            user = await db.Users.FirstOrDefaultAsync(x => x.Id == userId);
             Console.WriteLine($"User {user?.Id} not found in cache, fetching from db");
             _users.TryAdd(user.Id, user);
         }

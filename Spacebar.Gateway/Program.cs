@@ -127,7 +127,6 @@ app.UseAuthentication();
 
 app.UseWebSockets();
 
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Use((context, next) =>
 {
     context.Response.Headers["Content-Type"] += "; charset=utf-8";
@@ -138,11 +137,6 @@ app.UseCors("*");
 
 app.MapControllers();
 app.UseDeveloperExceptionPage();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}");
-});
 
 Console.WriteLine("Starting web server!");
 if (args.Contains("--exit-on-modified"))
