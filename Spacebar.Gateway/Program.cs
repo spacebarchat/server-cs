@@ -53,7 +53,7 @@ if (Config.Instance.Sentry.Enabled)
     });
 }
 
-builder.Services.AddDbContext<Db>(optionsBuilder =>
+builder.Services.AddDbContextPool<Db>(optionsBuilder =>
 {
     var cfg = Config.Instance.DbConfig;
     optionsBuilder
@@ -61,7 +61,7 @@ builder.Services.AddDbContext<Db>(optionsBuilder =>
             $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000")
         //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
         ;
-});
+}, 512);
 builder.Services.AddScoped(typeof(JwtAuthenticationManager));
 builder.Services.AddScoped(typeof(GatewayMessageTypeService));
 builder.Services.AddScoped(typeof(WebSocketInfo));
