@@ -10,11 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
       - name: Discord webhook
         run: |
           curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"<:SBneutral:1091024656670142655> New commit by $GITHUB_ACTOR: [commit]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA), [run](<$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID?check_suite_focus=true>)\"}" ${{ secrets.DISCORD_WEBHOOK }}
