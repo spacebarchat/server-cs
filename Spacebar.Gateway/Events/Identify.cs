@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.Net.WebSockets;
-using ArcaneLibs.Extensions;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
 using Spacebar.DbModel;
 using Spacebar.DbModel.Entities;
@@ -10,22 +11,11 @@ using Spacebar.Gateway.Models;
 using Spacebar.Static.Classes;
 using Spacebar.Static.Enums;
 using Spacebar.Util;
-using Newtonsoft.Json.Linq;
-using Sentry;
 using Spacebar.Gateway.Models.DTO;
 using User = Spacebar.DbModel.Entities.User;
 
-public class Identify : IGatewayMessage
+public class Identify(Db db, JwtAuthenticationManager auth) : IGatewayMessage
 {
-    private readonly Db _db;
-    private readonly JwtAuthenticationManager _auth;
-
-    public Identify(Db _db, JwtAuthenticationManager _auth)
-    {
-        this._db = _db;
-        this._auth = _auth;
-    }
-
     public GatewayOpCodes OpCode { get; } = GatewayOpCodes.Identify;
 
     public async Task Invoke(GatewayPayload payload, WebSocketInfo client)
@@ -33,13 +23,13 @@ public class Identify : IGatewayMessage
         var transaction = SentrySdk.StartTransaction("Gateway", "Identify");
         var sw = Stopwatch.StartNew();
         SentrySdk.ConfigureScope(scope => { scope.Transaction = transaction; });
-        if (payload.d is JObject jObject)
+        if (payload.d is JsonObject jObject)
         {
-            var identify = jObject.ToObject<Spacebar.Gateway.Models.Identify>();
+            var identify = jObject.Deserialize<Spacebar.Gateway.Models.Identify>();
             User? user;
             try
             {
-                user = await _auth.GetUserFromToken(identify.Token);
+                user = await auth.GetUserFromToken(identify.Token);
             }
             catch (Exception e)
             {
@@ -55,8 +45,8 @@ public class Identify : IGatewayMessage
                 return;
             }
 
-            user.Settings = await _db.UserSettings.FirstOrDefaultAsync(x => x.Id == user.Id);
-            var guilds = await _db.Members.Where(s => s.Id == user.Id).Select(s => s.GuildId).ToListAsync();
+            user.Settings = await db.UserSettings.FirstOrDefaultAsync(x => x.Id == user.Id);
+            var guilds = await db.Members.Where(s => s.Id == user.Id).Select(s => s.GuildId).ToListAsync();
             var readyEvent = new ReadyEvent.ReadyEventData
             {
                 Version = 9,
@@ -86,7 +76,7 @@ public class Identify : IGatewayMessage
                 }
                 //return db.Members.Where(s => s.Id == user.Id).ToList();
             };
-            readyEvent.Application = _db.Applications.FirstOrDefault(s => s.Id == user.Id);
+            readyEvent.Application = db.Applications.FirstOrDefault(s => s.Id == user.Id);
             readyEvent.User = user.GetPrivateUser();
 
             #region Complex Queries
@@ -99,11 +89,11 @@ public class Identify : IGatewayMessage
                 }
             };
 
-            readyEvent.PrivateChannels = _db.Channels
+            readyEvent.PrivateChannels = db.Channels
                 .AsNoTracking()
                 .Where(s => (s.Type == 1 || s.Type == 3) && s.Recipients.Any(s => s.Id == user.Id)).ToList();
 
-            readyEvent.Relationships = _db.Relationships
+            readyEvent.Relationships = db.Relationships
                 .AsNoTracking()
                 .Include(s => s.To)
                 .Where(s => s.FromId == user.Id)
@@ -125,7 +115,7 @@ public class Identify : IGatewayMessage
                     .ToList()
             };*/
 
-            readyEvent.Guilds = new ArrayList(_db.Guilds
+            readyEvent.Guilds = new ArrayList(db.Guilds
                 .AsNoTracking()
                 .IgnoreAutoIncludes()
                 .Include(x => x.Channels)

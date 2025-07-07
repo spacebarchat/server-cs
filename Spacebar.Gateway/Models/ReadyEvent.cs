@@ -1,6 +1,7 @@
 ﻿using System.Collections;
+using System.Text.Json.Serialization;
 using Spacebar.DbModel.Entities;
-using Newtonsoft.Json;
+
 
 namespace Spacebar.Gateway.Models;
 
@@ -30,7 +31,7 @@ public class ReadyEvent
 
     public class ReadyEventData
     {
-        [JsonProperty("v")] public int Version { get; set; }
+        [JsonPropertyName("v")] public int Version { get; set; }
         public Application? Application { get; set; }
         public PrivateUser User { get; set; }
         public UserSetting UserSettings { get; set; }

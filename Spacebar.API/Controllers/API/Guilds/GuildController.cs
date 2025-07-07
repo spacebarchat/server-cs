@@ -1,36 +1,25 @@
+using System.Text.Json;
 using Spacebar.DbModel;
-using Spacebar.DbModel.Entities;
 using Spacebar.Util;
 using Spacebar.Util.Db.ObjectBuilders;
 using Spacebar.Util.Schemas;
-using IdGen;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Spacebar.API.Controllers.API.Guilds;
 
 [Controller]
 [Route("/")]
-public class GuildController : Controller
+public class GuildController(Db db, JwtAuthenticationManager auth) : Controller
 {
-    private readonly JwtAuthenticationManager _auth;
-    private readonly Db _db;
-
-    public GuildController(Db db, JwtAuthenticationManager auth)
-    {
-        _db = db;
-        _auth = auth;
-    }
-
     [HttpPost("/api/guilds")]
     public async Task<object> CreateGuildAsync()
     {
         var request =
-            JsonConvert.DeserializeObject<GuildCreateRequestSchema>(
+            JsonSerializer.Deserialize<GuildCreateRequestSchema>(
                 await new StreamReader(Request.Body).ReadToEndAsync());
-        var user = await _auth.GetUserFromToken(Request.Headers["Authorization"].ToString().Split(" ").Last(), _db);
+        var user = await auth.GetUserFromToken(Request.Headers["Authorization"].ToString().Split(" ").Last(), db);
         request.User = user;
-        var guild = await new GuildBuilder(_db).CreateAsync(request);
+        var guild = await new GuildBuilder(db).CreateAsync(request);
         /*var guildId = new IdGenerator(0).CreateId() + "";
         var guild = new Guild
         {

@@ -6,15 +6,8 @@ namespace Spacebar.API.Controllers.Admin;
 
 [Controller]
 [Route("/admin/stats/")]
-public class AdminStatsController : Controller
+public class AdminStatsController(Db db) : Controller
 {
-    private readonly Db _db;
-
-    public AdminStatsController(Db db)
-    {
-        _db = db;
-    }
-
     [HttpGet]
     public async Task<ContentResult> Stats()
     {
@@ -30,7 +23,7 @@ public class AdminStatsController : Controller
         foreach (var fieldInfo in dbFields
                      .Where(x => x.PropertyType.IsGenericType &&
                                  x.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
-                     .Select(x => (IQueryable)x.GetValue(_db)!)
+                     .Select(x => (IQueryable)x.GetValue(db)!)
                      .ToList()
                      .Select(x => new { x.ElementType.Name, Count = x.Cast<object>().Count() })
                      .OrderByDescending(x => x.Count)
@@ -42,11 +35,11 @@ public class AdminStatsController : Controller
         html += "<div id=\"1hstats\">\n" +
                 "<h2>Last hour stats:</h2>\n";
         html +=
-            $"<p>New users: {await _db.Users.CountAsync(x => x.CreatedAt > DateTime.UtcNow.AddHours(-1).ToLocalTime())}\n</p>";
+            $"<p>New users: {await db.Users.CountAsync(x => x.CreatedAt > DateTime.UtcNow.AddHours(-1).ToLocalTime())}\n</p>";
         html +=
-            $"<p>New guilds: {await _db.Guilds.CountAsync(x => x.CreatedAt > DateTime.UtcNow.AddHours(-1).ToLocalTime())}</p>";
+            $"<p>New guilds: {await db.Guilds.CountAsync(x => x.CreatedAt > DateTime.UtcNow.AddHours(-1).ToLocalTime())}</p>";
         html +=
-            $"<p>New messages: {await _db.Messages.CountAsync(x => x.Timestamp > DateTime.UtcNow.AddHours(-1).ToLocalTime())}</p>";
+            $"<p>New messages: {await db.Messages.CountAsync(x => x.Timestamp > DateTime.UtcNow.AddHours(-1).ToLocalTime())}</p>";
         html += "</div>";
 
 

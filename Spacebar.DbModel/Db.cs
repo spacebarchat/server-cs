@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using ArcaneLibs.Logging;
-using ArcaneLibs.Logging.LogEndpoints;
 using Spacebar.ConfigModel;
 using Spacebar.DbModel.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Spacebar.DbModel;
 
@@ -63,119 +60,51 @@ public class Db : DbContext
         InUse = false;
         return base.DisposeAsync();
     }
-
-    [NotMapped] private static LogManager? dbLogger;
+    
     [NotMapped] private static List<Db> contexts = new();
 
-    internal static LogManager GetDbModelLogger()
-    {
-        if (dbLogger == null)
-        {
-            dbLogger = new LogManager
-            {
-                Prefix = "[DbModel] ", LogTime = true
-            };
-            dbLogger.AddEndpoint(new DebugEndpoint());
-        }
-
-        return dbLogger;
-    }
-
-    [Obsolete("Don't use these!", true)]
-    public static Db GetNewDb(DbConfig? cfg = null)
-    {
-        cfg ??= Config.Instance.DbConfig;
-        var db = cfg.Driver.ToLower() switch
-        {
-            "postgres" => GetNewPostgres(cfg),
-            "mysql" => GetNewMysql(cfg),
-            "mariadb" => GetNewMysql(cfg),
-            "sqlite" => GetSqlite(cfg),
-            "inmemory" => GetInMemoryDb(cfg),
-            _ => throw new Exception($"Invalid database driver: {cfg.Driver}")
-        };
-
-        db.Database.Migrate();
-        db.SaveChanges();
-        contexts.Add(db);
-        return db;
-    }
-
-    private static DbConfig cfg = Config.Instance.DbConfig;
-    public static string MySqlConnectionString =>
-        $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
-    public static string PostgresConnectionString =>
-        $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000";
-    public static string SqliteConnectionString => $"Data Source={cfg.Database}.db;Version=3;";
+    // internal static LogManager GetDbModelLogger()
+    // {
+    //     if (dbLogger == null)
+    //     {
+    //         dbLogger = new LogManager
+    //         {
+    //             Prefix = "[DbModel] ", LogTime = true
+    //         };
+    //         dbLogger.AddEndpoint(new DebugEndpoint());
+    //     }
+    //
+    //     return dbLogger;
+    // }
     
+    // private static DbConfig cfg = Config.Instance.DbConfig;
+    // public static string MySqlConnectionString =>
+        // $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
+    // public static string PostgresConnectionString =>
+        // $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000";
+    // public static string SqliteConnectionString => $"Data Source={cfg.Database}.db;Version=3;";
     
-    [Obsolete("Don't use these!", true)]
-    public static Db GetNewMysql(DbConfig cfg)
-    {
-        GetDbModelLogger().Log("Instantiating new DB context: MySQL/MariaDB");
-        var db = new Db(new DbContextOptionsBuilder<Db>()
-            .UseMySql(MySqlConnectionString, ServerVersion.AutoDetect(MySqlConnectionString))
-            .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
-        return db;
-    }
 
-    [Obsolete("Don't use these!", true)]
-    public static Db GetNewPostgres(DbConfig cfg)
-    {
-        GetDbModelLogger().Log("Instantiating new DB context: Postgres");
-        var db = new Db(new DbContextOptionsBuilder<Db>()
-            .UseNpgsql(PostgresConnectionString)
-            .LogTo(log, LogLevel.Information).EnableSensitiveDataLogging().Options);
-        return db;
-    }
+    // private static bool MigrationsExist(string provider)
+    // {
+    //     var provid = GetMigAsm(provider);
+    //     log($"Checking if {provid} exists...");
+    //     var res = AppDomain.CurrentDomain.GetAssemblies().Select(x => x.GetTypes())
+    //         .Any(x => x.Any(y => y.Namespace == provid));
+    //     Console.WriteLine($"{provid} {(res ? "exists" : "doesn't exist")}!");
+    //     return res;
+    // }
 
-    [Obsolete("Don't use these!", true)]
-    public static Db GetSqlite(DbConfig cfg)
-    {
-        GetDbModelLogger().Log("Instantiating new DB context: Sqlite");
-        return new Db(new DbContextOptionsBuilder<Db>()
-            .UseSqlite(SqliteConnectionString,
-                x =>
-                {
-                    if (MigrationsExist(cfg.Driver)) x.MigrationsAssembly(GetMigAsm(cfg.Driver));
-                })
-            .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging().Options);
-    }
-
-    [Obsolete("Don't use these!", true)]
-    public static Db GetInMemoryDb(DbConfig? cfg = null)
-    {
-        cfg ??= new DbConfig() { Database = "SpacebarInMemory", Driver = "InMemory" };
-        GetDbModelLogger().Log("Instantiating new DB context: InMemory");
-        return new Db(new DbContextOptionsBuilder<Db>().UseInMemoryDatabase(cfg.Database)
-            .LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging().Options);
-    }
-
-    private static void log(string text)
-    {
-        GetDbModelLogger().Log(text);
-    }
-
-    private static bool MigrationsExist(string provider)
-    {
-        var provid = GetMigAsm(provider);
-        log($"Checking if {provid} exists...");
-        var res = AppDomain.CurrentDomain.GetAssemblies().Select(x => x.GetTypes())
-            .Any(x => x.Any(y => y.Namespace == provid));
-        Console.WriteLine($"{provid} {(res ? "exists" : "doesn't exist")}!");
-        return res;
-    }
-
-    public static string GetMigAsm(string provider)
-    {
-        return "Spacebar.DbModel.Migrations." + provider switch
-        {
-            "postgres" => "Postgres",
-            "mysql" => "Mysql",
-            "mariadb" => "Mysql",
-            "sqlite" => "Sqlite",
-            "inmemory" => "InMemoryDb",
-            _ => "null"
-        };
-    }
+    // public static string GetMigAsm(string provider)
+    // {
+    //     return "Spacebar.DbModel.Migrations." + provider switch
+    //     {
+    //         "postgres" => "Postgres",
+    //         "mysql" => "Mysql",
+    //         "mariadb" => "Mysql",
+    //         "sqlite" => "Sqlite",
+    //         "inmemory" => "InMemoryDb",
+    //         _ => "null"
+    //     };
+    // }
 }

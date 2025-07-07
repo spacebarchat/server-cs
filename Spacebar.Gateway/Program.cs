@@ -1,9 +1,7 @@
 using System.Net.WebSockets;
-using System.Reflection;
 using System.Text;
 using Spacebar.DbModel;
 using Spacebar.ConfigModel;
-using Spacebar.Gateway.Events;
 using Spacebar.Gateway.Models;
 using Spacebar.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,7 +9,6 @@ using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Systemd;
 using Microsoft.IdentityModel.Tokens;
-using Sentry;
 using Spacebar.Gateway;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,36 +23,38 @@ builder.Services.AddLogging(o =>
         o.AddSystemdConsole();
     else o.AddConsole();
 
-    if (Config.Instance.Sentry.Enabled)
-        o.AddSentry(p =>
-        {
-            p.Dsn = Config.Instance.Sentry.Dsn;
-            p.TracesSampleRate = 1.0;
-            p.AttachStacktrace = true;
-            p.MaxQueueItems = int.MaxValue;
-            p.StackTraceMode = StackTraceMode.Original;
-            p.Environment = Config.Instance.Sentry.Environment;
-            p.Release = GenericUtils.GetVersion();
-        });
+    // if (Config.Instance.Sentry.Enabled)
+    //     o.AddSentry(p =>
+    //     {
+    //         p.Dsn = Config.Instance.Sentry.Dsn;
+    //         p.TracesSampleRate = 1.0;
+    //         p.AttachStacktrace = true;
+    //         p.MaxQueueItems = int.MaxValue;
+    //         p.StackTraceMode = StackTraceMode.Original;
+    //         p.Environment = Config.Instance.Sentry.Environment;
+    //         p.Release = GenericUtils.GetVersion();
+    //     });
 });
-if (Config.Instance.Sentry.Enabled)
-{
-    Console.WriteLine("Sentry enabled!");
-    builder.WebHost.UseSentry(o =>
-    {
-        o.Dsn = Config.Instance.Sentry.Dsn;
-        o.TracesSampleRate = 1.0;
-        o.AttachStacktrace = true;
-        o.MaxQueueItems = int.MaxValue;
-        o.StackTraceMode = StackTraceMode.Original;
-        o.Environment = Config.Instance.Sentry.Environment;
-        o.Release = GenericUtils.GetVersion();
-    });
-}
+// if (Config.Instance.Sentry.Enabled)
+// {
+//     Console.WriteLine("Sentry enabled!");
+//     builder.WebHost.UseSentry(o =>
+//     {
+//         o.Dsn = Config.Instance.Sentry.Dsn;
+//         o.TracesSampleRate = 1.0;
+//         o.AttachStacktrace = true;
+//         o.MaxQueueItems = int.MaxValue;
+//         o.StackTraceMode = StackTraceMode.Original;
+//         o.Environment = Config.Instance.Sentry.Environment;
+//         o.Release = GenericUtils.GetVersion();
+//     });
+// }
 
-builder.Services.AddDbContextPool<Db>(optionsBuilder =>
+builder.Services.AddSingleton<Config>();
+builder.Services.AddDbContextPool<Db>((sp, optionsBuilder) =>
 {
-    var cfg = Config.Instance.DbConfig;
+    // var cfg = Config.Instance.DbConfig;
+    var cfg = sp.GetRequiredService<Config>().DbConfig;
     optionsBuilder
         .UseNpgsql(
             $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000")
@@ -87,7 +86,6 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
-Config.Instance.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 if (Config.Instance.Gateway.Debug.WipeOnStartup && Directory.Exists("event_dump")) Directory.Delete("event_dump", true);
 
 

@@ -1,5 +1,4 @@
 using Spacebar.Util;
-using Newtonsoft.Json;
 
 namespace Spacebar.DbModel;
 
@@ -16,7 +15,7 @@ public class DbConfig
             Username = EnvUtils.GetEnvironmentVariableOrDefault(name + "_USERNAME", "fosscord"),
             Password = EnvUtils.GetEnvironmentVariableOrDefault(name + "_PASSWORD", "fosscord")
         };
-        Console.WriteLine("DB config: {0}", JsonConvert.SerializeObject(cfg));
+        // Console.WriteLine("DB config: {0}", JsonConvert.SerializeObject(cfg));
         return cfg;
     }
 

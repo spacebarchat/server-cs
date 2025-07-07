@@ -1,7 +1,6 @@
 using System.Reflection;
 using Spacebar.DbModel;
 using Spacebar.Gateway.Events;
-using Spacebar.Gateway.Models;
 using Spacebar.Static.Enums;
 using Spacebar.Util;
 

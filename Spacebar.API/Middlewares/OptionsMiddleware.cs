@@ -5,15 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 // Modified from https://stackoverflow.com/a/42199758
-public class OptionsMiddleware
+public class OptionsMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate _next;
-
-    public OptionsMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
     public Task Invoke(HttpContext context)
     {
         return BeginInvoke(context);
@@ -32,7 +25,7 @@ public class OptionsMiddleware
             return context.Response.WriteAsync("OK");
         }
 
-        return _next.Invoke(context);
+        return next.Invoke(context);
     }
 }
 

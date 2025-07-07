@@ -76,7 +76,7 @@ public class User
 
     [Column("public_flags")] public int PublicFlags { get; set; } = 0;
 
-    [Column("rights")] public BitArray Rights { get; set; } = Config.Instance.Security.Register.DefaultRights;
+    [Column("rights")] public BitArray Rights { get; set; } // = Config.Instance.Security.Register.DefaultRights; //TODO: fix
     [Column("data", TypeName = "jsonb")] public UserData Data { get; set; } = null!;
     [Column("fingerprints")] public string Fingerprints { get; set; } = "";
     [Column("extended_settings")] public string ExtendedSettings { get; set; } = "";

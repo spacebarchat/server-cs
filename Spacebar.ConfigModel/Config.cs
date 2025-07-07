@@ -1,43 +1,20 @@
-using ArcaneLibs;
+using Microsoft.Extensions.Configuration;
 using Spacebar.ConfigModel.Gateway;
 using Spacebar.DbModel;
 
 namespace Spacebar.ConfigModel;
 
-public class Config : SaveableObject<Config>
+public class Config
 {
-    public new void Save(string filename = "")
+    public Config(IConfiguration config)
     {
-        //deduplicate 
-        Gateway.Debug.IgnoredEvents = Gateway.Debug.IgnoredEvents.Distinct().ToArray();
-        base.Save(Path);
+        config.GetSection("Spacebar").Bind(this);
     }
-
-    public static string Path = "../config.json";
-    private static Config _instance;
-
-    public static Config Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = Read(Path);
-                if (Instance.Sentry.Environment == Environment.MachineName)
-                    Console.WriteLine(
-                        "Sentry environment name not set! Using hostname, to change this, set in Config.json!");
-            }
-
-            return _instance;
-        }
-        [Obsolete("Don't overwrite the running config, you will shoot yourself in the foot!")]
-        set => _instance = value;
-    }
-
+    
     public DbConfig DbConfig { get; set; } = new();
     public SentryConfig Sentry { get; set; } = new();
     public SecurityConfig Security { get; set; } = new();
     public LoggingConfig Logging { get; set; } = new();
     public GatewayConfig Gateway { get; set; } = new();
-    public EndpointConfig Endpoints { get; set; }
+    public EndpointConfig Endpoints { get; set; } = new();
 }

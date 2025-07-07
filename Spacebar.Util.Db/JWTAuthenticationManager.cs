@@ -4,26 +4,20 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Spacebar.ConfigModel;
-using Spacebar.DbModel;
 using Spacebar.DbModel.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Spacebar.Util;
 
-public class JwtAuthenticationManager
+public class JwtAuthenticationManager(DbModel.Db db, Config config)
 {
     private static readonly ConcurrentDictionary<string, User> _users = new();
-    private readonly DbModel.Db _db;
 
-    private readonly string _tokenKey = Config.Instance.Security.JwtSecret;
+    private readonly string _tokenKey = config.Security.JwtSecret;
 
-    public JwtAuthenticationManager(DbModel.Db db)
+    public async Task<User> GetUserFromToken(string token, DbModel.Db? db1 = null)
     {
-        _db = db;
-    }
-    public async Task<User> GetUserFromToken(string token, DbModel.Db? db = null)
-    {
-        db ??= _db;
+        db1 ??= db;
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenKey);
         var validationParameters = new TokenValidationParameters()
@@ -44,13 +38,13 @@ public class JwtAuthenticationManager
         }
         else
         {
-            user = await db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            user = await db1.Users.FirstOrDefaultAsync(x => x.Id == userId);
             Console.WriteLine($"User {user?.Id} not found in cache, fetching from db");
             _users.TryAdd(user.Id, user);
         }
 
         
-        if (_users.Count > Config.Instance.Gateway.AuthCacheSize)
+        if (_users.Count > config.Gateway.AuthCacheSize)
         {
             Console.WriteLine("Auth cache full, removing oldest user");
             _users.TryRemove(user.Id, out _);
@@ -63,7 +57,7 @@ public class JwtAuthenticationManager
 
     public string? Authenticate(string username, string password)
     {
-        var user = _db.Users.FirstOrDefault(x => x.Email == username);
+        var user = db.Users.FirstOrDefault(x => x.Email == username);
         if (user == null) return null;
         if (!BCrypt.Net.BCrypt.Verify(password, user.Data.Hash)) return null;
 

@@ -4,15 +4,8 @@ using Spacebar.Util;
 
 namespace Spacebar.API.Middlewares;
 
-public class RightsMiddleware
+public class RightsMiddleware(RequestDelegate next)
 {
-    private RequestDelegate _next;
-
-    public RightsMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
     public async Task Invoke(HttpContext context)
     {
         var endpoint = context.GetEndpoint();
@@ -33,6 +26,6 @@ public class RightsMiddleware
                 throw new UnauthorizedAccessException("You don't have the rights to do this.");
         }
 
-        await _next(context);
+        await next(context);
     }
 }

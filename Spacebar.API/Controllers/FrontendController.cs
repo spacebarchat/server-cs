@@ -1,6 +1,4 @@
 using System.Text;
-using Spacebar.API.Helpers;
-using Spacebar.ConfigModel;
 using Spacebar.DbModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,14 +6,9 @@ namespace Spacebar.API.Controllers;
 
 [Controller]
 [Route("/")]
-public class FrontendController : Controller
+public class FrontendController(Db db) : Controller
 {
-    private readonly Db _db;
-
-    public FrontendController(Db db)
-    {
-        _db = db;
-    }
+    private readonly Db _db = db;
 
     [HttpGet]
     public async Task<object> Home()

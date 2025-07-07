@@ -1,23 +1,16 @@
 using System.Collections.Concurrent;
-using System.Text;
 using Spacebar.API.Helpers;
 using Spacebar.DbModel;
-using Spacebar.ConfigModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Spacebar.API.Controllers;
 
 [Controller]
 [Route("/")]
-public class AssetsController : Controller
+public class AssetsController(Db db) : Controller
 {
-    private readonly Db _db;
+    private readonly Db _db = db;
     private static readonly ConcurrentDictionary<string, byte[]> cache = new();
-
-    public AssetsController(Db db)
-    {
-        _db = db;
-    }
 
     [HttpGet("/assets/{*res:required}")]
     public async Task<object> Asset(string res)

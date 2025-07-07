@@ -1,37 +1,37 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Spacebar.DbModel.Classes;
 
 public class RegisterData
 {
-    [JsonProperty("email")] public string Email { get; set; }
+    [JsonPropertyName("email")] public string Email { get; set; }
 
-    [JsonProperty("username")] public string Username { get; set; }
+    [JsonPropertyName("username")] public string Username { get; set; }
 
-    [JsonProperty("password")] public string Password { get; set; }
+    [JsonPropertyName("password")] public string Password { get; set; }
 
-    [JsonProperty("invite")] public object Invite { get; set; }
+    [JsonPropertyName("invite")] public object Invite { get; set; }
 
-    [JsonProperty("consent")] public bool Consent { get; set; }
+    [JsonPropertyName("consent")] public bool Consent { get; set; }
 
-    [JsonProperty("date_of_birth")] public string DateOfBirth { get; set; }
+    [JsonPropertyName("date_of_birth")] public string DateOfBirth { get; set; }
 
-    [JsonProperty("gift_code_sku_id")] public object GiftCodeSkuId { get; set; }
+    [JsonPropertyName("gift_code_sku_id")] public object GiftCodeSkuId { get; set; }
 
-    [JsonProperty("captcha_key")] public object CaptchaKey { get; set; }
+    [JsonPropertyName("captcha_key")] public object CaptchaKey { get; set; }
 }
 
 public class LoginData
 {
-    [JsonProperty("login")] public string Login { get; set; }
+    [JsonPropertyName("login")] public string Login { get; set; }
 
-    [JsonProperty("password")] public string Password { get; set; }
+    [JsonPropertyName("password")] public string Password { get; set; }
 
-    [JsonProperty("undelete")] public bool Undelete { get; set; }
+    [JsonPropertyName("undelete")] public bool Undelete { get; set; }
 
-    [JsonProperty("captcha_key")] public object CaptchaKey { get; set; }
+    [JsonPropertyName("captcha_key")] public object CaptchaKey { get; set; }
 
-    [JsonProperty("login_source")] public object LoginSource { get; set; }
+    [JsonPropertyName("login_source")] public object LoginSource { get; set; }
 
-    [JsonProperty("gift_code_sku_id")] public object GiftCodeSkuId { get; set; }
+    [JsonPropertyName("gift_code_sku_id")] public object GiftCodeSkuId { get; set; }
 }

@@ -1,17 +1,13 @@
-﻿using System.Diagnostics;
-using System.Net.WebSockets;
+﻿using System.Net.WebSockets;
 using System.Reflection;
-using System.Reflection.Metadata;
-using ArcaneLibs;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml;
 using Spacebar.ConfigModel;
-using Spacebar.Gateway.Events;
 using Spacebar.Static.Classes;
 using Spacebar.Static.Enums;
 using Spacebar.Util.Rewrites;
 using Ionic.Zlib;
-using Microsoft.Extensions.DependencyModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Spacebar.Static.Utilities;
 
 namespace Spacebar.Gateway.Models;
@@ -108,7 +104,7 @@ public class WebSocketInfo : IDisposable
             
             var msgString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
             //Console.WriteLine($"{result.MessageType}\n{msgString}");
-            var message = JsonConvert.DeserializeObject<GatewayPayload>(msgString);
+            var message = JsonSerializer.Deserialize<GatewayPayload>(msgString);
             if (message != null && !string.IsNullOrEmpty(msgString))
             {
                 await DumpPayloadToFile(message, false);
@@ -144,8 +140,7 @@ public class WebSocketInfo : IDisposable
                         Directory.CreateDirectory($"unknown_events/{message.op}");
                     await File.WriteAllTextAsync(
                         $"unknown_events/{message.op}/{Directory.GetFiles($"unknown_events/{message.op}").Length}.json",
-                        JsonConvert.SerializeObject((object)JsonConvert.DeserializeObject<dynamic>(msgString),
-                            Formatting.Indented), _cancellationToken);
+                        JsonSerializer.Serialize(JsonSerializer.Deserialize<dynamic>(msgString), Formatting.Indented), _cancellationToken);
                     //add disconnect once done
                 }
             }
@@ -210,7 +205,7 @@ public class WebSocketInfo : IDisposable
 
     private async Task SendJsonAsync(GatewayPayload payload)
     {
-        var data = JsonConvert.SerializeObject(payload, JsonSerializerSettings);
+        var data = JsonSerializer.Serialize(payload, JsonSerializerSettings);
         if (Config.Instance.Gateway.Debug.DumpGatewayEventsToFiles)
             await DumpPayloadToFile(payload, true);
 
@@ -267,7 +262,7 @@ public class WebSocketInfo : IDisposable
         var fileCount = Directory.GetFiles(dir).Count(x => x.EndsWith(".json"));
         await File.WriteAllTextAsync(
             $"{dir}/{filenamefmt.Replace("#", fileCount.ToString())}",
-            JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializerSettings), _cancellationToken);
+            JsonSerializer.Serialize(obj, JsonSerializerSettings), _cancellationToken);
     }
 
     private async Task HandleTimeouts()
@@ -340,14 +335,15 @@ public class WebSocketInfo : IDisposable
         }
     };
 
-    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    private static readonly JsonSerializerOptions JsonSerializerSettings = new()
     {
-        NullValueHandling = NullValueHandling.Ignore,
-        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        ContractResolver = new DefaultContractResolver()
-        {
-            NamingStrategy = new SnakeCaseNamingStrategy()
-        }
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        WriteIndented = true,
+        // ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        // ContractResolver = new DefaultContractResolver()
+        // {
+            // NamingStrategy = new SnakeCaseNamingStrategy()
+        // }
     };
 
     static WebSocketInfo()

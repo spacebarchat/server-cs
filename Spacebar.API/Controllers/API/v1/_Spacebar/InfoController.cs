@@ -9,17 +9,11 @@ namespace Spacebar.API.Controllers.API.Auth;
 //[Authorize]
 [Controller]
 [Route("/api/_spacebar/v1/")]
-public class InfoController : Controller
+public class InfoController(Db db, JwtAuthenticationManager auth, Config config) : Controller
 {
-    private readonly Db _db;
-    private readonly JwtAuthenticationManager _auth;
+    private readonly Db _db = db;
+    private readonly JwtAuthenticationManager _auth = auth;
     private static readonly Random Rnd = new();
-
-    public InfoController(Db db, JwtAuthenticationManager auth)
-    {
-        _db = db;
-        _auth = auth;
-    }
 
     /// <summary>
     /// Get global environment vars for test client
@@ -33,14 +27,14 @@ public class InfoController : Controller
             //api version
             API_VERSION = 9,
             //endpoints
-            GATEWAY_ENDPOINT = Config.Instance.Endpoints.Gateway,
-            API_ENDPOINT = Config.Instance.Endpoints.Api,
-            CDN_HOST = Config.Instance.Endpoints.Cdn,
+            GATEWAY_ENDPOINT = config.Endpoints.Gateway,
+            API_ENDPOINT = config.Endpoints.Api,
+            CDN_HOST = config.Endpoints.Cdn,
             WEBAPP_ENDPOINT = "",
             ASSET_ENDPOINT = "",
-            MEDIA_PROXY_ENDPOINT = Config.Instance.Endpoints.Cdn,
-            WIDGET_ENDPOINT = $"{Config.Instance.Endpoints.Api}/widget",
-            INVITE_HOST = $"{Config.Instance.Endpoints.Api}/invite",
+            MEDIA_PROXY_ENDPOINT = config.Endpoints.Cdn,
+            WIDGET_ENDPOINT = $"{config.Endpoints.Api}/widget",
+            INVITE_HOST = $"{config.Endpoints.Api}/invite",
             GUILD_TEMPLATE_HOST = "discord.new",
             GIFT_CODE_HOST = "discord.gift",
             MARKETING_ENDPOINT = "//discord.com",
