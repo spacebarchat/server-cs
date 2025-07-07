@@ -1,7 +1,9 @@
+using ArcaneLibs;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Hosting.Systemd;
 using ReferenceClientProxyImplementation.Configuration;
 using ReferenceClientProxyImplementation.Services;
+using ReferenceClientProxyImplementation.Tasks;
 
 // using Spacebar.API.Tasks.Startup;
 
@@ -29,7 +31,7 @@ builder.Host.ConfigureHostOptions(host => {
     host.ShutdownTimeout = TimeSpan.FromSeconds(5);
 });
 
-builder.Services.AddHostedService<TemporaryTestJob>();
+// builder.Services.AddHostedService<TemporaryTestJob>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -42,8 +44,13 @@ builder.Services.AddLogging(o => {
 });
 
 builder.Services.AddSingleton<ProxyConfiguration>();
-builder.Services.AddSingleton<BuildDownloadService>();
-// builder.Services.AddHostedService<Tasks>();
+// builder.Services.AddSingleton<BuildDownloadService>();
+
+foreach (var taskType in ClassCollector<ITask>.ResolveFromAllAccessibleAssemblies())
+{
+    builder.Services.AddSingleton(typeof(ITask), taskType);
+}
+builder.Services.AddHostedService<Tasks>();
 
 var app = builder.Build();
 

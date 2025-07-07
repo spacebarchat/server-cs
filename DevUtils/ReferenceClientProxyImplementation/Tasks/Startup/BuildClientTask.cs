@@ -15,11 +15,11 @@ public class BuildClientTask(ProxyConfiguration proxyConfig) : ITask {
             Directory.CreateDirectory(proxyConfig.AssetCache.DiskCachePath);
         }
 
-        if (!proxyConfig.TestClient.Enabled ||
-            !proxyConfig.TestClient.UseLatest) {
-            Console.WriteLine("[Client Updater] Test client is disabled or not set to use latest version, skipping!");
+        // if (!proxyConfig.TestClient.Enabled ||
+            // !proxyConfig.TestClient.UseLatest) {
+            // Console.WriteLine("[Client Updater] Test client is disabled or not set to use latest version, skipping!");
             return;
-        }
+        // }
 
         Console.WriteLine("[Client updater] Fetching client");
         var client = HtmlUtils.CleanupHtml(await hc.GetStringAsync("https://canary.discord.com/channels/@me"));

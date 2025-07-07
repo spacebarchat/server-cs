@@ -1,8 +1,9 @@
 namespace ReferenceClientProxyImplementation.Tasks;
 
-public class Tasks(List<ITask> tasks) : BackgroundService {
+public class Tasks(IServiceProvider serviceProvider) : BackgroundService {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
         var defaultColor = Console.ForegroundColor;
+        var tasks = serviceProvider.GetServices<ITask>().ToList();
         // List<ITask> tasks = new()
         // {
         //     new BuildClientTask(),
