@@ -20,12 +20,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview3020494760.012ed3f" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950" />
         <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
         <PackageReference Include="IdGen" Version="3.0.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
-        <PackageReference Include="Sentry.AspNetCore" Version="4.9.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.6" />
+        <PackageReference Include="Sentry.AspNetCore" Version="5.11.2" />
     </ItemGroup>
     
     <ItemGroup>
