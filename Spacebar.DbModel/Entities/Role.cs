@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("roles")]
-public class Role
-{
+public class Role {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -13,10 +12,17 @@ public class Role
     [Column("guild_id", TypeName = "character varying")]
     public string? GuildId { get; set; }
 
-    [Column("color")] public int Color { get; set; }
-    [Column("hoist")] public bool Hoist { get; set; }
-    [Column("managed")] public bool Managed { get; set; }
-    [Column("mentionable")] public bool Mentionable { get; set; }
+    [Column("color")]
+    public int Color { get; set; }
+
+    [Column("hoist")]
+    public bool Hoist { get; set; }
+
+    [Column("managed")]
+    public bool Managed { get; set; }
+
+    [Column("mentionable")]
+    public bool Mentionable { get; set; }
 
     [Column("name", TypeName = "character varying")]
     public string Name { get; set; } = null!;
@@ -24,7 +30,8 @@ public class Role
     [Column("permissions", TypeName = "character varying")]
     public string Permissions { get; set; } = null!;
 
-    [Column("position")] public int Position { get; set; }
+    [Column("position")]
+    public int Position { get; set; }
 
     [Column("icon", TypeName = "character varying")]
     public string? Icon { get; set; }
@@ -32,7 +39,8 @@ public class Role
     [Column("unicode_emoji", TypeName = "character varying")]
     public string? UnicodeEmoji { get; set; }
 
-    [Column("tags")] public string? Tags { get; set; }
+    [Column("tags")]
+    public string? Tags { get; set; }
 
     [ForeignKey("GuildId")]
     [InverseProperty("Roles")]

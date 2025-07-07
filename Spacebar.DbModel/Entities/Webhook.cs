@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("webhooks")]
-public class Webhook
-{
+public class Webhook {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
 
-    [Column("type")] public int Type { get; set; }
+    [Column("type")]
+    public int Type { get; set; }
 
     [Column("name", TypeName = "character varying")]
     public string? Name { get; set; }
@@ -56,5 +56,6 @@ public class Webhook
     [InverseProperty("Webhooks")]
     public virtual User? User { get; set; }
 
-    [InverseProperty("Webhook")] public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
+    [InverseProperty("Webhook")]
+    public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
 }

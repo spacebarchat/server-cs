@@ -4,16 +4,12 @@ using Spacebar.Util;
 
 namespace Spacebar.API.Middlewares;
 
-public class RightsMiddleware(RequestDelegate next)
-{
-    public async Task Invoke(HttpContext context)
-    {
+public class RightsMiddleware(RequestDelegate next) {
+    public async Task Invoke(HttpContext context) {
         var endpoint = context.GetEndpoint();
         var attribute = endpoint?.Metadata.GetMetadata<RequireRightsAttribute>();
-        if (attribute != null)
-        {
-            if (context.Request.Headers["Authorization"].ToString() == "")
-            {
+        if (attribute != null) {
+            if (context.Request.Headers["Authorization"].ToString() == "") {
                 context.Response.StatusCode = 401;
                 await context.Response.Body.WriteAsync(Encoding.UTF8.GetBytes("This route requires authorization"));
                 return;

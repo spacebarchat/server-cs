@@ -3,8 +3,7 @@
 namespace Spacebar.Util.Schemas;
 
 [Flags]
-public enum Permissions : ulong
-{
+public enum Permissions : ulong {
     CreateInstantInvite = 1ul << 0,
     KickMembers = 1ul << 1,
     BanMembers = 1ul << 2,

@@ -4,13 +4,9 @@ using Spacebar.DbModel;
 
 namespace Spacebar.ConfigModel;
 
-public class Config
-{
-    public Config(IConfiguration config)
-    {
-        config.GetSection("Spacebar").Bind(this);
-    }
-    
+public class Config {
+    public Config(IConfiguration config) => config.GetSection("Spacebar").Bind(this);
+
     public DbConfig DbConfig { get; set; } = new();
     public SentryConfig Sentry { get; set; } = new();
     public SecurityConfig Security { get; set; } = new();

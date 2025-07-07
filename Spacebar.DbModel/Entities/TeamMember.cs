@@ -4,14 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("team_members")]
-public class TeamMember
-{
+public class TeamMember {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
 
-    [Column("membership_state")] public int MembershipState { get; set; }
-    [Column("permissions")] public string Permissions { get; set; } = null!;
+    [Column("membership_state")]
+    public int MembershipState { get; set; }
+
+    [Column("permissions")]
+    public string Permissions { get; set; } = null!;
 
     [Column("team_id", TypeName = "character varying")]
     public string? TeamId { get; set; }

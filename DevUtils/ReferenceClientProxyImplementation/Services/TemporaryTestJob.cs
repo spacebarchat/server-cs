@@ -1,9 +1,7 @@
 namespace ReferenceClientProxyImplementation.Services;
 
-public class TemporaryTestJob(BuildDownloadService buildDownloadService) : BackgroundService
-{
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
+public class TemporaryTestJob(BuildDownloadService buildDownloadService) : BackgroundService {
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
         Console.WriteLine("Running test job");
         var outDir =
             "/home/Rory/git/spacebar/server-cs/DevUtils/ReferenceClientProxyImplementation/downloadCache/today/raw/";

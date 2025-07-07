@@ -12,11 +12,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950" />
-        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
-        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950"/>
+        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6"/>
+        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
     </ItemGroup>
 
     <ItemGroup>

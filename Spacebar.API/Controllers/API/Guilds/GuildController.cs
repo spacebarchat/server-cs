@@ -1,19 +1,16 @@
 using System.Text.Json;
-using Spacebar.DbModel;
+using Microsoft.AspNetCore.Mvc;
 using Spacebar.Util;
 using Spacebar.Util.Db.ObjectBuilders;
 using Spacebar.Util.Schemas;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Spacebar.API.Controllers.API.Guilds;
 
 [Controller]
 [Route("/")]
-public class GuildController(Db db, JwtAuthenticationManager auth) : Controller
-{
+public class GuildController(Db db, JwtAuthenticationManager auth) : Controller {
     [HttpPost("/api/guilds")]
-    public async Task<object> CreateGuildAsync()
-    {
+    public async Task<object> CreateGuildAsync() {
         var request =
             JsonSerializer.Deserialize<GuildCreateRequestSchema>(
                 await new StreamReader(Request.Body).ReadToEndAsync());

@@ -5,17 +5,14 @@ namespace Spacebar.API.Controllers.Tools;
 
 [Controller]
 [Route("/tools/")]
-public class ToolsIndexController : Controller
-{
+public class ToolsIndexController : Controller {
     [HttpGet]
-    public async Task<ContentResult> ToolsIndex()
-    {
+    public async Task<ContentResult> ToolsIndex() {
         var classes = GetType().Assembly.GetTypes()
             .Where(t => t.IsSubclassOf(typeof(Controller)) && (t.Namespace?.StartsWith(GetType().Namespace!) ?? false))
             .ToArray();
         var html = "";
-        foreach (var ctrlClass in classes)
-        {
+        foreach (var ctrlClass in classes) {
             //.Select(t => $"<a href=\"{t.Name}\">{t.Name}</a>")
             //get route attribute
             var routeAttr = ctrlClass.GetCustomAttribute<RouteAttribute>();
@@ -23,8 +20,7 @@ public class ToolsIndexController : Controller
             var routeBase = routeAttr.Template.Replace("/tools/", "");
             html +=
                 $"<p>-{new string('.', ctrlClass.FullName.Count(c => c == '.') - 4)}<a href=\"{routeBase}\">{ctrlClass.Name}</a><br></p>";
-            foreach (var methodInfo in ctrlClass.GetMethods().Where(x => x.ReturnType == typeof(Task<ContentResult>)))
-            {
+            foreach (var methodInfo in ctrlClass.GetMethods().Where(x => x.ReturnType == typeof(Task<ContentResult>))) {
                 //get the route attribute
                 var routeAttribute = methodInfo.GetCustomAttribute<HttpGetAttribute>();
                 if (routeAttribute == null) continue;
@@ -36,8 +32,7 @@ public class ToolsIndexController : Controller
             html += "\n";
         }
 
-        return new ContentResult()
-        {
+        return new ContentResult {
             ContentType = "text/html",
             StatusCode = 200,
             Content = html

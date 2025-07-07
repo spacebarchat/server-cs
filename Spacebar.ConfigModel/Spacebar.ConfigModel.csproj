@@ -17,6 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950"/>
     </ItemGroup>
 </Project>

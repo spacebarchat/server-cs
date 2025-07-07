@@ -6,8 +6,7 @@ namespace Spacebar.DbModel.Entities;
 
 [Table("read_states")]
 [Index("ChannelId", "UserId", Name = "IDX_0abf8b443321bd3cf7f81ee17a", IsUnique = true)]
-public class ReadState
-{
+public class ReadState {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -30,7 +29,8 @@ public class ReadState
     [Column("last_pin_timestamp", TypeName = "timestamp without time zone")]
     public DateTime? LastPinTimestamp { get; set; }
 
-    [Column("mention_count")] public int? MentionCount { get; set; }
+    [Column("mention_count")]
+    public int? MentionCount { get; set; }
 
     [ForeignKey("ChannelId")]
     [InverseProperty("ReadStates")]

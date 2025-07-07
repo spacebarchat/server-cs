@@ -3,10 +3,8 @@ using AngleSharp.Html.Parser;
 
 namespace Spacebar.Util;
 
-public class HtmlUtils
-{
-    public static string CleanupHtml(string input)
-    {
+public class HtmlUtils {
+    public static string CleanupHtml(string input) {
         var parser = new HtmlParser();
 
         var document = parser.ParseDocument(input);

@@ -1,19 +1,16 @@
-﻿using System.Collections;
+﻿#nullable disable
+
+using System.Collections;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-#nullable disable
-
 namespace Spacebar.DbModel.Migrations.Postgres;
 
-public partial class initial : Migration
-{
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
+public partial class initial : Migration {
+    protected override void Up(MigrationBuilder migrationBuilder) {
         migrationBuilder.CreateTable(
             "categories",
-            table => new
-            {
+            table => new {
                 id = table.Column<int>("integer", nullable: false)
                     .Annotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
@@ -25,8 +22,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "client_release",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 name = table.Column<string>("character varying", nullable: false),
                 pub_date = table.Column<string>("character varying", nullable: false),
@@ -40,8 +36,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "migrations",
-            table => new
-            {
+            table => new {
                 id = table.Column<int>("integer", nullable: false)
                     .Annotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
@@ -52,8 +47,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "query-result-cache",
-            table => new
-            {
+            table => new {
                 id = table.Column<int>("integer", nullable: false)
                     .Annotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
@@ -67,8 +61,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "rate_limits",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 executor_id = table.Column<string>("character varying", nullable: false),
                 hits = table.Column<int>("integer", nullable: false),
@@ -79,8 +72,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "user_settings",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 afk_timeout = table.Column<int>("integer", nullable: true),
                 allow_accessibility_detection = table.Column<bool>("boolean", nullable: true),
@@ -118,8 +110,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "valid_registration_tokens",
-            table => new
-            {
+            table => new {
                 token = table.Column<string>("character varying", nullable: false),
                 created_at = table.Column<DateTime>("timestamp without time zone", nullable: false),
                 expires_at = table.Column<DateTime>("timestamp without time zone", nullable: false)
@@ -128,8 +119,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "users",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 username = table.Column<string>("character varying", nullable: false),
                 discriminator = table.Column<string>("character varying", nullable: false),
@@ -162,8 +152,7 @@ public partial class initial : Migration
                 extended_settings = table.Column<string>("text", nullable: false),
                 settingsId = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_users", x => x.id);
                 table.ForeignKey(
                     "FK_users_user_settings_settingsId",
@@ -174,8 +163,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "audit_logs",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: true),
                 action_type = table.Column<int>("integer", nullable: false),
@@ -184,8 +172,7 @@ public partial class initial : Migration
                 reason = table.Column<string>("character varying", nullable: true),
                 target_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_audit_logs", x => x.id);
                 table.ForeignKey(
                     "FK_audit_logs_users_target_id",
@@ -201,16 +188,14 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "backup_codes",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 code = table.Column<string>("character varying", nullable: false),
                 consumed = table.Column<bool>("boolean", nullable: false),
                 expired = table.Column<bool>("boolean", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_backup_codes", x => x.id);
                 table.ForeignKey(
                     "FK_backup_codes_users_user_id",
@@ -221,8 +206,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "connected_accounts",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: true),
                 access_token = table.Column<string>("character varying", nullable: false),
@@ -234,8 +218,7 @@ public partial class initial : Migration
                 verified = table.Column<bool>("boolean", nullable: false),
                 visibility = table.Column<int>("integer", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_connected_accounts", x => x.id);
                 table.ForeignKey(
                     "FK_connected_accounts_users_user_id",
@@ -246,15 +229,13 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "notes",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 content = table.Column<string>("character varying", nullable: false),
                 owner_id = table.Column<string>("character varying", nullable: true),
                 target_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_notes", x => x.id);
                 table.ForeignKey(
                     "FK_notes_users_owner_id",
@@ -270,16 +251,14 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "relationships",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 from_id = table.Column<string>("character varying", nullable: false),
                 to_id = table.Column<string>("character varying", nullable: false),
                 nickname = table.Column<string>("character varying", nullable: true),
                 type = table.Column<int>("integer", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_relationships", x => x.id);
                 table.ForeignKey(
                     "FK_relationships_users_from_id",
@@ -297,8 +276,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "sessions",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: true),
                 session_id = table.Column<string>("character varying", nullable: false),
@@ -306,8 +284,7 @@ public partial class initial : Migration
                 client_info = table.Column<string>("text", nullable: false),
                 status = table.Column<string>("character varying", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_sessions", x => x.id);
                 table.ForeignKey(
                     "FK_sessions_users_user_id",
@@ -318,15 +295,13 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "teams",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 icon = table.Column<string>("character varying", nullable: true),
                 name = table.Column<string>("character varying", nullable: false),
                 owner_user_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_teams", x => x.id);
                 table.ForeignKey(
                     "FK_teams_users_owner_user_id",
@@ -337,8 +312,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "applications",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 name = table.Column<string>("character varying", nullable: false),
                 icon = table.Column<string>("character varying", nullable: true),
@@ -368,8 +342,7 @@ public partial class initial : Migration
                 bot_user_id = table.Column<string>("character varying", nullable: true),
                 flags = table.Column<int>("integer", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_applications", x => x.id);
                 table.ForeignKey(
                     "FK_applications_teams_team_id",
@@ -390,16 +363,14 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "team_members",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 membership_state = table.Column<int>("integer", nullable: false),
                 permissions = table.Column<string>("text", nullable: false),
                 team_id = table.Column<string>("character varying", nullable: true),
                 user_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_team_members", x => x.id);
                 table.ForeignKey(
                     "FK_team_members_teams_team_id",
@@ -415,8 +386,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "attachments",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 filename = table.Column<string>("character varying", nullable: false),
                 size = table.Column<int>("integer", nullable: false),
@@ -431,8 +401,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "bans",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: true),
                 guild_id = table.Column<string>("character varying", nullable: true),
@@ -440,8 +409,7 @@ public partial class initial : Migration
                 ip = table.Column<string>("character varying", nullable: false),
                 reason = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_bans", x => x.id);
                 table.ForeignKey(
                     "FK_bans_users_executor_id",
@@ -457,8 +425,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "ChannelMessage",
-            table => new
-            {
+            table => new {
                 ChannelsId = table.Column<string>("character varying", nullable: false),
                 MessagesId = table.Column<string>("character varying", nullable: false)
             },
@@ -466,8 +433,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "channels",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 created_at = table.Column<DateTime>("timestamp without time zone", nullable: false),
                 name = table.Column<string>("character varying", nullable: true),
@@ -491,8 +457,7 @@ public partial class initial : Migration
                 flags = table.Column<int>("integer", nullable: true),
                 default_thread_rate_limit_per_user = table.Column<int>("integer", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_channels", x => x.id);
                 table.ForeignKey(
                     "FK_channels_channels_parent_id",
@@ -508,8 +473,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "read_states",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 channel_id = table.Column<string>("character varying", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: false),
@@ -519,8 +483,7 @@ public partial class initial : Migration
                 last_pin_timestamp = table.Column<DateTime>("timestamp without time zone", nullable: true),
                 mention_count = table.Column<int>("integer", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_read_states", x => x.id);
                 table.ForeignKey(
                     "FK_read_states_channels_channel_id",
@@ -538,15 +501,13 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "recipients",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 channel_id = table.Column<string>("character varying", nullable: false),
                 user_id = table.Column<string>("character varying", nullable: false),
                 closed = table.Column<bool>("boolean", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_recipients", x => x.id);
                 table.ForeignKey(
                     "FK_recipients_channels_channel_id",
@@ -564,8 +525,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "emojis",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 animated = table.Column<bool>("boolean", nullable: false),
                 available = table.Column<bool>("boolean", nullable: false),
@@ -577,8 +537,7 @@ public partial class initial : Migration
                 roles = table.Column<string>("text", nullable: false),
                 groups = table.Column<string>("text", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_emojis", x => x.id);
                 table.ForeignKey(
                     "FK_emojis_users_user_id",
@@ -589,8 +548,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "guilds",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 afk_channel_id = table.Column<string>("character varying", nullable: true),
                 afk_timeout = table.Column<int>("integer", nullable: true),
@@ -631,8 +589,7 @@ public partial class initial : Migration
                 parent = table.Column<string>("character varying", nullable: true),
                 premium_progress_bar_enabled = table.Column<bool>("boolean", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_guilds", x => x.id);
                 table.ForeignKey(
                     "FK_guilds_channels_afk_channel_id",
@@ -668,8 +625,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "invites",
-            table => new
-            {
+            table => new {
                 code = table.Column<string>("character varying", nullable: false),
                 temporary = table.Column<bool>("boolean", nullable: false),
                 uses = table.Column<int>("integer", nullable: false),
@@ -684,8 +640,7 @@ public partial class initial : Migration
                 target_user_type = table.Column<int>("integer", nullable: true),
                 vanity_url = table.Column<bool>("boolean", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_invites", x => x.code);
                 table.ForeignKey(
                     "FK_invites_channels_channel_id",
@@ -711,8 +666,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "members",
-            table => new
-            {
+            table => new {
                 index = table.Column<int>("integer", nullable: false)
                     .Annotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
@@ -732,8 +686,7 @@ public partial class initial : Migration
                 bio = table.Column<string>("character varying", nullable: false),
                 communication_disabled_until = table.Column<DateTime>("timestamp without time zone", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_members", x => x.index);
                 table.ForeignKey(
                     "FK_members_guilds_guild_id",
@@ -751,8 +704,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "roles",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 guild_id = table.Column<string>("character varying", nullable: true),
                 color = table.Column<int>("integer", nullable: false),
@@ -766,8 +718,7 @@ public partial class initial : Migration
                 unicode_emoji = table.Column<string>("character varying", nullable: true),
                 tags = table.Column<string>("text", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_roles", x => x.id);
                 table.ForeignKey(
                     "FK_roles_guilds_guild_id",
@@ -778,8 +729,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "templates",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 code = table.Column<string>("character varying", nullable: false),
                 name = table.Column<string>("character varying", nullable: false),
@@ -791,8 +741,7 @@ public partial class initial : Migration
                 source_guild_id = table.Column<string>("character varying", nullable: true),
                 serialized_source_guild = table.Column<string>("text", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_templates", x => x.id);
                 table.ForeignKey(
                     "FK_templates_guilds_source_guild_id",
@@ -808,8 +757,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "voice_states",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 guild_id = table.Column<string>("character varying", nullable: true),
                 channel_id = table.Column<string>("character varying", nullable: true),
@@ -825,8 +773,7 @@ public partial class initial : Migration
                 suppress = table.Column<bool>("boolean", nullable: false),
                 request_to_speak_timestamp = table.Column<DateTime>("timestamp without time zone", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_voice_states", x => x.id);
                 table.ForeignKey(
                     "FK_voice_states_channels_channel_id",
@@ -847,8 +794,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "webhooks",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 type = table.Column<int>("integer", nullable: false),
                 name = table.Column<string>("character varying", nullable: true),
@@ -860,8 +806,7 @@ public partial class initial : Migration
                 user_id = table.Column<string>("character varying", nullable: true),
                 source_guild_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_webhooks", x => x.id);
                 table.ForeignKey(
                     "FK_webhooks_applications_application_id",
@@ -892,13 +837,11 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "MemberRole",
-            table => new
-            {
+            table => new {
                 Index = table.Column<int>("integer", nullable: false),
                 RoleId = table.Column<string>("character varying", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_MemberRole", x => new { x.Index, x.RoleId });
                 table.ForeignKey(
                     "FK_MemberRole_members_Index",
@@ -916,8 +859,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "messages",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 channel_id = table.Column<string>("character varying", nullable: true),
                 guild_id = table.Column<string>("character varying", nullable: true),
@@ -942,8 +884,7 @@ public partial class initial : Migration
                 components = table.Column<string>("text", nullable: true),
                 message_reference_id = table.Column<string>("character varying", nullable: true)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_messages", x => x.id);
                 table.ForeignKey(
                     "FK_messages_applications_application_id",
@@ -984,13 +925,11 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "MessageRole",
-            table => new
-            {
+            table => new {
                 MessagesId = table.Column<string>("character varying", nullable: false),
                 RolesId = table.Column<string>("character varying", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_MessageRole", x => new { x.MessagesId, x.RolesId });
                 table.ForeignKey(
                     "FK_MessageRole_messages_MessagesId",
@@ -1008,13 +947,11 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "MessageUser",
-            table => new
-            {
+            table => new {
                 MessagesId = table.Column<string>("character varying", nullable: false),
                 UsersId = table.Column<string>("character varying", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_MessageUser", x => new { x.MessagesId, x.UsersId });
                 table.ForeignKey(
                     "FK_MessageUser_messages_MessagesId",
@@ -1032,13 +969,11 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "MessageSticker",
-            table => new
-            {
+            table => new {
                 MessagesId = table.Column<string>("character varying", nullable: false),
                 StickersId = table.Column<string>("character varying", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_MessageSticker", x => new { x.MessagesId, x.StickersId });
                 table.ForeignKey(
                     "FK_MessageSticker_messages_MessagesId",
@@ -1050,8 +985,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "sticker_packs",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 name = table.Column<string>("character varying", nullable: false),
                 description = table.Column<string>("character varying", nullable: true),
@@ -1063,8 +997,7 @@ public partial class initial : Migration
 
         migrationBuilder.CreateTable(
             "stickers",
-            table => new
-            {
+            table => new {
                 id = table.Column<string>("character varying", nullable: false),
                 name = table.Column<string>("character varying", nullable: false),
                 description = table.Column<string>("character varying", nullable: true),
@@ -1076,8 +1009,7 @@ public partial class initial : Migration
                 type = table.Column<int>("integer", nullable: false),
                 format_type = table.Column<int>("integer", nullable: false)
             },
-            constraints: table =>
-            {
+            constraints: table => {
                 table.PrimaryKey("PK_stickers", x => x.id);
                 table.ForeignKey(
                     "FK_stickers_guilds_guild_id",
@@ -1527,8 +1459,7 @@ public partial class initial : Migration
             principalColumn: "id");
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
+    protected override void Down(MigrationBuilder migrationBuilder) {
         migrationBuilder.DropForeignKey(
             "FK_channels_users_owner_id",
             "channels");

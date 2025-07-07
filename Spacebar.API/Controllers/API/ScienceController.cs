@@ -4,11 +4,7 @@ namespace Spacebar.API.Controllers.API;
 
 [Controller]
 [Route("/")]
-public class ScienceController : Controller
-{
+public class ScienceController : Controller {
     [HttpPost("/api/science")]
-    public async Task<object> CreateGuildAsync()
-    {
-        return Ok();
-    }
+    public async Task<object> CreateGuildAsync() => Ok();
 }

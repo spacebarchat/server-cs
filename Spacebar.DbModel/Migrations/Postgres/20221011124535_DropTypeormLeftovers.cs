@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Spacebar.DbModel.Migrations.Postgres;
 
-public partial class DropTypeormLeftovers : Migration
-{
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
+public partial class DropTypeormLeftovers : Migration {
+    protected override void Up(MigrationBuilder migrationBuilder) {
         migrationBuilder.DropTable(
             "migrations");
 
@@ -16,12 +14,10 @@ public partial class DropTypeormLeftovers : Migration
             "query-result-cache");
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
+    protected override void Down(MigrationBuilder migrationBuilder) {
         migrationBuilder.CreateTable(
             "migrations",
-            table => new
-            {
+            table => new {
                 id = table.Column<int>("integer", nullable: false)
                     .Annotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
@@ -32,8 +28,7 @@ public partial class DropTypeormLeftovers : Migration
 
         migrationBuilder.CreateTable(
             "query-result-cache",
-            table => new
-            {
+            table => new {
                 id = table.Column<int>("integer", nullable: false)
                     .Annotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),

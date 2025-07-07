@@ -2,8 +2,7 @@
 
 namespace Spacebar.Util.Rewrites;
 
-public enum Intents
-{
+public enum Intents {
     GUILDS = 1 << 0,
     GUILD_MEMBERS = 1 << 1,
     GUILD_BANS = 1 << 2,

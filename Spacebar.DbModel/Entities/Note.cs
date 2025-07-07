@@ -6,8 +6,7 @@ namespace Spacebar.DbModel.Entities;
 
 [Table("notes")]
 [Index("OwnerId", "TargetId", Name = "UQ_74e6689b9568cc965b8bfc9150b", IsUnique = true)]
-public class Note
-{
+public class Note {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;

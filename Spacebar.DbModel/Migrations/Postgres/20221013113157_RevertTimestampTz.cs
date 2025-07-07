@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Spacebar.DbModel.Migrations.Postgres;
 
-public partial class RevertTimestampTz : Migration
-{
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
+public partial class RevertTimestampTz : Migration {
+    protected override void Up(MigrationBuilder migrationBuilder) {
         migrationBuilder.AlterColumn<DateTime>(
             "request_to_speak_timestamp",
             "voice_states",
@@ -159,8 +157,7 @@ public partial class RevertTimestampTz : Migration
             oldType: "timestamp with time zone");
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
+    protected override void Down(MigrationBuilder migrationBuilder) {
         migrationBuilder.AlterColumn<DateTime>(
             "request_to_speak_timestamp",
             "voice_states",

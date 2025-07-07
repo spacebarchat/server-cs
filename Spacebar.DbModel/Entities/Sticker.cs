@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("stickers")]
-public class Sticker
-{
+public class Sticker {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -16,7 +15,8 @@ public class Sticker
     [Column("description", TypeName = "character varying")]
     public string? Description { get; set; }
 
-    [Column("available")] public bool? Available { get; set; }
+    [Column("available")]
+    public bool? Available { get; set; }
 
     [Column("tags", TypeName = "character varying")]
     public string? Tags { get; set; }
@@ -30,8 +30,11 @@ public class Sticker
     [Column("user_id", TypeName = "character varying")]
     public string? UserId { get; set; }
 
-    [Column("type")] public int Type { get; set; }
-    [Column("format_type")] public int FormatType { get; set; }
+    [Column("type")]
+    public int Type { get; set; }
+
+    [Column("format_type")]
+    public int FormatType { get; set; }
 
     [ForeignKey("GuildId")]
     [InverseProperty("Stickers")]

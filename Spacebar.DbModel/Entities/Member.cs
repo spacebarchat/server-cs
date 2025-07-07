@@ -6,8 +6,7 @@ namespace Spacebar.DbModel.Entities;
 
 [Table("members")]
 [Index("Id", "GuildId", Name = "IDX_bb2bf9386ac443afbbbf9f12d3", IsUnique = true)]
-public class Member
-{
+public class Member {
     [Key]
     [Column("index")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,10 +24,14 @@ public class Member
     [Column("joined_at", TypeName = "timestamp without time zone")]
     public DateTime JoinedAt { get; set; }
 
-    [Column("deaf")] public bool Deaf { get; set; }
-    [Column("mute")] public bool Mute { get; set; }
+    [Column("deaf")]
+    public bool Deaf { get; set; }
 
-    [Column("pending")] public bool Pending { get; set; } = false;
+    [Column("mute")]
+    public bool Mute { get; set; }
+
+    [Column("pending")]
+    public bool Pending { get; set; } = false;
 
     [Column("settings", TypeName = "jsonb")]
     public UserChannelSettings Settings { get; set; } = null!;
@@ -67,8 +70,7 @@ public class Member
     public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
 }
 
-public class UserChannelSettings
-{
+public class UserChannelSettings {
     //{"channel_overrides":[],"message_notifications":0,"mobile_push":true,"muted":false,"suppress_everyone":false,"suppress_roles":false,"version":0}
     public int Version { get; set; } = 0;
     public int MessageNotifications { get; set; } = 0;

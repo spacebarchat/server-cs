@@ -1,5 +1,3 @@
 namespace Spacebar.ConfigModel;
 
-public class LoginSecurityConfig
-{
-}
+public class LoginSecurityConfig { }

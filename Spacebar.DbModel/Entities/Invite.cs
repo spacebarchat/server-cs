@@ -4,16 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("invites")]
-public class Invite
-{
+public class Invite {
     [Key]
     [Column("code", TypeName = "character varying")]
     public string Code { get; set; } = null!;
 
-    [Column("temporary")] public bool Temporary { get; set; }
-    [Column("uses")] public int Uses { get; set; }
-    [Column("max_uses")] public int MaxUses { get; set; }
-    [Column("max_age")] public int MaxAge { get; set; }
+    [Column("temporary")]
+    public bool Temporary { get; set; }
+
+    [Column("uses")]
+    public int Uses { get; set; }
+
+    [Column("max_uses")]
+    public int MaxUses { get; set; }
+
+    [Column("max_age")]
+    public int MaxAge { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
@@ -33,8 +39,11 @@ public class Invite
     [Column("target_user_id", TypeName = "character varying")]
     public string? TargetUserId { get; set; }
 
-    [Column("target_user_type")] public int? TargetUserType { get; set; }
-    [Column("vanity_url")] public bool? VanityUrl { get; set; }
+    [Column("target_user_type")]
+    public int? TargetUserType { get; set; }
+
+    [Column("vanity_url")]
+    public bool? VanityUrl { get; set; }
 
     [ForeignKey("ChannelId")]
     [InverseProperty("Invites")]

@@ -4,8 +4,7 @@ using System.ComponentModel;
 
 namespace Spacebar.Static.Enums;
 
-public static class Rights
-{
+public static class Rights {
     [Description("Full access rights. DANGEROUS!")]
     public static int OPERATOR = 0; // has all rights
 
@@ -57,10 +56,10 @@ public static class Rights
     public static int USE_ACTIVITIES = 26; // use (game) activities in voice channels (e.g. Watch together
     public static int USE_VIDEO = 27;
     public static int USE_VOICE = 28;
-    public static int INVITE_USERS = 29; // can create user-specific invites in the guilds that they have INVITE_USERS
+    public static int INVITE_USERS = 29;        // can create user-specific invites in the guilds that they have INVITE_USERS
     public static int SELF_DELETE_DISABLE = 30; // can disable/delete own account
-    public static int DEBTABLE = 31; // can use pay-to-use features
-    public static int CREDITABLE = 32; // can receive money from monetisation related features
+    public static int DEBTABLE = 31;            // can use pay-to-use features
+    public static int CREDITABLE = 32;          // can receive money from monetisation related features
 
     public static int KICK_BAN_MEMBERS = 33;
 
@@ -74,19 +73,19 @@ public static class Rights
     public static int
         SELF_ADD_DISCOVERABLE = 36; // can mark discoverable guilds that they have permissions to mark as discoverable
 
-    public static int MANAGE_GUILD_DIRECTORY = 37; // can change anything in the primary guild directory
-    public static int POGGERS = 38; // can send confetti; screenshake; random user mention (@someone
-    public static int USE_ACHIEVEMENTS = 39; // can use achievements and cheers
-    public static int INITIATE_INTERACTIONS = 40; // can initiate interactions
+    public static int MANAGE_GUILD_DIRECTORY = 37;  // can change anything in the primary guild directory
+    public static int POGGERS = 38;                 // can send confetti; screenshake; random user mention (@someone
+    public static int USE_ACHIEVEMENTS = 39;        // can use achievements and cheers
+    public static int INITIATE_INTERACTIONS = 40;   // can initiate interactions
     public static int RESPOND_TO_INTERACTIONS = 41; // can respond to interactions
-    public static int SEND_BACKDATED_EVENTS = 42; // can send backdated events
-    public static int USE_MASS_INVITES = 43; // added per @xnacly's request — can accept mass invites
+    public static int SEND_BACKDATED_EVENTS = 42;   // can send backdated events
+    public static int USE_MASS_INVITES = 43;        // added per @xnacly's request — can accept mass invites
 
     public static int
         ACCEPT_INVITES = 44; // added per @xnacly's request — can accept user-specific invites and DM requests
 
-    public static int SELF_EDIT_FLAGS = 45; // can modify own flags
-    public static int EDIT_FLAGS = 46; // can set others' flags
-    public static int MANAGE_GROUPS = 47; // can manage others' groups
+    public static int SELF_EDIT_FLAGS = 45;   // can modify own flags
+    public static int EDIT_FLAGS = 46;        // can set others' flags
+    public static int MANAGE_GROUPS = 47;     // can manage others' groups
     public static int VIEW_SERVER_STATS = 48; // added per @chrischrome's request — can view server stats
 }

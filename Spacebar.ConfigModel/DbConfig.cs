@@ -2,13 +2,17 @@ using Spacebar.Util;
 
 namespace Spacebar.DbModel;
 
-public class DbConfig
-{
-    public static DbConfig FromEnv(string name)
-    {
+public class DbConfig {
+    public string Driver { get; set; } = "postgres";
+    public string Host { get; set; } = "localhost";
+    public string Username { get; set; } = "postgres";
+    public string Password { get; set; } = "postgres";
+    public string Database { get; set; } = "fosscord_cs";
+    public short Port { get; set; } = 5432;
+
+    public static DbConfig FromEnv(string name) {
         Console.WriteLine("Creating new DB config from environment with name `{0}`", name);
-        var cfg = new DbConfig
-        {
+        var cfg = new DbConfig {
             Host = EnvUtils.GetEnvironmentVariableOrDefault(name + "_HOST", "localhost"),
             Port = short.Parse(EnvUtils.GetEnvironmentVariableOrDefault(name + "_PORT", "5432")),
             Database = EnvUtils.GetEnvironmentVariableOrDefault(name + "_DATABASE", "fosscord"),
@@ -18,11 +22,4 @@ public class DbConfig
         // Console.WriteLine("DB config: {0}", JsonConvert.SerializeObject(cfg));
         return cfg;
     }
-
-    public string Driver { get; set; } = "postgres";
-    public string Host { get; set; } = "localhost";
-    public string Username { get; set; } = "postgres";
-    public string Password { get; set; } = "postgres";
-    public string Database { get; set; } = "fosscord_cs";
-    public short Port { get; set; } = 5432;
 }

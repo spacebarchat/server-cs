@@ -2,16 +2,11 @@ using Spacebar.DbModel.Entities;
 
 namespace Spacebar.Util.Db.ObjectBuilders;
 
-public class MembershipBuilder : GenericObjectBuilder<Member>
-{
-    public MembershipBuilder(DbModel.Db db) : base(db)
-    {
-    }
+public class MembershipBuilder : GenericObjectBuilder<Member> {
+    public MembershipBuilder(DbModel.Db db) : base(db) { }
 
-    public async Task<Member> CreateAsync(MemberCreateSchema mcs)
-    {
-        var member = new Member
-        {
+    public async Task<Member> CreateAsync(MemberCreateSchema mcs) {
+        var member = new Member {
             GuildId = mcs.Guild.Id,
             Id = mcs.User.Id,
             Roles = new[] { mcs.Guild.Roles.First(r => r.Id == mcs.Guild.Id) },
@@ -21,7 +16,7 @@ public class MembershipBuilder : GenericObjectBuilder<Member>
             Deaf = false,
             Mute = false,
             Pending = false,
-            Settings = new(),
+            Settings = new UserChannelSettings(),
             Bio = ""
         };
 
@@ -32,8 +27,7 @@ public class MembershipBuilder : GenericObjectBuilder<Member>
     }
 }
 
-public class MemberCreateSchema
-{
+public class MemberCreateSchema {
     public Guild Guild { get; set; }
     public User User { get; set; }
 }

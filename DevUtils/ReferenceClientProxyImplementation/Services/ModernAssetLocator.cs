@@ -1,6 +1,3 @@
 namespace ReferenceClientProxyImplementation.Services;
 
-public class ModernAssetLocator
-{
-    
-}
+public class ModernAssetLocator { }

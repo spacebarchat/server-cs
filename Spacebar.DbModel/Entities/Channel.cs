@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("channels")]
-public class Channel
-{
+public class Channel {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -16,8 +15,11 @@ public class Channel
     [Column("name", TypeName = "character varying")]
     public string? Name { get; set; }
 
-    [Column("icon")] public string? Icon { get; set; }
-    [Column("type")] public int Type { get; set; }
+    [Column("icon")]
+    public string? Icon { get; set; }
+
+    [Column("type")]
+    public int Type { get; set; }
 
     [Column("last_message_id", TypeName = "character varying")]
     public string? LastMessageId { get; set; }
@@ -31,21 +33,32 @@ public class Channel
     [Column("owner_id", TypeName = "character varying")]
     public string? OwnerId { get; set; }
 
-    [Column("last_pin_timestamp")] public int? LastPinTimestamp { get; set; }
+    [Column("last_pin_timestamp")]
+    public int? LastPinTimestamp { get; set; }
 
     [Column("default_auto_archive_duration")]
     public int? DefaultAutoArchiveDuration { get; set; }
 
-    [Column("position")] public int? Position { get; set; }
+    [Column("position")]
+    public int? Position { get; set; }
 
     [Column("permission_overwrites", TypeName = "jsonb")]
     public PermissionOverwrite[] PermissionOverwrites { get; set; }
 
-    [Column("video_quality_mode")] public int? VideoQualityMode { get; set; }
-    [Column("bitrate")] public int? Bitrate { get; set; }
-    [Column("user_limit")] public int? UserLimit { get; set; }
-    [Column("nsfw")] public bool? Nsfw { get; set; }
-    [Column("rate_limit_per_user")] public int? RateLimitPerUser { get; set; }
+    [Column("video_quality_mode")]
+    public int? VideoQualityMode { get; set; }
+
+    [Column("bitrate")]
+    public int? Bitrate { get; set; }
+
+    [Column("user_limit")]
+    public int? UserLimit { get; set; }
+
+    [Column("nsfw")]
+    public bool? Nsfw { get; set; }
+
+    [Column("rate_limit_per_user")]
+    public int? RateLimitPerUser { get; set; }
 
     [Column("topic", TypeName = "character varying")]
     public string? Topic { get; set; }
@@ -53,7 +66,8 @@ public class Channel
     [Column("retention_policy_id", TypeName = "character varying")]
     public string? RetentionPolicyId { get; set; }
 
-    [Column("flags")] public int? Flags { get; set; }
+    [Column("flags")]
+    public int? Flags { get; set; }
 
     [Column("default_thread_rate_limit_per_user")]
     public int? DefaultThreadRateLimitPerUser { get; set; }
@@ -88,9 +102,11 @@ public class Channel
     [InverseProperty("Parent")]
     public virtual ICollection<Channel> InverseParent { get; set; } = new HashSet<Channel>();
 
-    [InverseProperty("Channel")] public virtual ICollection<Invite> Invites { get; set; } = new HashSet<Invite>();
+    [InverseProperty("Channel")]
+    public virtual ICollection<Invite> Invites { get; set; } = new HashSet<Invite>();
 
-    [InverseProperty("Channel")] public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
+    [InverseProperty("Channel")]
+    public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
 
     [InverseProperty("Channel")]
     public virtual ICollection<ReadState> ReadStates { get; set; } = new HashSet<ReadState>();
@@ -101,15 +117,15 @@ public class Channel
     [InverseProperty("Channel")]
     public virtual ICollection<VoiceState> VoiceStates { get; set; } = new HashSet<VoiceState>();
 
-    [InverseProperty("Channel")] public virtual ICollection<Webhook> Webhooks { get; set; } = new HashSet<Webhook>();
+    [InverseProperty("Channel")]
+    public virtual ICollection<Webhook> Webhooks { get; set; } = new HashSet<Webhook>();
 
     [ForeignKey("ChannelsId")]
     [InverseProperty("Channels")]
     public virtual ICollection<Message> MessagesNavigation { get; set; } = new HashSet<Message>();
 }
 
-public class PermissionOverwrite
-{
+public class PermissionOverwrite {
     //[{"id":"1006733166226110647","type":0,"allow":"0","deny":"2048"}]
     public string Id { get; set; }
     public int Type { get; set; }

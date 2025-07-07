@@ -1,23 +1,19 @@
 using System.Collections.Concurrent;
-using Spacebar.API.Helpers;
-using Spacebar.DbModel;
 using Microsoft.AspNetCore.Mvc;
+using Spacebar.API.Helpers;
 
 namespace Spacebar.API.Controllers;
 
 [Controller]
 [Route("/")]
-public class AssetsController(Db db) : Controller
-{
-    private readonly Db _db = db;
+public class AssetsController(Db db) : Controller {
     private static readonly ConcurrentDictionary<string, byte[]> cache = new();
+    private readonly Db _db = db;
 
     [HttpGet("/assets/{*res:required}")]
-    public async Task<object> Asset(string res)
-    {
+    public async Task<object> Asset(string res) {
         var ext = res.Split(".").Last();
-        var contentType = ext switch
-        {
+        var contentType = ext switch {
             //text types
             "html" => "text/html",
             "js" => "text/javascript",
@@ -44,14 +40,8 @@ public class AssetsController(Db db) : Controller
     }
 
     [HttpGet("/robots.txt")]
-    public object Robots()
-    {
-        return Resolvers.ReturnFile("./Resources/robots.txt");
-    }
+    public object Robots() => Resolvers.ReturnFile("./Resources/robots.txt");
 
     [HttpGet("/favicon.ico")]
-    public object Favicon()
-    {
-        return Resolvers.ReturnFile("./Resources/RunData/favicon.png");
-    }
+    public object Favicon() => Resolvers.ReturnFile("./Resources/RunData/favicon.png");
 }

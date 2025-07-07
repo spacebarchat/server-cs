@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("recipients")]
-public class Recipient
-{
+public class Recipient {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -16,7 +15,8 @@ public class Recipient
     [Column("user_id", TypeName = "character varying")]
     public string UserId { get; set; } = null!;
 
-    [Column("closed")] public bool Closed { get; set; }
+    [Column("closed")]
+    public bool Closed { get; set; }
 
     [ForeignKey("ChannelId")]
     [InverseProperty("Recipients")]

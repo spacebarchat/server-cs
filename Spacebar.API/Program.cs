@@ -1,16 +1,11 @@
 using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Rewrite;
 using Spacebar.API.Middlewares;
 using Spacebar.API.Tasks;
-using Spacebar.DbModel;
 using Spacebar.ConfigModel;
 using Spacebar.Util;
 using Spacebar.Util.Rewrites;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting.Systemd;
-using Microsoft.IdentityModel.Tokens;
 
 if (!Directory.Exists("cache_formatted")) Directory.CreateDirectory("cache_formatted");
 if (!Directory.Exists("cache")) Directory.CreateDirectory("cache");
@@ -25,7 +20,6 @@ while (processes.Any(x => !x.HasExited))
     Thread.Sleep(100);
 }*/
 
-
 //Environment.Exit(0);
 Tasks.RunStartup();
 
@@ -34,11 +28,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.All; });
-builder.Services.AddLogging(o =>
-{
+builder.Services.AddLogging(o => {
     if (SystemdHelpers.IsSystemdService())
         o.AddSystemdConsole();
-    else if(Debugger.IsAttached)
+    else if (Debugger.IsAttached)
         o.AddConsole();
     // else
     //     o.AddSimpleConsole(o =>
@@ -76,33 +69,29 @@ builder.Services.AddLogging(o =>
 //     });
 // }
 
-builder.Services.AddDbContext<Db>((sp, optionsBuilder) =>
-{
+builder.Services.AddDbContext<Db>((sp, optionsBuilder) => {
     var cfg = sp.GetService<Config>()!.DbConfig;
     optionsBuilder
         .UseNpgsql(
             $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true");
-        //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
-        if (Debugger.IsAttached)
-            optionsBuilder.LogTo(str => Console.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+    //.LogTo(str => Debug.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging().EnableDetailedErrors()
+    if (Debugger.IsAttached)
+        optionsBuilder.LogTo(str => Console.WriteLine(str), LogLevel.Information).EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
 });
 builder.Services.AddScoped(typeof(JwtAuthenticationManager));
 
 var tokenKey = Config.Instance.Security.JwtSecret;
 var key = Encoding.UTF8.GetBytes(tokenKey);
 
-builder.Services.AddAuthentication(x =>
-    {
+builder.Services.AddAuthentication(x => {
         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
-    .AddJwtBearer(x =>
-    {
+    .AddJwtBearer(x => {
         x.RequireHttpsMetadata = false;
         x.SaveToken = true;
-        x.TokenValidationParameters = new TokenValidationParameters
-        {
+        x.TokenValidationParameters = new TokenValidationParameters {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidateIssuer = false,
@@ -114,19 +103,17 @@ var app = builder.Build();
 app.UseOptions();
 
 //
-if (true || app.Environment.IsDevelopment())
-{
+if (true || app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-if(Debugger.IsAttached) app.UseHttpLogging();
+if (Debugger.IsAttached) app.UseHttpLogging();
 app.UseRouting();
 app.UseSentryTracing();
 
 app.UseAuthentication();
 //app.UseAuthorization();
-
 
 app.UseRewriter(new RewriteOptions().Add(new ApiVersionRewriteRule()));
 app.UseWebSockets();
@@ -134,8 +121,7 @@ app.UseWebSockets();
 app.UseMiddleware<RightsMiddleware>();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-app.Use((context, next) =>
-{
+app.Use((context, next) => {
     context.Response.Headers["Content-Type"] += "; charset=utf-8";
     context.Response.Headers["Access-Control-Allow-Origin"] = "*";
     return next.Invoke();
@@ -146,11 +132,7 @@ app.MapControllers();
 app.UseDeveloperExceptionPage();
 
 //
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}");
-});
-
+app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=FrontendController}/{action=Index}/{id?}"); });
 
 Console.WriteLine("[DEBUG] Calling getter on config default rights");
 var defaultRights = Config.Instance.Security.Register.DefaultRights;
@@ -159,17 +141,14 @@ Config.Instance.Security.Register.DefaultRights = defaultRights;
 
 Config.Instance.Save(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "");
 Console.WriteLine("Starting web server!");
-if (args.Contains("--exit-on-modified"))
-{
+if (args.Contains("--exit-on-modified")) {
     Console.WriteLine("[WARN] --exit-on-modified enabled, exiting on source file change!");
-    new FileSystemWatcher()
-    {
+    new FileSystemWatcher {
         Path = Environment.CurrentDirectory,
         Filter = "*.cs",
         NotifyFilter = NotifyFilters.LastWrite,
         EnableRaisingEvents = true
-    }.Changed += async (sender, args) =>
-    {
+    }.Changed += async (sender, args) => {
         Console.WriteLine("Source modified. Exiting...");
         await app.StopAsync();
         Environment.Exit(0);

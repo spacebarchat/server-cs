@@ -1,7 +1,7 @@
 <script>
-    window.toHexString = function(byteArray) {
+    window.toHexString = function (byteArray) {
         return byteArray.reduce((output, elem) =>
-            (output + (elem.toString(16).padStart(2, '0').toUpperCase() + ' ')),
-        '');
+                (output + (elem.toString(16).padStart(2, '0').toUpperCase() + ' ')),
+            '');
     }
 </script>

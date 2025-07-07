@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("bans")]
-public class Ban
-{
+public class Ban {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;

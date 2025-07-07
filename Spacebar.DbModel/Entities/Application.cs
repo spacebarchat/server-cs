@@ -6,8 +6,7 @@ namespace Spacebar.DbModel.Entities;
 
 [Table("applications")]
 [Index("BotUserId", Name = "UQ_2ce5a55796fe4c2f77ece57a647", IsUnique = true)]
-public class Application
-{
+public class Application {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -21,8 +20,11 @@ public class Application
     [Column("description", TypeName = "character varying")]
     public string? Description { get; set; }
 
-    [Column("bot_public")] public bool BotPublic { get; set; }
-    [Column("bot_require_code_grant")] public bool BotRequireCodeGrant { get; set; }
+    [Column("bot_public")]
+    public bool BotPublic { get; set; }
+
+    [Column("bot_require_code_grant")]
+    public bool BotRequireCodeGrant { get; set; }
 
     [Column("terms_of_service_url", TypeName = "character varying")]
     public string? TermsOfServiceUrl { get; set; }
@@ -45,27 +47,41 @@ public class Application
     [Column("team_id", TypeName = "character varying")]
     public string? TeamId { get; set; }
 
-    [Column("type")] public string? Type { get; set; }
-    [Column("hook")] public bool Hook { get; set; }
-    [Column("redirect_uris")] public string? RedirectUris { get; set; }
-    [Column("rpc_application_state")] public int? RpcApplicationState { get; set; }
-    [Column("store_application_state")] public int? StoreApplicationState { get; set; }
-    [Column("verification_state")] public int? VerificationState { get; set; }
+    [Column("type")]
+    public string? Type { get; set; }
+
+    [Column("hook")]
+    public bool Hook { get; set; }
+
+    [Column("redirect_uris")]
+    public string? RedirectUris { get; set; }
+
+    [Column("rpc_application_state")]
+    public int? RpcApplicationState { get; set; }
+
+    [Column("store_application_state")]
+    public int? StoreApplicationState { get; set; }
+
+    [Column("verification_state")]
+    public int? VerificationState { get; set; }
 
     [Column("interactions_endpoint_url", TypeName = "character varying")]
     public string? InteractionsEndpointUrl { get; set; }
 
-    [Column("integration_public")] public bool? IntegrationPublic { get; set; }
+    [Column("integration_public")]
+    public bool? IntegrationPublic { get; set; }
 
     [Column("integration_require_code_grant")]
     public bool? IntegrationRequireCodeGrant { get; set; }
 
-    [Column("discoverability_state")] public int? DiscoverabilityState { get; set; }
+    [Column("discoverability_state")]
+    public int? DiscoverabilityState { get; set; }
 
     [Column("discovery_eligibility_flags")]
     public int? DiscoveryEligibilityFlags { get; set; }
 
-    [Column("tags")] public string? Tags { get; set; }
+    [Column("tags")]
+    public string? Tags { get; set; }
 
     [Column("install_params", TypeName = "jsonb")]
     public InstallParams? InstallParams { get; set; }
@@ -73,7 +89,8 @@ public class Application
     [Column("bot_user_id", TypeName = "character varying")]
     public string? BotUserId { get; set; }
 
-    [Column("flags")] public int Flags { get; set; }
+    [Column("flags")]
+    public int Flags { get; set; }
 
     [ForeignKey("BotUserId")]
     [InverseProperty("ApplicationBotUser")]
@@ -94,8 +111,7 @@ public class Application
     public virtual ICollection<Webhook> Webhooks { get; set; } = new HashSet<Webhook>();
 }
 
-public class InstallParams
-{
+public class InstallParams {
     //{"scopes":["applications.commands","bot"],"permissions":"8"}
     public string Permissions { get; set; } = "0";
     public ICollection<string> Scopes { get; set; } = Array.Empty<string>();

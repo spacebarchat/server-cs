@@ -2,8 +2,7 @@ using Spacebar.Util.Schemas;
 
 namespace Spacebar.Util.Db.Schemas;
 
-public class RoleCreateSchema : IRequestSchema
-{
+public class RoleCreateSchema : IRequestSchema {
     internal string? Id { get; set; }
     public string Name { get; set; }
     public int Color { get; set; }

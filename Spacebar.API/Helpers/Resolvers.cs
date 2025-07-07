@@ -1,21 +1,17 @@
 using System.Diagnostics;
-using Spacebar.DbModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Spacebar.API.Helpers;
 
-public static class Resolvers
-{
+public static class Resolvers {
     private static readonly string Navbar = File.Exists("Resources/Parts/Navbar.html")
         ? File.ReadAllText("Resources/Parts/Navbar.html")
         : "Navbar not found!";
 
-    public static object ReturnFile(string path)
-    {
+    public static object ReturnFile(string path) {
         if (!File.Exists(path)) return new NotFoundObjectResult("File doesn't exist!");
         var ext = path.Split(".").Last();
-        var contentType = ext switch
-        {
+        var contentType = ext switch {
             //text types
             "html" => "text/html",
             "js" => "text/javascript",
@@ -32,11 +28,9 @@ public static class Resolvers
             "ico" => "image/x-icon",
             _ => "application/octet-stream"
         };
-        switch (ext)
-        {
+        switch (ext) {
             case "html":
-                return new ContentResult
-                {
+                return new ContentResult {
                     ContentType = contentType,
                     Content = File.ReadAllText(path)
                 };
@@ -45,8 +39,7 @@ public static class Resolvers
             case "txt":
             case "csv":
             case "svg":
-                return new ContentResult
-                {
+                return new ContentResult {
                     ContentType = contentType,
                     Content = File.ReadAllText(path)
                 };
@@ -72,8 +65,7 @@ public static class Resolvers
         }
     }
 
-    public static object ReturnFileWithVars(string path, Db db, Dictionary<string, object>? customVars = null)
-    {
+    public static object ReturnFileWithVars(string path, Db db, Dictionary<string, object>? customVars = null) {
         if (!File.Exists(path))
             return new NotFoundObjectResult(Debugger.IsAttached
                 ? $"File {path} doesn't exist!"

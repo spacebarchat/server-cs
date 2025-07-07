@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("audit_logs")]
-public class AuditLog
-{
+public class AuditLog {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -13,9 +12,14 @@ public class AuditLog
     [Column("user_id", TypeName = "character varying")]
     public string? UserId { get; set; }
 
-    [Column("action_type")] public int ActionType { get; set; }
-    [Column("options")] public string? Options { get; set; }
-    [Column("changes")] public string Changes { get; set; } = null!;
+    [Column("action_type")]
+    public int ActionType { get; set; }
+
+    [Column("options")]
+    public string? Options { get; set; }
+
+    [Column("changes")]
+    public string Changes { get; set; } = null!;
 
     [Column("reason", TypeName = "character varying")]
     public string? Reason { get; set; }

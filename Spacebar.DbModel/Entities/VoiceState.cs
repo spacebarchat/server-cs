@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("voice_states")]
-public class VoiceState
-{
+public class VoiceState {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -25,13 +24,26 @@ public class VoiceState
     [Column("token", TypeName = "character varying")]
     public string? Token { get; set; }
 
-    [Column("deaf")] public bool Deaf { get; set; }
-    [Column("mute")] public bool Mute { get; set; }
-    [Column("self_deaf")] public bool SelfDeaf { get; set; }
-    [Column("self_mute")] public bool SelfMute { get; set; }
-    [Column("self_stream")] public bool? SelfStream { get; set; }
-    [Column("self_video")] public bool SelfVideo { get; set; }
-    [Column("suppress")] public bool Suppress { get; set; }
+    [Column("deaf")]
+    public bool Deaf { get; set; }
+
+    [Column("mute")]
+    public bool Mute { get; set; }
+
+    [Column("self_deaf")]
+    public bool SelfDeaf { get; set; }
+
+    [Column("self_mute")]
+    public bool SelfMute { get; set; }
+
+    [Column("self_stream")]
+    public bool? SelfStream { get; set; }
+
+    [Column("self_video")]
+    public bool SelfVideo { get; set; }
+
+    [Column("suppress")]
+    public bool Suppress { get; set; }
 
     [Column("request_to_speak_timestamp", TypeName = "timestamp without time zone")]
     public DateTime? RequestToSpeakTimestamp { get; set; }

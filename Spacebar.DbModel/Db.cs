@@ -1,20 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Spacebar.ConfigModel;
-using Spacebar.DbModel.Entities;
 using Microsoft.EntityFrameworkCore;
+using Spacebar.DbModel.Entities;
 
 namespace Spacebar.DbModel;
 
-public class Db : DbContext
-{
+public class Db : DbContext {
+    [NotMapped] private static List<Db> contexts = new();
+
     //props
     public bool InUse = true;
 
     //db
     public Db(DbContextOptions<Db> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<Application> Applications { get; set; }
     public virtual DbSet<Attachment> Attachments { get; set; }
@@ -49,19 +47,15 @@ public class Db : DbContext
     public virtual DbSet<Webhook> Webhooks { get; set; }
 
     //overrides
-    public override void Dispose()
-    {
+    public override void Dispose() {
         InUse = false;
         base.Dispose();
     }
 
-    public override ValueTask DisposeAsync()
-    {
+    public override ValueTask DisposeAsync() {
         InUse = false;
         return base.DisposeAsync();
     }
-    
-    [NotMapped] private static List<Db> contexts = new();
 
     // internal static LogManager GetDbModelLogger()
     // {
@@ -76,14 +70,13 @@ public class Db : DbContext
     //
     //     return dbLogger;
     // }
-    
+
     // private static DbConfig cfg = Config.Instance.DbConfig;
     // public static string MySqlConnectionString =>
-        // $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
+    // $"Data Source={cfg.Host};port={cfg.Port};Database={cfg.Database};User Id={cfg.Username};password={cfg.Password};charset=utf8;";
     // public static string PostgresConnectionString =>
-        // $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000";
+    // $"Host={cfg.Host};Database={cfg.Database};Username={cfg.Username};Password={cfg.Password};Port={cfg.Port};Include Error Detail=true;Maximum Pool Size=1000";
     // public static string SqliteConnectionString => $"Data Source={cfg.Database}.db;Version=3;";
-    
 
     // private static bool MigrationsExist(string provider)
     // {

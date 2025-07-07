@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("sessions")]
-public class Session
-{
+public class Session {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -16,8 +15,11 @@ public class Session
     [Column("session_id", TypeName = "character varying")]
     public string SessionId { get; set; } = null!;
 
-    [Column("activities")] public string? Activities { get; set; }
-    [Column("client_info")] public string ClientInfo { get; set; } = null!;
+    [Column("activities")]
+    public string? Activities { get; set; }
+
+    [Column("client_info")]
+    public string ClientInfo { get; set; } = null!;
 
     [Column("status", TypeName = "character varying")]
     public string Status { get; set; } = null!;

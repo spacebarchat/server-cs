@@ -1,11 +1,12 @@
 using System.IO.Compression;
+using Ionic.Zlib;
+using CompressionLevel = Ionic.Zlib.CompressionLevel;
+using CompressionMode = System.IO.Compression.CompressionMode;
 
 namespace Spacebar.Util;
 
-public class ZLib
-{
-    public static byte[] Decompress(byte[] a)
-    {
+public class ZLib {
+    public static byte[] Decompress(byte[] a) {
         var src = new MemoryStream(a);
         var dst = new MemoryStream();
         using var stream = new ZLibStream(src, CompressionMode.Decompress);
@@ -14,10 +15,9 @@ public class ZLib
         return dst.ToArray();
     }
 
-    public static byte[] Compress(byte[] a)
-    {
-        Ionic.Zlib.ZlibStream zs = new(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress,
-            Ionic.Zlib.CompressionLevel.Default);
+    public static byte[] Compress(byte[] a) {
+        ZlibStream zs = new(new MemoryStream(a), Ionic.Zlib.CompressionMode.Compress,
+            CompressionLevel.Default);
         var ms = new MemoryStream();
         zs.CopyTo(ms);
         var data = ms.ToArray();

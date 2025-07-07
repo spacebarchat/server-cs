@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("sticker_packs")]
-public class StickerPack
-{
+public class StickerPack {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -29,5 +28,6 @@ public class StickerPack
     [InverseProperty("StickerPacks")]
     public virtual Sticker? CoverStickerId1Navigation { get; set; }
 
-    [InverseProperty("Pack")] public virtual ICollection<Sticker> Stickers { get; set; } = new HashSet<Sticker>();
+    [InverseProperty("Pack")]
+    public virtual ICollection<Sticker> Stickers { get; set; } = new HashSet<Sticker>();
 }

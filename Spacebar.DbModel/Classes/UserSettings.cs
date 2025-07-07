@@ -1,7 +1,6 @@
 namespace Spacebar.DbModel.Classes;
 
-public class UserSettings
-{
+public class UserSettings {
     public int AfkTimeout = 3600;
     public bool AllowAccessibilityDetection = true;
     public bool AnimateEmoji = true;
@@ -22,15 +21,15 @@ public class UserSettings
     public object GuildPositions = null;
     public bool InlineAttachmentMedia = true;
     public bool InlineEmbedMedia = true;
+    public string Locale = "en-US";
     public bool MessageDisplayCompact = true;
     public bool NativePhoneIntegrationEnabled = true;
     public bool RenderEmbeds = true;
     public bool RenderReactions = true;
     public object RestrictedGuilds = null;
     public bool ShowCurrentGame = true;
-    public bool StreamNotificationsEnabled = false;
-    public string Locale = "en-US";
     public string Status = "online";
+    public bool StreamNotificationsEnabled = false;
     public string Theme = "dark";
     public int TimezoneOffset = 0; // TODO = timezone from request
-};
+}

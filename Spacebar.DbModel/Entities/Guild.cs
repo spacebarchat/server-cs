@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("guilds")]
-public class Guild
-{
+public class Guild {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -16,7 +15,8 @@ public class Guild
     [Column("afk_channel_id", TypeName = "character varying")]
     public string? AfkChannelId { get; set; }
 
-    [Column("afk_timeout")] public int? AfkTimeout { get; set; }
+    [Column("afk_timeout")]
+    public int? AfkTimeout { get; set; }
 
     [Column("banner", TypeName = "character varying")]
     public string? Banner { get; set; }
@@ -30,29 +30,41 @@ public class Guild
     [Column("discovery_splash", TypeName = "character varying")]
     public string? DiscoverySplash { get; set; }
 
-    [Column("explicit_content_filter")] public int? ExplicitContentFilter { get; set; }
-    [Column("features")] public string Features { get; set; } = "";
-    [Column("primary_category_id")] public int? PrimaryCategoryId { get; set; }
+    [Column("explicit_content_filter")]
+    public int? ExplicitContentFilter { get; set; }
+
+    [Column("features")]
+    public string Features { get; set; } = "";
+
+    [Column("primary_category_id")]
+    public int? PrimaryCategoryId { get; set; }
 
     [Column("icon", TypeName = "character varying")]
     public string? Icon { get; set; }
 
-    [Column("large")] public bool? Large { get; set; } = false;
+    [Column("large")]
+    public bool? Large { get; set; } = false;
 
-    [Column("max_members")] public int? MaxMembers { get; set; } = 100;
+    [Column("max_members")]
+    public int? MaxMembers { get; set; } = 100;
 
-    [Column("max_presences")] public int? MaxPresences { get; set; } = 100;
+    [Column("max_presences")]
+    public int? MaxPresences { get; set; } = 100;
 
-    [Column("max_video_channel_users")] public int? MaxVideoChannelUsers { get; set; } = 100;
+    [Column("max_video_channel_users")]
+    public int? MaxVideoChannelUsers { get; set; } = 100;
 
-    [Column("member_count")] public int? MemberCount { get; set; } = 1;
+    [Column("member_count")]
+    public int? MemberCount { get; set; } = 1;
 
-    [Column("presence_count")] public int? PresenceCount { get; set; } = 1;
+    [Column("presence_count")]
+    public int? PresenceCount { get; set; } = 1;
 
     [Column("template_id", TypeName = "character varying")]
     public string? TemplateId { get; set; }
 
-    [Column("mfa_level")] public int? MfaLevel { get; set; }
+    [Column("mfa_level")]
+    public int? MfaLevel { get; set; }
 
     [Column("name", TypeName = "character varying")]
     public string Name { get; set; } = null!;
@@ -63,8 +75,11 @@ public class Guild
     [Column("preferred_locale", TypeName = "character varying")]
     public string? PreferredLocale { get; set; }
 
-    [Column("premium_subscription_count")] public int? PremiumSubscriptionCount { get; set; }
-    [Column("premium_tier")] public int? PremiumTier { get; set; }
+    [Column("premium_subscription_count")]
+    public int? PremiumSubscriptionCount { get; set; }
+
+    [Column("premium_tier")]
+    public int? PremiumTier { get; set; }
 
     [Column("public_updates_channel_id", TypeName = "character varying")]
     public string? PublicUpdatesChannelId { get; set; }
@@ -81,9 +96,14 @@ public class Guild
     [Column("system_channel_id", TypeName = "character varying")]
     public string? SystemChannelId { get; set; }
 
-    [Column("system_channel_flags")] public int? SystemChannelFlags { get; set; }
-    [Column("unavailable")] public bool? Unavailable { get; set; }
-    [Column("verification_level")] public int? VerificationLevel { get; set; }
+    [Column("system_channel_flags")]
+    public int? SystemChannelFlags { get; set; }
+
+    [Column("unavailable")]
+    public bool? Unavailable { get; set; }
+
+    [Column("verification_level")]
+    public int? VerificationLevel { get; set; }
 
     [Column("welcome_screen", TypeName = "jsonb")]
     public WelcomeScreen WelcomeScreen { get; set; } = null!;
@@ -91,9 +111,14 @@ public class Guild
     [Column("widget_channel_id", TypeName = "character varying")]
     public string? WidgetChannelId { get; set; }
 
-    [Column("widget_enabled")] public bool? WidgetEnabled { get; set; }
-    [Column("nsfw_level")] public int? NsfwLevel { get; set; }
-    [Column("nsfw")] public bool? Nsfw { get; set; }
+    [Column("widget_enabled")]
+    public bool? WidgetEnabled { get; set; }
+
+    [Column("nsfw_level")]
+    public int? NsfwLevel { get; set; }
+
+    [Column("nsfw")]
+    public bool? Nsfw { get; set; }
 
     [Column("parent", TypeName = "character varying")]
     public string? Parent { get; set; }
@@ -129,21 +154,29 @@ public class Guild
     [InverseProperty("GuildWidgetChannels")]
     public virtual Channel? WidgetChannel { get; set; }
 
-    [InverseProperty("Guild")] public virtual ICollection<Ban> Bans { get; set; } = new HashSet<Ban>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Ban> Bans { get; set; } = new HashSet<Ban>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Channel> Channels { get; set; } = new HashSet<Channel>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Channel> Channels { get; set; } = new HashSet<Channel>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Emoji> Emojis { get; set; } = new HashSet<Emoji>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Emoji> Emojis { get; set; } = new HashSet<Emoji>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Invite> Invites { get; set; } = new HashSet<Invite>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Invite> Invites { get; set; } = new HashSet<Invite>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Member> Members { get; set; } = new HashSet<Member>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Member> Members { get; set; } = new HashSet<Member>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Sticker> Stickers { get; set; } = new HashSet<Sticker>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Sticker> Stickers { get; set; } = new HashSet<Sticker>();
 
     [InverseProperty("SourceGuild")]
     public virtual ICollection<Template> Templates { get; set; } = new HashSet<Template>();
@@ -151,16 +184,17 @@ public class Guild
     [InverseProperty("Guild")]
     public virtual ICollection<VoiceState> VoiceStates { get; set; } = new HashSet<VoiceState>();
 
-    [InverseProperty("Guild")] public virtual ICollection<Webhook> WebhookGuilds { get; set; } = new HashSet<Webhook>();
+    [InverseProperty("Guild")]
+    public virtual ICollection<Webhook> WebhookGuilds { get; set; } = new HashSet<Webhook>();
 
     [InverseProperty("SourceGuild")]
     public virtual ICollection<Webhook> WebhookSourceGuilds { get; set; } = new HashSet<Webhook>();
 
-    [NotMapped] public List<object> GuildScheduledEvents { get; set; } = new();
+    [NotMapped]
+    public List<object> GuildScheduledEvents { get; set; } = new();
 }
 
-public class WelcomeScreen
-{
+public class WelcomeScreen {
     //{"enabled":false,"description":"Fill in your description","welcome_channels":[]}
     public bool Enabled { get; set; } = false;
     public string Description { get; set; } = "Fill in your description";

@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Spacebar.ConfigModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Spacebar.DbModel.Entities;
 
 [Table("users")]
 [Index("SettingsId", Name = "UQ_76ba283779c8441fd5ff819c8cf", IsUnique = true)]
-public class User
-{
+public class User {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -23,7 +21,8 @@ public class User
     [Column("avatar", TypeName = "character varying")]
     public string? Avatar { get; set; }
 
-    [Column("accent_color")] public int? AccentColor { get; set; }
+    [Column("accent_color")]
+    public int? AccentColor { get; set; }
 
     [Column("banner", TypeName = "character varying")]
     public string? Banner { get; set; }
@@ -31,24 +30,32 @@ public class User
     [Column("phone", TypeName = "character varying")]
     public string? Phone { get; set; }
 
-    [Column("desktop")] public bool Desktop { get; set; } = false;
+    [Column("desktop")]
+    public bool Desktop { get; set; } = false;
 
-    [Column("mobile")] public bool Mobile { get; set; } = false;
+    [Column("mobile")]
+    public bool Mobile { get; set; } = false;
 
-    [Column("premium")] public bool Premium { get; set; } = true;
+    [Column("premium")]
+    public bool Premium { get; set; } = true;
 
-    [Column("premium_type")] public int PremiumType { get; set; } = 2;
+    [Column("premium_type")]
+    public int PremiumType { get; set; } = 2;
 
-    [Column("bot")] public bool Bot { get; set; } = false;
+    [Column("bot")]
+    public bool Bot { get; set; } = false;
 
     [Column("bio", TypeName = "character varying")]
     public string? Bio { get; set; } = "";
 
-    [Column("system")] public bool System { get; set; } = false;
+    [Column("system")]
+    public bool System { get; set; } = false;
 
-    [Column("nsfw_allowed")] public bool NsfwAllowed { get; set; } = true;
+    [Column("nsfw_allowed")]
+    public bool NsfwAllowed { get; set; } = true;
 
-    [Column("mfa_enabled")] public bool? MfaEnabled { get; set; } = false;
+    [Column("mfa_enabled")]
+    public bool? MfaEnabled { get; set; } = false;
 
     [Column("totp_secret", TypeName = "character varying")]
     public string? TotpSecret { get; set; }
@@ -62,11 +69,14 @@ public class User
     [Column("premium_since", TypeName = "timestamp without time zone")]
     public DateTime? PremiumSince { get; set; }
 
-    [Column("verified")] public bool Verified { get; set; } = true;
+    [Column("verified")]
+    public bool Verified { get; set; } = true;
 
-    [Column("disabled")] public bool Disabled { get; set; } = false;
+    [Column("disabled")]
+    public bool Disabled { get; set; } = false;
 
-    [Column("deleted")] public bool Deleted { get; set; } = false;
+    [Column("deleted")]
+    public bool Deleted { get; set; } = false;
 
     [Column("email", TypeName = "character varying")]
     public string? Email { get; set; }
@@ -74,12 +84,20 @@ public class User
     [Column("flags", TypeName = "character varying")]
     public string Flags { get; set; } = "0";
 
-    [Column("public_flags")] public int PublicFlags { get; set; } = 0;
+    [Column("public_flags")]
+    public int PublicFlags { get; set; } = 0;
 
-    [Column("rights")] public BitArray Rights { get; set; } // = Config.Instance.Security.Register.DefaultRights; //TODO: fix
-    [Column("data", TypeName = "jsonb")] public UserData Data { get; set; } = null!;
-    [Column("fingerprints")] public string Fingerprints { get; set; } = "";
-    [Column("extended_settings")] public string ExtendedSettings { get; set; } = "";
+    [Column("rights")]
+    public BitArray Rights { get; set; } // = Config.Instance.Security.Register.DefaultRights; //TODO: fix
+
+    [Column("data", TypeName = "jsonb")]
+    public UserData Data { get; set; } = null!;
+
+    [Column("fingerprints")]
+    public string Fingerprints { get; set; } = "";
+
+    [Column("extended_settings")]
+    public string ExtendedSettings { get; set; } = "";
 
     [Column("settingsId", TypeName = "character varying")]
     public string? SettingsId { get; set; }
@@ -88,7 +106,8 @@ public class User
     [InverseProperty("User")]
     public virtual UserSetting? Settings { get; set; }
 
-    [InverseProperty("BotUser")] public virtual Application? ApplicationBotUser { get; set; }
+    [InverseProperty("BotUser")]
+    public virtual Application? ApplicationBotUser { get; set; }
 
     [InverseProperty("Owner")]
     public virtual ICollection<Application> ApplicationOwners { get; set; } = new HashSet<Application>();
@@ -102,18 +121,23 @@ public class User
     [InverseProperty("User")]
     public virtual ICollection<BackupCode> BackupCodes { get; set; } = new HashSet<BackupCode>();
 
-    [InverseProperty("Executor")] public virtual ICollection<Ban> BanExecutors { get; set; } = new HashSet<Ban>();
+    [InverseProperty("Executor")]
+    public virtual ICollection<Ban> BanExecutors { get; set; } = new HashSet<Ban>();
 
-    [InverseProperty("User")] public virtual ICollection<Ban> BanUsers { get; set; } = new HashSet<Ban>();
+    [InverseProperty("User")]
+    public virtual ICollection<Ban> BanUsers { get; set; } = new HashSet<Ban>();
 
-    [InverseProperty("Owner")] public virtual ICollection<Channel> Channels { get; set; } = new HashSet<Channel>();
+    [InverseProperty("Owner")]
+    public virtual ICollection<Channel> Channels { get; set; } = new HashSet<Channel>();
 
     [InverseProperty("User")]
     public virtual ICollection<ConnectedAccount> ConnectedAccounts { get; set; } = new HashSet<ConnectedAccount>();
 
-    [InverseProperty("User")] public virtual ICollection<Emoji> Emojis { get; set; } = new HashSet<Emoji>();
+    [InverseProperty("User")]
+    public virtual ICollection<Emoji> Emojis { get; set; } = new HashSet<Emoji>();
 
-    [InverseProperty("Owner")] public virtual ICollection<Guild> Guilds { get; set; } = new HashSet<Guild>();
+    [InverseProperty("Owner")]
+    public virtual ICollection<Guild> Guilds { get; set; } = new HashSet<Guild>();
 
     [InverseProperty("Inviter")]
     public virtual ICollection<Invite> InviteInviters { get; set; } = new HashSet<Invite>();
@@ -121,7 +145,8 @@ public class User
     [InverseProperty("TargetUser")]
     public virtual ICollection<Invite> InviteTargetUsers { get; set; } = new HashSet<Invite>();
 
-    [InverseProperty("IdNavigation")] public virtual ICollection<Member> Members { get; set; } = new HashSet<Member>();
+    [InverseProperty("IdNavigation")]
+    public virtual ICollection<Member> Members { get; set; } = new HashSet<Member>();
 
     [InverseProperty("Author")]
     public virtual ICollection<Message> MessageAuthors { get; set; } = new HashSet<Message>();
@@ -129,13 +154,17 @@ public class User
     [InverseProperty("Member")]
     public virtual ICollection<Message> MessageMembers { get; set; } = new HashSet<Message>();
 
-    [InverseProperty("Owner")] public virtual ICollection<Note> NoteOwners { get; set; } = new HashSet<Note>();
+    [InverseProperty("Owner")]
+    public virtual ICollection<Note> NoteOwners { get; set; } = new HashSet<Note>();
 
-    [InverseProperty("Target")] public virtual ICollection<Note> NoteTargets { get; set; } = new HashSet<Note>();
+    [InverseProperty("Target")]
+    public virtual ICollection<Note> NoteTargets { get; set; } = new HashSet<Note>();
 
-    [InverseProperty("User")] public virtual ICollection<ReadState> ReadStates { get; set; } = new HashSet<ReadState>();
+    [InverseProperty("User")]
+    public virtual ICollection<ReadState> ReadStates { get; set; } = new HashSet<ReadState>();
 
-    [InverseProperty("User")] public virtual ICollection<Recipient> Recipients { get; set; } = new HashSet<Recipient>();
+    [InverseProperty("User")]
+    public virtual ICollection<Recipient> Recipients { get; set; } = new HashSet<Recipient>();
 
     [InverseProperty("From")]
     public virtual ICollection<Relationship> RelationshipFroms { get; set; } = new HashSet<Relationship>();
@@ -143,31 +172,33 @@ public class User
     [InverseProperty("To")]
     public virtual ICollection<Relationship> RelationshipTos { get; set; } = new HashSet<Relationship>();
 
-    [InverseProperty("User")] public virtual ICollection<Session> Sessions { get; set; } = new HashSet<Session>();
+    [InverseProperty("User")]
+    public virtual ICollection<Session> Sessions { get; set; } = new HashSet<Session>();
 
-    [InverseProperty("User")] public virtual ICollection<Sticker> Stickers { get; set; } = new HashSet<Sticker>();
+    [InverseProperty("User")]
+    public virtual ICollection<Sticker> Stickers { get; set; } = new HashSet<Sticker>();
 
     [InverseProperty("User")]
     public virtual ICollection<TeamMember> TeamMembers { get; set; } = new HashSet<TeamMember>();
 
-    [InverseProperty("OwnerUser")] public virtual ICollection<Team> Teams { get; set; } = new HashSet<Team>();
+    [InverseProperty("OwnerUser")]
+    public virtual ICollection<Team> Teams { get; set; } = new HashSet<Team>();
 
-    [InverseProperty("Creator")] public virtual ICollection<Template> Templates { get; set; } = new HashSet<Template>();
+    [InverseProperty("Creator")]
+    public virtual ICollection<Template> Templates { get; set; } = new HashSet<Template>();
 
     [InverseProperty("User")]
     public virtual ICollection<VoiceState> VoiceStates { get; set; } = new HashSet<VoiceState>();
 
-    [InverseProperty("User")] public virtual ICollection<Webhook> Webhooks { get; set; } = new HashSet<Webhook>();
+    [InverseProperty("User")]
+    public virtual ICollection<Webhook> Webhooks { get; set; } = new HashSet<Webhook>();
 
     [ForeignKey("UsersId")]
     [InverseProperty("Users")]
     public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
 
-
-    public PrivateUser GetPrivateUser()
-    {
-        return new PrivateUser
-        {
+    public PrivateUser GetPrivateUser() =>
+        new() {
             AccentColor = AccentColor,
             Avatar = Avatar,
             Banner = Banner,
@@ -189,11 +220,9 @@ public class User
             PublicFlags = PublicFlags,
             PremiumSince = PremiumSince ?? DateTime.Now
         };
-    }
-    public PublicUser GetPublicUser()
-    {
-        return new PublicUser
-        {
+
+    public PublicUser GetPublicUser() =>
+        new() {
             AccentColor = AccentColor,
             Avatar = Avatar,
             Banner = Banner,
@@ -205,17 +234,14 @@ public class User
             PublicFlags = PublicFlags,
             Username = Username
         };
-    }
 }
 
-public class UserData
-{
+public class UserData {
     public string Hash { get; set; }
     public DateTime ValidTokensSince { get; set; }
 }
 
-public class PublicUser
-{
+public class PublicUser {
     public string Id { get; set; } = null!;
     public string Username { get; set; } = null!;
     public string Discriminator { get; set; } = null!;
@@ -225,11 +251,10 @@ public class PublicUser
     public bool Bot { get; set; }
     public string Bio { get; set; } = null!;
     public int PublicFlags { get; set; }
-    public DateTime PremiumSince { get; set; } = new();
+    public DateTime PremiumSince { get; set; }
 }
 
-public class PrivateUser : PublicUser
-{
+public class PrivateUser : PublicUser {
     public string? Phone { get; set; }
     public bool Desktop { get; set; }
     public bool Mobile { get; set; }

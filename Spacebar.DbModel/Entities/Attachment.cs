@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Spacebar.DbModel.Entities;
 
 [Table("attachments")]
-public class Attachment
-{
+public class Attachment {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -13,7 +12,8 @@ public class Attachment
     [Column("filename", TypeName = "character varying")]
     public string Filename { get; set; } = null!;
 
-    [Column("size")] public int Size { get; set; }
+    [Column("size")]
+    public int Size { get; set; }
 
     [Column("url", TypeName = "character varying")]
     public string Url { get; set; } = null!;
@@ -21,8 +21,11 @@ public class Attachment
     [Column("proxy_url", TypeName = "character varying")]
     public string ProxyUrl { get; set; } = null!;
 
-    [Column("height")] public int? Height { get; set; }
-    [Column("width")] public int? Width { get; set; }
+    [Column("height")]
+    public int? Height { get; set; }
+
+    [Column("width")]
+    public int? Width { get; set; }
 
     [Column("content_type", TypeName = "character varying")]
     public string? ContentType { get; set; }

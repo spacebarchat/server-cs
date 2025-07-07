@@ -28,8 +28,7 @@ public static class Resolvers {
         };
         switch (ext) {
             case "html":
-                return new ContentResult
-                {
+                return new ContentResult {
                     ContentType = contentType,
                     Content = File.ReadAllText(path)
                 };
@@ -38,8 +37,7 @@ public static class Resolvers {
             case "txt":
             case "csv":
             case "svg":
-                return new ContentResult
-                {
+                return new ContentResult {
                     ContentType = contentType,
                     Content = File.ReadAllText(path)
                 };
@@ -72,9 +70,8 @@ public static class Resolvers {
         var contentResult = (ContentResult)result;
         contentResult.Content = contentResult.Content?.Replace("$NAVBAR", Navbar);
         if (customVars != null)
-            foreach (var (key, value) in customVars) {
+            foreach (var (key, value) in customVars)
                 contentResult.Content = contentResult.Content?.Replace(key, value.ToString());
-            }
 
         result = contentResult;
 

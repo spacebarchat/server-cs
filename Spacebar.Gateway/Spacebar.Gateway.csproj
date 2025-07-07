@@ -12,48 +12,48 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Spacebar.ConfigModel\Spacebar.ConfigModel.csproj" />
-        <ProjectReference Include="..\Spacebar.DbModel\Spacebar.DbModel.csproj" />
-        <ProjectReference Include="..\Spacebar.Util.Db\Spacebar.Util.Db.csproj" />
-        <ProjectReference Include="..\Spacebar.Util\Spacebar.Util.csproj" />
+        <ProjectReference Include="..\Spacebar.ConfigModel\Spacebar.ConfigModel.csproj"/>
+        <ProjectReference Include="..\Spacebar.DbModel\Spacebar.DbModel.csproj"/>
+        <ProjectReference Include="..\Spacebar.Util.Db\Spacebar.Util.Db.csproj"/>
+        <ProjectReference Include="..\Spacebar.Util\Spacebar.Util.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950" />
-        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
-        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
-        <PackageReference Include="IdGen" Version="3.0.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.6" />
-        <PackageReference Include="Sentry.AspNetCore" Version="5.11.2" />
+        <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950"/>
+        <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0"/>
+        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
+        <PackageReference Include="IdGen" Version="3.0.7"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.6"/>
+        <PackageReference Include="Sentry.AspNetCore" Version="5.11.2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="dump\**" />
-        <Compile Remove="event_dump\**" />
-        <Compile Remove="unknown_events\**" />
+        <Compile Remove="dump\**"/>
+        <Compile Remove="event_dump\**"/>
+        <Compile Remove="unknown_events\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="dump\**" />
-        <EmbeddedResource Remove="event_dump\**" />
-        <EmbeddedResource Remove="unknown_events\**" />
+        <EmbeddedResource Remove="dump\**"/>
+        <EmbeddedResource Remove="event_dump\**"/>
+        <EmbeddedResource Remove="unknown_events\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="dump\**" />
-        <None Remove="event_dump\**" />
-        <None Remove="unknown_events\**" />
+        <None Remove="dump\**"/>
+        <None Remove="event_dump\**"/>
+        <None Remove="unknown_events\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="dump\**" />
-        <Content Remove="event_dump\**" />
-        <Content Remove="unknown_events\**" />
+        <Content Remove="dump\**"/>
+        <Content Remove="event_dump\**"/>
+        <Content Remove="unknown_events\**"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions" />
+        <Folder Include="Extensions"/>
     </ItemGroup>
 
 </Project>

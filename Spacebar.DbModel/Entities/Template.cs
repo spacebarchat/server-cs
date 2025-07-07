@@ -6,8 +6,7 @@ namespace Spacebar.DbModel.Entities;
 
 [Table("templates")]
 [Index("Code", Name = "UQ_be38737bf339baf63b1daeffb55", IsUnique = true)]
-public class Template
-{
+public class Template {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -21,7 +20,8 @@ public class Template
     [Column("description", TypeName = "character varying")]
     public string? Description { get; set; }
 
-    [Column("usage_count")] public int? UsageCount { get; set; }
+    [Column("usage_count")]
+    public int? UsageCount { get; set; }
 
     [Column("creator_id", TypeName = "character varying")]
     public string? CreatorId { get; set; }
@@ -35,7 +35,8 @@ public class Template
     [Column("source_guild_id", TypeName = "character varying")]
     public string? SourceGuildId { get; set; }
 
-    [Column("serialized_source_guild")] public string SerializedSourceGuild { get; set; } = null!;
+    [Column("serialized_source_guild")]
+    public string SerializedSourceGuild { get; set; } = null!;
 
     [ForeignKey("CreatorId")]
     [InverseProperty("Templates")]
@@ -45,5 +46,6 @@ public class Template
     [InverseProperty("Templates")]
     public virtual Guild? SourceGuild { get; set; }
 
-    [InverseProperty("Template")] public virtual ICollection<Guild> Guilds { get; set; } = new HashSet<Guild>();
+    [InverseProperty("Template")]
+    public virtual ICollection<Guild> Guilds { get; set; } = new HashSet<Guild>();
 }

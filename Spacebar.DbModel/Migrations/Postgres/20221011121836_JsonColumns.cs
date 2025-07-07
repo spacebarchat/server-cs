@@ -1,15 +1,13 @@
-﻿using Spacebar.DbModel.Entities;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Spacebar.DbModel.Entities;
 using Migration = Microsoft.EntityFrameworkCore.Migrations.Migration;
 
 #nullable disable
 
 namespace Spacebar.DbModel.Migrations.Postgres;
 
-public partial class JsonColumns : Migration
-{
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
+public partial class JsonColumns : Migration {
+    protected override void Up(MigrationBuilder migrationBuilder) {
         /*migrationBuilder.AlterColumn<UserData>(
             name: "data",
             table: "users",
@@ -63,8 +61,7 @@ public partial class JsonColumns : Migration
             "alter table applications alter \"install_params\" type jsonb using install_params::jsonb");
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
+    protected override void Down(MigrationBuilder migrationBuilder) {
         migrationBuilder.AlterColumn<string>(
             "data",
             "users",

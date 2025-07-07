@@ -6,8 +6,7 @@ namespace Spacebar.DbModel.Entities;
 
 [Table("relationships")]
 [Index("FromId", "ToId", Name = "IDX_a0b2ff0a598df0b0d055934a17", IsUnique = true)]
-public class Relationship
-{
+public class Relationship {
     [Key]
     [Column("id", TypeName = "character varying")]
     public string Id { get; set; } = null!;
@@ -21,7 +20,8 @@ public class Relationship
     [Column("nickname", TypeName = "character varying")]
     public string? Nickname { get; set; }
 
-    [Column("type")] public int Type { get; set; }
+    [Column("type")]
+    public int Type { get; set; }
 
     [ForeignKey("FromId")]
     [InverseProperty("RelationshipFroms")]

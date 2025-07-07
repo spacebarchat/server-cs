@@ -1,16 +1,12 @@
-using Spacebar.DbModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Spacebar.API.Controllers.Admin;
 
 [Controller]
 [Route("/admin/stats/")]
-public class AdminStatsController(Db db) : Controller
-{
+public class AdminStatsController(Db db) : Controller {
     [HttpGet]
-    public async Task<ContentResult> Stats()
-    {
+    public async Task<ContentResult> Stats() {
         var start = DateTime.Now;
         var html = "<h1>Spacebar server stats</h1>\n" +
                    "<style>p{margin-block-start:0px; margin-block-end:0px;}</style>\n" +
@@ -42,12 +38,9 @@ public class AdminStatsController(Db db) : Controller
             $"<p>New messages: {await db.Messages.CountAsync(x => x.Timestamp > DateTime.UtcNow.AddHours(-1).ToLocalTime())}</p>";
         html += "</div>";
 
-
         html += $"<br><p>Generated in {(DateTime.Now - start).TotalMilliseconds}ms</p>";
 
-
-        return new ContentResult()
-        {
+        return new ContentResult {
             ContentType = "text/html",
             StatusCode = 200,
             Content = html

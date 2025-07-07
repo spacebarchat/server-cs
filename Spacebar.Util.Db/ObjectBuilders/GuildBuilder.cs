@@ -4,8 +4,7 @@ using Spacebar.Util.Schemas;
 
 namespace Spacebar.Util.Db.ObjectBuilders;
 
-public class GuildBuilder : GenericObjectBuilder<Guild>
-{
+public class GuildBuilder : GenericObjectBuilder<Guild> {
     private const Permissions DEFAULT_EVERYONE_PERMISSIONS =
         Permissions.CreateInstantInvite |
         Permissions.AddReactions |
@@ -22,10 +21,10 @@ public class GuildBuilder : GenericObjectBuilder<Guild>
         Permissions.UseVad |
         Permissions.ChangeNickname;
 
-    public async Task<Guild> CreateAsync(GuildCreateRequestSchema? gcrs)
-    {
-        var guild = new Guild
-        {
+    public GuildBuilder(DbModel.Db db) : base(db) { }
+
+    public async Task<Guild> CreateAsync(GuildCreateRequestSchema? gcrs) {
+        var guild = new Guild {
             Id = GenerateId(),
             Name = gcrs.Name ?? "Unnamed guild",
             Region = gcrs.Region ?? "",
@@ -45,15 +44,14 @@ public class GuildBuilder : GenericObjectBuilder<Guild>
             { Guild = guild, Name = "announcements", Type = ChannelType.GuildText });
         //create @everyone role
         var roleBuilder = new RoleBuilder(db);
-        guild.Roles.Add(await roleBuilder.CreateAsync(new RoleCreateSchema
-        {
+        guild.Roles.Add(await roleBuilder.CreateAsync(new RoleCreateSchema {
             GuildId = guild.Id,
-            Name = "@everyone", 
-            Color = 0, 
+            Name = "@everyone",
+            Color = 0,
             Permissions = (ulong?)DEFAULT_EVERYONE_PERMISSIONS,
             Position = 0,
             Hoist = true,
-            Mentionable = true, 
+            Mentionable = true,
             Id = guild.Id
         }));
         //await db.SaveChangesAsync();
@@ -64,9 +62,5 @@ public class GuildBuilder : GenericObjectBuilder<Guild>
 
         await db.SaveChangesAsync();
         return guild;
-    }
-
-    public GuildBuilder(DbModel.Db db) : base(db)
-    {
     }
 }
