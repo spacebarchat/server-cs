@@ -32,6 +32,7 @@
         <Compile Remove="cache\**"/>
         <Compile Remove="cache_formatted\**"/>
         <Compile Remove="server-cs-d9282bd218a35e2399d27e98cdd6f7a0a8552bb7\**"/>
+        <Compile Include="Controllers\AssetsControllers.cs.bak" />
     </ItemGroup>
 
     <ItemGroup>

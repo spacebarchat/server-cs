@@ -1,7 +1,7 @@
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 
-namespace Spacebar.Util;
+namespace ReferenceClientProxyImplementation.Helpers;
 
 public class HtmlUtils {
     public static string CleanupHtml(string input) {

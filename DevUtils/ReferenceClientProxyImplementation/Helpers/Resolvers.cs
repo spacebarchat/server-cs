@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Spacebar.API.Helpers;
+namespace ReferenceClientProxyImplementation.Helpers;
 
 public static class Resolvers {
     private static readonly string Navbar = File.Exists("Resources/Parts/Navbar.html") ? File.ReadAllText("Resources/Parts/Navbar.html") : "Navbar not found!";

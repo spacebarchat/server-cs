@@ -1,20 +1,30 @@
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using ReferenceClientProxyImplementation.Configuration;
-using Spacebar.API.Helpers;
+using ReferenceClientProxyImplementation.Helpers;
+using ReferenceClientProxyImplementation.Patches.Implementations;
 
 namespace ReferenceClientProxyImplementation.Controllers;
 
 [Controller]
 [Route("/")]
-public class FrontendController(ProxyConfiguration proxyConfiguration) : Controller {
+public class FrontendController(ProxyConfiguration proxyConfiguration, PatchSet patches) : Controller {
     [HttpGet]
     [HttpGet("/app")]
     [HttpGet("/login")]
     [HttpGet("/register")]
     [HttpGet("/channels/@me")]
-    public async Task<object> Home() {
-        return null;
+    [HttpGet("/channels/{*_}")]
+    public async Task<Stream> Home() {
+        var patchedPath = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "patched", "app.html");
+        if (!System.IO.File.Exists(patchedPath)) {
+            var path = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "src", "app.html");
+            var patchedContent = await patches.ApplyPatches("app.html", await System.IO.File.ReadAllBytesAsync(path));
+            Directory.CreateDirectory(Path.GetDirectoryName(patchedPath)!);
+            await System.IO.File.WriteAllBytesAsync(patchedPath, patchedContent);
+        }
+
+        return System.IO.File.OpenRead(patchedPath);
+        // return null;
         // if (!proxyConfiguration.TestClient.Enabled) 
         // return NotFound("Test client is disabled");
         // var html = await System.IO.File.ReadAllTextAsync(proxyConfiguration.TestClient.UseLatest ? "Resources/Pages/index-updated.html" : "Resources/Pages/index.html");

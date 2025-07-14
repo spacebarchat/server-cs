@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Spacebar.API.Helpers;
+using ReferenceClientProxyImplementation.Helpers;
 
-namespace Spacebar.API.Controllers;
+namespace ReferenceClientProxyImplementation.Controllers;
 
 [Controller]
 [Route("/")]

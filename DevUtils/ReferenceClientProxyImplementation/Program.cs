@@ -2,6 +2,8 @@ using ArcaneLibs;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Hosting.Systemd;
 using ReferenceClientProxyImplementation.Configuration;
+using ReferenceClientProxyImplementation.Patches;
+using ReferenceClientProxyImplementation.Patches.Implementations;
 using ReferenceClientProxyImplementation.Services;
 using ReferenceClientProxyImplementation.Tasks;
 
@@ -51,6 +53,14 @@ foreach (var taskType in ClassCollector<ITask>.ResolveFromAllAccessibleAssemblie
     builder.Services.AddSingleton(typeof(ITask), taskType);
 }
 builder.Services.AddHostedService<Tasks>();
+
+foreach (var taskType in ClassCollector<IPatch>.ResolveFromAllAccessibleAssemblies())
+{
+    builder.Services.AddSingleton(typeof(IPatch), taskType);
+}
+builder.Services.AddSingleton<PatchSet>();
+
+builder.Services.AddSingleton<ClientStoreService>();
 
 var app = builder.Build();
 

@@ -1,9 +1,8 @@
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
-using ArcaneLibs;
 using ArcaneLibs.Extensions;
 using ReferenceClientProxyImplementation.Configuration;
-using Spacebar.Util;
 
 namespace ReferenceClientProxyImplementation.Tasks.Startup;
 
@@ -15,12 +14,15 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
     public async Task Execute() {
         switch (proxyConfig.TestClient.Revision) {
             case "canary":
+                proxyConfig.TestClient.RevisionBaseUrl = "https://canary.discord.com";
                 proxyConfig.TestClient.RevisionPath = await GetRevisionPathFromUrl("canary", "https://canary.discord.com/app");
                 break;
             case "ptb":
+                proxyConfig.TestClient.RevisionBaseUrl = "https://ptb.discord.com";
                 proxyConfig.TestClient.RevisionPath = await GetRevisionPathFromUrl("ptb", "https://ptb.discord.com/app");
                 break;
             case "stable":
+                proxyConfig.TestClient.RevisionBaseUrl = "https://discord.com";
                 proxyConfig.TestClient.RevisionPath = await GetRevisionPathFromUrl("stable", "https://discord.com/app");
                 break;
             default:
@@ -33,21 +35,21 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
     }
 
     private async Task<string> GetRevisionPathFromUrl(string rev, string url) {
-        var hc = new HttpClient();
-        var response = await hc.GetAsync(url);
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var contentString = Encoding.UTF8.GetString(content);
-        var normalisedContent = StripNonces(contentString);
+        using var hc = new HttpClient();
+        using var response = await hc.GetAsync(url);
+        var content = await response.Content.ReadAsStringAsync();
+        var normalisedContent = StripNonces(content);
         var hash = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(normalisedContent));
         var knownHashes = await GetKnownRevisionHashes("src/app.html");
+        var previousRevision = await File.ReadAllTextAsync(Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, "currentRevision"));
         var revisionName = rev;
-
+        
         if (knownHashes.Any(x => x.Value.SequenceEqual(hash))) {
-            Console.WriteLine($"[InitClientStoreTask] Found known revision '{rev}' with hash {hash.AsHexString()}!");
+            Console.WriteLine($"[InitClientStoreTask] Found known revision '{rev}' with hash {hash.AsHexString().Replace(" ", "")}!");
             revisionName = knownHashes.First(x => x.Value.SequenceEqual(hash)).Key;
         }
         else {
-            Console.WriteLine($"[InitClientStoreTask] No known revision found for hash {hash.AsHexString()}, creating new revision directory!");
+            Console.WriteLine($"[InitClientStoreTask] No known revision found for hash {hash.AsHexString().Replace(" ", "")}, creating new revision directory!");
             if (response.Headers.Contains("X-Build-Id")) {
                 revisionName = "buildId_" + response.Headers.GetValues("X-Build-Id").FirstOrDefault();
                 Console.WriteLine("[InitClientStoreTask] Using build ID from X-Build-Id header: " + revisionName);
@@ -55,14 +57,40 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         }
 
         var revisionPath = Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, revisionName);
-        Directory.CreateDirectory(revisionPath);
-        Directory.CreateDirectory(Path.Combine(revisionPath, "src"));
-        Directory.CreateDirectory(Path.Combine(revisionPath, "src"));
         Console.WriteLine($"[InitClientStoreTask] Saving revision '{revisionName}' to {revisionPath}...");
-        await File.WriteAllBytesAsync(Path.Combine(revisionPath, "src", "app.html"), content);
-        await File.WriteAllTextAsync(Path.Combine(revisionPath, $"app.stripped.html"), normalisedContent);
+        PrepareRevisionDirectory(revisionPath);
+        await File.WriteAllTextAsync(Path.Combine(revisionPath, "src", "app.html"), content);
+        await File.WriteAllTextAsync(Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, "currentRevision"), revisionName);
+        
+        if(previousRevision != revisionName || true) {
+            foreach (var argv in proxyConfig.AssetCache.ExecOnRevisionChange)
+            {
+                var psi = new ProcessStartInfo(argv[0], argv[1..].Select(a=>a.Replace("{revisionPath}", revisionPath))) {
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                using var process = Process.Start(psi);
+                if (process != null) {
+                    _ = process.StandardOutput.ReadToEndAsync();
+                    _ = process.StandardError.ReadToEndAsync();
+                    Console.WriteLine($"[InitClientStoreTask] Executing post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}");
+                }
+                else {
+                    Console.WriteLine($"[InitClientStoreTask] Failed to start post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}");
+                }
+            }
+        }
 
         return revisionPath;
+    }
+    
+    private static void PrepareRevisionDirectory(string revisionPath) {
+        Directory.CreateDirectory(revisionPath);
+        Directory.CreateDirectory(Path.Combine(revisionPath, "src"));
+        Directory.CreateDirectory(Path.Combine(revisionPath, "formatted"));
+        Directory.CreateDirectory(Path.Combine(revisionPath, "patched"));
     }
 
     private async Task<Dictionary<string, byte[]>> GetKnownRevisionHashes(string file) {
@@ -88,7 +116,6 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
             var content = StripNonces(await File.ReadAllTextAsync(hashFile));
             var hash = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(content));
             var result = (new DirectoryInfo(dir).Name, hash);
-            Console.WriteLine($"[InitClientStoreTask] Found file '{file}' in client revision directory '{dir}' with hash {hash.AsHexString()} (key: {result.Name})!");
             return result;
         }
 
@@ -96,10 +123,10 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         return null;
     }
 
-    private string StripNonces(string content) =>
+    private static string StripNonces(string content) =>
         // most specific first
         HtmlScriptNonceRegex().Replace(
-            JSElementNonceRegex().Replace(
+            JsElementNonceRegex().Replace(
                 CFParamsRegex().Replace(
                     content,
                     ""
@@ -113,9 +140,9 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
     private static partial Regex HtmlScriptNonceRegex();
 
     [GeneratedRegex("\\w.nonce='[a-zA-Z0-9+/=]+';")]
-    private static partial Regex JSElementNonceRegex();
+    private static partial Regex JsElementNonceRegex();
 
     [GeneratedRegex(
         @"var\s+\w+\s*=\s*b\.createElement\('script'\);\s*\w+\.nonce='[a-zA-Z0-9+/=]+'\s*;\s*\w+\.innerHTML=""window\.__CF\$cv\$\w+=\{r:'[a-zA-Z0-9+/=]+',t:'[a-zA-Z0-9+/=]+'\};var\s+\w+=document\.createElement\('script'\);\s*\w+\.nonce='[a-zA-Z0-9+/=]+'\s*;\s*\w+\.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document\.getElementsByTagName\('head'\)\[0\]\.appendChild\(\w+\);")]
-    private static partial Regex CFParamsRegex();
+    public static partial Regex CFParamsRegex();
 }
