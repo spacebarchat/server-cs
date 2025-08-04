@@ -41,9 +41,10 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         var normalisedContent = StripNonces(content);
         var hash = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(normalisedContent));
         var knownHashes = await GetKnownRevisionHashes("src/app.html");
-        var previousRevision = await File.ReadAllTextAsync(Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, "currentRevision"));
+        var currentRevisionFilePath = Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, "currentRevision");
+        var previousRevision = Path.Exists(currentRevisionFilePath) ? await File.ReadAllTextAsync(currentRevisionFilePath) : "";
         var revisionName = rev;
-        
+
         if (knownHashes.Any(x => x.Value.SequenceEqual(hash))) {
             Console.WriteLine($"[InitClientStoreTask] Found known revision '{rev}' with hash {hash.AsHexString().Replace(" ", "")}!");
             revisionName = knownHashes.First(x => x.Value.SequenceEqual(hash)).Key;
@@ -61,31 +62,35 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         PrepareRevisionDirectory(revisionPath);
         await File.WriteAllTextAsync(Path.Combine(revisionPath, "src", "app.html"), content);
         await File.WriteAllTextAsync(Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, "currentRevision"), revisionName);
-        
-        if(previousRevision != revisionName || true) {
-            foreach (var argv in proxyConfig.AssetCache.ExecOnRevisionChange)
-            {
-                var psi = new ProcessStartInfo(argv[0], argv[1..].Select(a=>a.Replace("{revisionPath}", revisionPath))) {
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-                using var process = Process.Start(psi);
-                if (process != null) {
-                    _ = process.StandardOutput.ReadToEndAsync();
-                    _ = process.StandardError.ReadToEndAsync();
-                    Console.WriteLine($"[InitClientStoreTask] Executing post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}");
+
+        if (previousRevision != revisionName || true) {
+            foreach (var argv in proxyConfig.AssetCache.ExecOnRevisionChange) {
+                try {
+                    var psi = new ProcessStartInfo(argv[0], argv[1..].Select(a => a.Replace("{revisionPath}", revisionPath))) {
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                    using var process = Process.Start(psi);
+                    if (process != null) {
+                        _ = process.StandardOutput.ReadToEndAsync();
+                        _ = process.StandardError.ReadToEndAsync();
+                        Console.WriteLine($"[InitClientStoreTask] Executing post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}");
+                    }
+                    else {
+                        Console.WriteLine($"[InitClientStoreTask] Failed to start post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}");
+                    }
                 }
-                else {
-                    Console.WriteLine($"[InitClientStoreTask] Failed to start post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}");
+                catch (Exception e) {
+                    Console.WriteLine($"[InitClientStoreTask] Failed to start post-revision change command: {argv[0]} {string.Join(" ", argv[1..])}\n{e}");
                 }
             }
         }
 
         return revisionPath;
     }
-    
+
     private static void PrepareRevisionDirectory(string revisionPath) {
         Directory.CreateDirectory(revisionPath);
         Directory.CreateDirectory(Path.Combine(revisionPath, "src"));
