@@ -17,18 +17,37 @@ public partial class JsonParseMultilinePatch(ProxyConfiguration config) : IPatch
 
         var matches = JsonParseRegex().Matches(stringContent);
         Console.WriteLine($"Found {matches.Count} JSON.parse calls in {relativePath}");
-        foreach (Match match in matches) {
+
+        
+
+        await Parallel.ForEachAsync(matches, async (match, ct) => {
+            string formattedJson = match.Groups[1].Value;
+            try {
+                var jsonElement = JsonSerializer.Deserialize<JsonElement>(formattedJson.Replace("\\", "\\\\"));
+                formattedJson = JsonSerializer.Serialize(jsonElement, new JsonSerializerOptions { WriteIndented = true });
+            } catch (JsonException je) {
+                Console.WriteLine($"STJ: Failed to parse JSON in {relativePath} at index {match.Index}: {je.Message}");
+                try {
+                    formattedJson = await formatJsonWithNodejs(relativePath, match, ct);
+                } catch (Exception e) {
+                    Console.WriteLine($"Node.js: Failed to parse JSON in {relativePath} at index {match.Index}: {e.Message}");
+                    return;
+                }
+            }
+            
+            lock (matches) stringContent = stringContent.Replace(match.Value, $"JSON.parse(`{formattedJson.Replace("\\", "\\\\")}`);");
+        });
+
+        return Encoding.UTF8.GetBytes(stringContent);
+    }
+    
+    private async Task<string> formatJsonWithNodejs(string relativePath, Match match, CancellationToken ct) {
             // Extract the JSON string from the match
-            var id = Guid.NewGuid().ToString();
-            await File.WriteAllTextAsync($"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js", $"console.log(JSON.stringify(JSON.parse(`{match.Groups[1].Value}`), null, 2))");
+            var id = "dcp_" + Path.GetFileName(relativePath).Replace('.', '_') + "_" + match.Index;
+            await File.WriteAllTextAsync($"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js", $"console.log(JSON.stringify(JSON.parse(`{match.Groups[1].Value.Replace("`", "\\\\\\`")}`), null, 2))");
             var sw = Stopwatch.StartNew();
 
-            var psi = new ProcessStartInfo(config.AssetCache.NodePath, $"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js") {
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+            var psi = new ProcessStartInfo(config.AssetCache.NodePath, $"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js") { RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false, CreateNoWindow = true };
 
             using var process = Process.Start(psi);
             if (process == null) {
@@ -47,15 +66,12 @@ public partial class JsonParseMultilinePatch(ProxyConfiguration config) : IPatch
                 Console.WriteLine("Standard Error: " + stderr);
                 throw new Exception($"Failed to execute {Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js: {stderr}");
             }
-            
+
             var formattedJson = stdout.Trim();
-            Console.WriteLine($"Parsed JSON in {sw.ElapsedMilliseconds}ms: {formattedJson.Length} bytes");
+            Console.WriteLine($"Parsed JSON({id}) in {sw.ElapsedMilliseconds}ms: {formattedJson.Length} bytes");
             // stringContent = stringContent.Replace(match.Value, $"JSON.parse(`{formattedJson.Replace("\\n", "\\\\n")}`);");
             await File.WriteAllTextAsync($"{config.TestClient.RevisionPath}/patched/assets/{Path.GetFileName(relativePath)}-{match.Index}.json", formattedJson);
-            stringContent = stringContent.Replace(match.Value, $"JSON.parse(`{formattedJson.Replace("\\", "\\\\")}`);");
-        }
-
-        return Encoding.UTF8.GetBytes(stringContent);
+            return formattedJson;
     }
 
     [GeneratedRegex(@"JSON\.parse\(\n\s*'(.*?)',?\s*\);", RegexOptions.Compiled | RegexOptions.Multiline)]
