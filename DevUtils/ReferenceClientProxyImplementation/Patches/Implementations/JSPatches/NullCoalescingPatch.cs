@@ -11,7 +11,7 @@ public partial class NullCoalescingPatch : IPatch {
 
     public async Task<byte[]> Execute(string relativePath, byte[] content) {
         var stringContent = Encoding.UTF8.GetString(content);
-        
+
         stringContent = NullCoalescingRegex().Replace(
             stringContent,
             m => $"{m.Groups[1].Value}?.{m.Groups[2].Value}"
@@ -21,13 +21,12 @@ public partial class NullCoalescingPatch : IPatch {
             m => $"{m.Groups[1].Value} == null"
         );
 
-
         return Encoding.UTF8.GetBytes(stringContent);
     }
-    
+
     [GeneratedRegex(@"null == ([a-zA-Z0-9_]+?) \? undefined : \1\.([a-zA-Z0-9_]+?)", RegexOptions.Compiled)]
     private static partial Regex NullCoalescingRegex();
-    
+
     [GeneratedRegex(@"\(([^()]+?)\) == null", RegexOptions.Compiled)]
     private static partial Regex ParenNullCheckRegex();
 }

@@ -9,4 +9,6 @@ public class AssetCacheConfig {
     public List<List<string>> ExecOnRevisionChange { get; set; } = [];
     public string BiomePath { get; set; } = "biome";
     public string PrettierPath { get; set; } = "prettier";
+
+    public string NodePath { get; set; } = "node";
 }

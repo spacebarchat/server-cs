@@ -14,6 +14,7 @@ public class FrontendController(ProxyConfiguration proxyConfiguration, PatchSet 
     [HttpGet("/register")]
     [HttpGet("/channels/@me")]
     [HttpGet("/channels/{*_}")]
+    [HttpGet("/shop")]
     public async Task<Stream> Home() {
         var patchedPath = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "patched", "app.html");
         if (!System.IO.File.Exists(patchedPath)) {

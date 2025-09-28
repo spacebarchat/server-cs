@@ -9,7 +9,7 @@ namespace ReferenceClientProxyImplementation.Controllers;
 public class AssetsController(ProxyConfiguration proxyConfiguration, ClientStoreService clientStore) : Controller {
     [HttpGet("/assets/{*res:required}")]
     public async Task<IActionResult> Asset(string res) {
-        if (res == "version.staging.json" || res.EndsWith(".map")) {
+        if (res == "version.staging.json" || res == "version.internal.json" || res.EndsWith(".map")) {
             return NotFound();
         }
 

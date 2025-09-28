@@ -38,7 +38,6 @@ public class ClientStoreService(ProxyConfiguration config, PatchSet patches) {
         }
         
         var url = $"{config.TestClient.RevisionBaseUrl}/{relativePath}";
-        Console.WriteLine($"Downloading asset {relativePath} from {url}");
         var response = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
         if (!response.IsSuccessStatusCode) {
             Console.WriteLine($"Failed to download asset {relativePath} from {url}, status code: {response.StatusCode}");
