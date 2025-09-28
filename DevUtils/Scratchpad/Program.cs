@@ -12,7 +12,7 @@ var matches = regex.Matches(stringContent);
 Console.WriteLine($"Found {matches.Count} JSON.parse calls");
 foreach (Match match in matches) {
     // Extract the JSON string from the match
-    await File.WriteAllTextAsync($"/tmp/dcjp_{Guid.NewGuid().ToString()}.json", match.Groups[1].Value);
+    await File.WriteAllTextAsync($"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/dcjp_{Guid.NewGuid().ToString()}.json", match.Groups[1].Value);
 }
 
 RegexOptions options = RegexOptions.Multiline;

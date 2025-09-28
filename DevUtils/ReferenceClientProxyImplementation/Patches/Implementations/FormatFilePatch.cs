@@ -18,7 +18,7 @@ public partial class FormatFilePatch(ProxyConfiguration config) : IPatch {
         }
 
         Directory.CreateDirectory(Path.GetDirectoryName(cachePath)!);
-        var tmpPath = $"/tmp/{Random.Shared.NextInt64()}_{Path.GetFileName(relativeName)}";
+        var tmpPath = $"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{Random.Shared.NextInt64()}_{Path.GetFileName(relativeName)}";
         await File.WriteAllBytesAsync(tmpPath, content);
         var sw = Stopwatch.StartNew();
         ProcessStartInfo psi;

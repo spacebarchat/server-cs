@@ -20,10 +20,10 @@ public partial class JsonParseMultilinePatch(ProxyConfiguration config) : IPatch
         foreach (Match match in matches) {
             // Extract the JSON string from the match
             var id = Guid.NewGuid().ToString();
-            await File.WriteAllTextAsync($"/tmp/{id}.js", $"console.log(JSON.stringify(JSON.parse(`{match.Groups[1].Value}`), null, 2))");
+            await File.WriteAllTextAsync($"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js", $"console.log(JSON.stringify(JSON.parse(`{match.Groups[1].Value}`), null, 2))");
             var sw = Stopwatch.StartNew();
 
-            var psi = new ProcessStartInfo(config.AssetCache.NodePath, $"/tmp/{id}.js") {
+            var psi = new ProcessStartInfo(config.AssetCache.NodePath, $"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js") {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -42,10 +42,10 @@ public partial class JsonParseMultilinePatch(ProxyConfiguration config) : IPatch
             // Console.WriteLine($"Formatted {relativeName} in {sw.ElapsedMilliseconds}ms: {process.ExitCode}");
 
             if (process.ExitCode != 0) {
-                Console.WriteLine($"Failed to run /tmp/{id}.js in {sw.ElapsedMilliseconds}ms: {process.ExitCode}");
+                Console.WriteLine($"Failed to run {Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js in {sw.ElapsedMilliseconds}ms: {process.ExitCode}");
                 Console.WriteLine("Standard Output: " + stdout);
                 Console.WriteLine("Standard Error: " + stderr);
-                throw new Exception($"Failed to execute /tmp/{id}.js: {stderr}");
+                throw new Exception($"Failed to execute {Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{id}.js: {stderr}");
             }
             
             var formattedJson = stdout.Trim();
