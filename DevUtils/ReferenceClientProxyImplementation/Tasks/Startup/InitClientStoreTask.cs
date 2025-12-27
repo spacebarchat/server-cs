@@ -63,6 +63,16 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         await File.WriteAllTextAsync(Path.Combine(revisionPath, "src", "app.html"), content);
         await File.WriteAllTextAsync(Path.Combine(proxyConfig.AssetCache.DiskCacheBaseDirectory, "currentRevision"), revisionName);
 
+        //also download dev page
+        using var devResponse = await hc.GetAsync(url.Replace("/app", "/developers/applications"));
+        var devContent = await devResponse.Content.ReadAsStringAsync();
+        await File.WriteAllTextAsync(Path.Combine(revisionPath, "src", "developers.html"), devContent);
+
+        if (proxyConfig.AssetCache.DitchPatchedOnStartup) {
+            Directory.Delete(Path.Combine(revisionPath, "patched"), true);
+            Directory.CreateDirectory(Path.Combine(revisionPath, "patched"));
+        }
+
         if (previousRevision != revisionName || true) {
             foreach (var argv in proxyConfig.AssetCache.ExecOnRevisionChange) {
                 try {
@@ -91,7 +101,7 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         return revisionPath;
     }
 
-    private static void PrepareRevisionDirectory(string revisionPath) {
+    private static void PrepareRevisionDirectory(string revisionPath, bool dropPatched = false) {
         Directory.CreateDirectory(revisionPath);
         Directory.CreateDirectory(Path.Combine(revisionPath, "src"));
         Directory.CreateDirectory(Path.Combine(revisionPath, "formatted"));
@@ -130,19 +140,24 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
 
     private static string StripNonces(string content) =>
         // most specific first
-        HtmlScriptNonceRegex().Replace(
-            JsElementNonceRegex().Replace(
-                CFParamsRegex().Replace(
-                    content,
+        HtmlScriptIntegrityRegex().Replace(
+            HtmlScriptNonceRegex().Replace(
+                JsElementNonceRegex().Replace(
+                    CFParamsRegex().Replace(
+                        content,
+                        ""
+                    ),
                     ""
                 ),
-                ""
-            ),
+                ""),
             ""
         );
 
     [GeneratedRegex("nonce=\"[a-zA-Z0-9+/=]+\"")]
     private static partial Regex HtmlScriptNonceRegex();
+
+    [GeneratedRegex(@"\sintegrity=""[a-zA-Z0-9+/=\-\s]+""")]
+    private static partial Regex HtmlScriptIntegrityRegex();
 
     [GeneratedRegex("\\w.nonce='[a-zA-Z0-9+/=]+';")]
     private static partial Regex JsElementNonceRegex();

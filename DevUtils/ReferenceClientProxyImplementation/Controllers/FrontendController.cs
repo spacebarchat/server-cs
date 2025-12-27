@@ -15,6 +15,11 @@ public class FrontendController(ProxyConfiguration proxyConfiguration, PatchSet 
     [HttpGet("/channels/@me")]
     [HttpGet("/channels/{*_}")]
     [HttpGet("/shop")]
+    [HttpGet("/app/{*_}")]
+    [HttpGet("/open")]
+    [HttpGet("/settings/{*_}")]
+    [HttpGet("/action/{*_}")]
+    [HttpGet("/library/{*_}")]
     public async Task<Stream> Home() {
         var patchedPath = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "patched", "app.html");
         if (!System.IO.File.Exists(patchedPath)) {
@@ -26,7 +31,7 @@ public class FrontendController(ProxyConfiguration proxyConfiguration, PatchSet 
 
         return System.IO.File.OpenRead(patchedPath);
         // return null;
-        // if (!proxyConfiguration.TestClient.Enabled) 
+        // if (!proxyConfiguration.TestClient.Enabled)
         // return NotFound("Test client is disabled");
         // var html = await System.IO.File.ReadAllTextAsync(proxyConfiguration.TestClient.UseLatest ? "Resources/Pages/index-updated.html" : "Resources/Pages/index.html");
         //
@@ -43,10 +48,16 @@ public class FrontendController(ProxyConfiguration proxyConfiguration, PatchSet 
     }
 
     [HttpGet("/developers")]
+    [HttpGet("/developers/{*_}")]
     public async Task<object> Developers() {
-        if (proxyConfiguration.TestClient.Enabled)
-            // return Resolvers.ReturnFileWithVars("Resources/Pages/developers.html", _db);
-            return Resolvers.ReturnFileWithVars("Resources/Pages/developers.html", []);
-        return NotFound("Test client is disabled");
+        var patchedPath = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "patched", "developers.html");
+        if (!System.IO.File.Exists(patchedPath)) {
+            var path = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "src", "developers.html");
+            var patchedContent = await patches.ApplyPatches("developers.html", await System.IO.File.ReadAllBytesAsync(path));
+            Directory.CreateDirectory(Path.GetDirectoryName(patchedPath)!);
+            await System.IO.File.WriteAllBytesAsync(patchedPath, patchedContent);
+        }
+
+        return System.IO.File.OpenRead(patchedPath);
     }
 }

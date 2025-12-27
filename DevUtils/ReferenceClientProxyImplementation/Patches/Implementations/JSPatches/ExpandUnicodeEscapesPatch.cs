@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace ReferenceClientProxyImplementation.Patches.Implementations.JSPatches;
 
-public partial class ExpandUnicodeEsapesPatch : IPatch {
+public partial class ExpandUnicodeEscapesPatch : IPatch {
     public int GetOrder() => 0;
 
     public string GetName() => @"JS: expand \x?? to \u00??";

@@ -4,11 +4,11 @@ using ReferenceClientProxyImplementation.Configuration;
 
 namespace ReferenceClientProxyImplementation.Patches.Implementations;
 
-public partial class FormatJsFilePatch(ProxyConfiguration config) : IPatch {
+public partial class FormatHtmlCssPatch(ProxyConfiguration config) : IPatch {
     public int GetOrder() => -100;
 
-    public string GetName() => "Format JS file";
-    public bool Applies(string relativeName, byte[] content) => relativeName.EndsWith(".js") || relativeName.EndsWith(".css") || relativeName.EndsWith(".html");
+    public string GetName() => "Format HTML/CSS file";
+    public bool Applies(string relativeName, byte[] content) => relativeName.EndsWith(".css") || relativeName.EndsWith(".html");
 
     public async Task<byte[]> Execute(string relativeName, byte[] content) {
         var cachePath = Path.Combine(config.TestClient.RevisionPath, "formatted", relativeName);
@@ -17,35 +17,17 @@ public partial class FormatJsFilePatch(ProxyConfiguration config) : IPatch {
             return await File.ReadAllBytesAsync(cachePath);
         }
 
-        // temporary: add some newlines
-        var stringContent = System.Text.Encoding.UTF8.GetString(content);
-        // stringContent = stringContent.Replace("function(){", "function() {\n");
-        content = System.Text.Encoding.UTF8.GetBytes(stringContent);
-        
-        
         Directory.CreateDirectory(Path.GetDirectoryName(cachePath)!);
         var tmpPath = $"{Environment.GetEnvironmentVariable("TMPDIR") ?? "/tmp"}/{Random.Shared.NextInt64()}_{Path.GetFileName(relativeName)}";
         await File.WriteAllBytesAsync(tmpPath, content);
         var sw = Stopwatch.StartNew();
-        ProcessStartInfo psi;
-
-        // Biome doesn't support HTML and struggles with upstream emitting Sass directives
-        if (relativeName.EndsWith(".html") || relativeName.EndsWith(".css"))
-            psi = new ProcessStartInfo(config.AssetCache.PrettierPath, $"-w --print-width 240 {tmpPath}") {
+        ProcessStartInfo psi = new ProcessStartInfo(config.AssetCache.PrettierPath, $"-w --print-width 240 {tmpPath}") {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
-        else
-            psi = new ProcessStartInfo(config.AssetCache.PrettierPath, $"-w --print-width 240 {tmpPath}") {
-            // psi = new ProcessStartInfo(config.AssetCache.BiomePath, $"format --write --line-width 240 --files-max-size=100000000 {tmpPath}") {
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
+        
         using var process = Process.Start(psi);
         if (process == null) {
             throw new InvalidOperationException("Failed to start the formatting process.");
@@ -58,30 +40,29 @@ public partial class FormatJsFilePatch(ProxyConfiguration config) : IPatch {
         Dictionary<ulong, string> stdoutLines = new();
         Dictionary<ulong, string> stderrLines = new();
         
-        process.OutputDataReceived += (sender, args) => {
-            if (args.Data != null) {
-                stdoutLines[(ulong)sw.ElapsedMilliseconds] = args.Data;
+        while (!process.HasExited) {
+            while (!process.StandardOutput.EndOfStream) {
+                var line = await process.StandardOutput.ReadLineAsync();
+                if (line == null) continue;
+                stdoutLines[(ulong)sw.ElapsedMilliseconds] = line;
                 Console.Write("O");
             }
-        };
-        process.ErrorDataReceived += (sender, args) => {
-            if (args.Data != null) {
-                stderrLines[(ulong)sw.ElapsedMilliseconds] = args.Data;
+            
+            while (!process.StandardError.EndOfStream) {
+                var line = await process.StandardError.ReadLineAsync();
+                if (line == null) continue;
+                stderrLines[(ulong)sw.ElapsedMilliseconds] = line;
                 Console.Write("E");
             }
-        };
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        
-        await process.WaitForExitAsync();
+        }
 
-        Console.WriteLine($"Formatted {relativeName} in {sw.ElapsedMilliseconds}ms: {process.ExitCode}");
+        // Console.WriteLine($"Formatted {relativeName} in {sw.ElapsedMilliseconds}ms: {process.ExitCode}");
 
         if (process.ExitCode != 0) {
             Console.WriteLine($"Failed to format {relativeName} in {sw.ElapsedMilliseconds}ms: {process.ExitCode}");
             Console.WriteLine("Standard Output:\n" + string.Join("\n", stdoutLines.OrderBy(kv => kv.Key).Select(kv => $"[{kv.Key}ms] {kv.Value}")));
             Console.WriteLine("Standard Error:\n" + string.Join("\n", stderrLines.OrderBy(kv => kv.Key).Select(kv => $"[{kv.Key}ms] {kv.Value}")));
-            throw new Exception($"Failed to exec({psi.FileName} {psi.Arguments}): {string.Join("\n", stderrLines.OrderBy(kv => kv.Key).Select(kv => kv.Value))}");
+            throw new Exception($"Failed to format file {relativeName}: {string.Join("\n", stderrLines.OrderBy(kv => kv.Key).Select(kv => kv.Value))}");
         }
 
         var result = await File.ReadAllBytesAsync(tmpPath);

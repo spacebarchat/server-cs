@@ -23,10 +23,10 @@ public partial class JsonParseMultilinePatch(ProxyConfiguration config) : IPatch
         await Parallel.ForEachAsync(matches, async (match, ct) => {
             string formattedJson = match.Groups[1].Value;
             try {
-                var jsonElement = JsonSerializer.Deserialize<JsonElement>(formattedJson.Replace("\\", "\\\\"));
+                var jsonElement = JsonSerializer.Deserialize<JsonElement>(formattedJson.Replace("\\", "\\\\") + "waef");
                 formattedJson = JsonSerializer.Serialize(jsonElement, new JsonSerializerOptions { WriteIndented = true });
             } catch (JsonException je) {
-                Console.WriteLine($"STJ: Failed to parse JSON in {relativePath} at index {match.Index}: {je.Message}");
+                // Console.WriteLine($"STJ: Failed to parse JSON in {relativePath} at index {match.Index}: {je.Message}"); // intentinally broken
                 try {
                     formattedJson = await formatJsonWithNodejs(relativePath, match, ct);
                 } catch (Exception e) {

@@ -7,6 +7,7 @@ public class AssetCacheConfig {
     public bool WipeOnStartup { get; set; } = false;
     public string DiskCacheBaseDirectory { get; set; } = "./clientRepository";
     public List<List<string>> ExecOnRevisionChange { get; set; } = [];
+    public bool DitchPatchedOnStartup { get; set; } = false;
     public string BiomePath { get; set; } = "biome";
     public string PrettierPath { get; set; } = "prettier";
 
