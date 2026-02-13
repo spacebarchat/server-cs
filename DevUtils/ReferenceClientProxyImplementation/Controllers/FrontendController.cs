@@ -60,4 +60,18 @@ public class FrontendController(ProxyConfiguration proxyConfiguration, PatchSet 
 
         return System.IO.File.OpenRead(patchedPath);
     }
+    
+    [HttpGet("/popout")]
+    [HttpGet("/popout/{*_}")]
+    public async Task<object> Popout() {
+        var patchedPath = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "patched", "popout.html");
+        if (!System.IO.File.Exists(patchedPath)) {
+            var path = Path.Combine(proxyConfiguration.TestClient.RevisionPath, "src", "popout.html");
+            var patchedContent = await patches.ApplyPatches("popout.html", await System.IO.File.ReadAllBytesAsync(path));
+            Directory.CreateDirectory(Path.GetDirectoryName(patchedPath)!);
+            await System.IO.File.WriteAllBytesAsync(patchedPath, patchedContent);
+        }
+
+        return System.IO.File.OpenRead(patchedPath);
+    }
 }

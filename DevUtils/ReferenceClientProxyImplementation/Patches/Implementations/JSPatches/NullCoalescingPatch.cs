@@ -16,10 +16,10 @@ public partial class NullCoalescingPatch : IPatch {
             stringContent,
             m => $"{m.Groups[1].Value}?.{m.Groups[2].Value}"
         );
-        stringContent = ParenNullCheckRegex().Replace(
-            stringContent,
-            m => $"{m.Groups[1].Value} == null"
-        );
+        // stringContent = ParenNullCheckRegex().Replace(
+        //     stringContent,
+        //     m => $"{m.Groups[1].Value} == null"
+        // );
 
         return Encoding.UTF8.GetBytes(stringContent);
     }

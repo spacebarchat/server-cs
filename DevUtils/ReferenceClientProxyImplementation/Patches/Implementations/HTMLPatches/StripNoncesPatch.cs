@@ -8,7 +8,7 @@ public partial class StripNoncesPatch(ProxyConfiguration config) : IPatch {
     public int GetOrder() => 0;
 
     public string GetName() => "Strip nonces/integrity from html";
-    public bool Applies(string relativeName, byte[] content) => relativeName is "app.html" or "developers.html";
+    public bool Applies(string relativeName, byte[] content) => relativeName is "app.html" or "developers.html" or "popout.html";
 
     public async Task<byte[]> Execute(string _, byte[] content) {
         var stringContent = Encoding.UTF8.GetString(content);

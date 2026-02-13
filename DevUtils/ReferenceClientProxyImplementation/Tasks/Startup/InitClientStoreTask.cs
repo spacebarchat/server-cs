@@ -67,7 +67,12 @@ public partial class InitClientStoreService(ProxyConfiguration proxyConfig) : IT
         using var devResponse = await hc.GetAsync(url.Replace("/app", "/developers/applications"));
         var devContent = await devResponse.Content.ReadAsStringAsync();
         await File.WriteAllTextAsync(Path.Combine(revisionPath, "src", "developers.html"), devContent);
-
+        
+        //...and popout
+        using var popoutResponse = await hc.GetAsync(url.Replace("/app", "/popout"));
+        var popoutContent = await popoutResponse.Content.ReadAsStringAsync();
+        await File.WriteAllTextAsync(Path.Combine(revisionPath, "src", "popout.html"), popoutContent);
+        
         if (proxyConfig.AssetCache.DitchPatchedOnStartup) {
             Directory.Delete(Path.Combine(revisionPath, "patched"), true);
             Directory.CreateDirectory(Path.Combine(revisionPath, "patched"));
