@@ -3,3 +3,7 @@ server-cs-d9282bd218a35e2399d27e98cdd6f7a0a8552bb7
 cache
 cache_formatted
 clientRepository
+error_reports
+prettier
+node
+biome

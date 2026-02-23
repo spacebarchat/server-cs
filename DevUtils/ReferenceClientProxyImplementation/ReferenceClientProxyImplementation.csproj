@@ -14,14 +14,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Spacebar.Static\Spacebar.Static.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="AngleSharp" Version="1.3.0"/>
         <PackageReference Include="ArcaneLibs" Version="1.0.0-preview.20250630-114950"/>
-        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
-        <PackageReference Include="IdGen" Version="3.0.7"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.6"/>
         <PackageReference Include="Sentry.AspNetCore" Version="5.11.2"/>
@@ -32,26 +26,7 @@
         <Compile Remove="cache\**"/>
         <Compile Remove="cache_formatted\**"/>
         <Compile Remove="server-cs-d9282bd218a35e2399d27e98cdd6f7a0a8552bb7\**"/>
-        <Compile Include="Controllers\AssetsControllers.cs.bak" />
     </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Remove="cache\**"/>
-        <EmbeddedResource Remove="cache_formatted\**"/>
-        <EmbeddedResource Remove="server-cs-d9282bd218a35e2399d27e98cdd6f7a0a8552bb7\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="cache\**"/>
-        <None Remove="cache_formatted\**"/>
-        <None Remove="server-cs-d9282bd218a35e2399d27e98cdd6f7a0a8552bb7\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Remove="cache\**"/>
-        <Content Remove="cache_formatted\**"/>
-    </ItemGroup>
-
     <ItemGroup>
         <Content Include="Resources\**" CopyToOutputDirectory="Always"/>
     </ItemGroup>
